@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:match_day/Screens/register.dart';
+import 'package:match_day/Screens/reset.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -112,7 +113,7 @@ class _LoginState extends State<Login> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // Aggiungi la logica per il recupero della password
+                      Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context) => const Reset()) );
                     },
                     child: const Text(
                       'Ho dimenticato la password?',
