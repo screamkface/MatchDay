@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
-class AdminNavbar extends StatelessWidget {
-  const AdminNavbar({super.key});
+class UserNavbar extends StatelessWidget {
+  const UserNavbar({super.key});
 
   @override
   Widget build(BuildContext context) {
