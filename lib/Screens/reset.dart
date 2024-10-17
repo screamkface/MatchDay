@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:match_day/Screens/login.dart';
 
 class Reset extends StatefulWidget {
-  
   const Reset({super.key});
 
   @override
@@ -78,7 +77,8 @@ class _ResetState extends State<Reset> {
               const SizedBox(height: 10),
               TextButton(
                 onPressed: () {
-                 Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context) => const Login()) );
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => const Login()));
                 },
                 child: const Text(
                   'Torna al Login',

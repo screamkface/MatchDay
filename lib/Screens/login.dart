@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:match_day/Screens/register.dart';
 import 'package:match_day/Screens/reset.dart';
+import 'package:match_day/components/adminNavbar.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -31,6 +32,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: const AdminNavbar(),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(20.0),
@@ -113,7 +115,10 @@ class _LoginState extends State<Login> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context) => const Reset()) );
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Reset()));
                     },
                     child: const Text(
                       'Ho dimenticato la password?',
@@ -159,5 +164,4 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-  
 }

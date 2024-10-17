@@ -46,6 +46,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
   google_fonts: ^6.2.1
+  google_nav_bar: ^5.0.6 # Controlla per la versione più aggiornata
+  line_icons: ^2.0.1 # Pacchetto per le icone
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
