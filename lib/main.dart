@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:match_day/Screens/login.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart'; // Assicurati di avere il file firebase_options.dart
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Assicurati che Flutter sia pronto per l'esecuzione di codice asincrono
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions
+        .currentPlatform, // Inizializza Firebase con le opzioni specifiche per la piattaforma
+  );
+
+  runApp(
+      const MyApp()); // Avvia l'app Flutter dopo l'inizializzazione di Firebase
 }
 
 class MyApp extends StatelessWidget {

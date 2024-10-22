@@ -1,0 +1,12 @@
+specVersion: "v1beta"
+serviceId: "MatchDay"
+location: "us-central1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "fdcdb"
+      cloudSql:
+        instanceId: "MatchDay-fdc"
+      # schemaValidation: "COMPATIBLE"
+connectorDirs: ["./connector"]
