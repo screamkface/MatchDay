@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomSnackbar {
+  CustomSnackbar(String s);
+
   static void show(BuildContext context, String message) {
     final snackBar = SnackBar(
       content: Text(message),

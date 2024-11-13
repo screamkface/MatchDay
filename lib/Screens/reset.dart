@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:match_day/DAO/auth_dao.dart';
 import 'package:match_day/Screens/login.dart';
 import 'package:match_day/components/custom_snackbar.dart'; // Se necessario
 
@@ -69,10 +68,6 @@ class _ResetState extends State<Reset> {
                   String email = _emailController.text.trim();
                   if (email.isNotEmpty) {
                     try {
-                      await AuthDao().resetPassword(
-                        email: email,
-                        context: context,
-                      );
                       CustomSnackbar.show(
                           context, "Controlla la tua email per il reset");
                       Navigator.pushReplacement(
@@ -84,8 +79,7 @@ class _ResetState extends State<Reset> {
                           context, "Errore durante il reset della password");
                     }
                   } else {
-                    CustomSnackbar.show(
-                        context, "Inserisci un'email valida.");
+                    CustomSnackbar.show(context, "Inserisci un'email valida.");
                   }
                 },
                 style: ElevatedButton.styleFrom(

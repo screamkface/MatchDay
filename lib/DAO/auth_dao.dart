@@ -4,25 +4,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:match_day/Screens/login.dart';
-import 'package:match_day/User/user_home.dart';
+import 'package:match_day/User/selezionaCampo.dart';
 import 'package:match_day/components/custom_snackbar.dart';
 import 'package:match_day/Admin/admin_home.dart';
 
 class AuthDao {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  User? get currentUser => _auth.currentUser;
+  Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   // Creazione di un nuovo account
-  Future<void> createAccount({
-    required String email,
-    required String password,
-    required String phone,
-    required String nome,
-    required String cognome,
-    required String ruolo,
-    required BuildContext context,
-    required GlobalKey<FormState> formKey,
-  }) async {
+  void createAccount(
+    String email,
+    String password,
+    String phone,
+    String nome,
+    String cognome,
+    String ruolo,
+    BuildContext context,
+    GlobalKey<FormState> formKey,
+  ) async {
     try {
       // Creare un nuovo utente con email e password
       UserCredential userCredential =
@@ -64,16 +66,17 @@ class AuthDao {
     } catch (error) {
       // Gestire altri errori generici
       debugPrint("Errore generico durante la creazione dell'account: $error");
-      CustomSnackbar.show(context, "Errore sconosciuto durante la registrazione.");
+      CustomSnackbar.show(
+          context, "Errore sconosciuto durante la registrazione.");
     }
   }
 
   // Login
-  Future<void> login({
-    required String email,
-    required String password,
-    required BuildContext context,
-  }) async {
+  Future<void> login(
+    String email,
+    String password,
+    BuildContext context,
+  ) async {
     try {
       // Effettua il login
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
@@ -98,11 +101,10 @@ class AuthDao {
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const UserHomePage()),
+          MaterialPageRoute(builder: (context) => const CampoSelectionPage()),
         );
       }
     } on FirebaseAuthException catch (e) {
-      
       if (e.code == 'user-not-found') {
         CustomSnackbar.show(context, "Nessun utente trovato con questa email.");
       } else if (e.code == 'wrong-password') {
@@ -112,19 +114,16 @@ class AuthDao {
         CustomSnackbar.show(context, "Errore durante il login.");
       }
     } catch (error) {
-  
       debugPrint("Errore generico durante il login: $error");
       CustomSnackbar.show(context, "Errore durante il login.");
     }
   }
 
-  
-  Future<void> resetPassword({
-    required String email,
-    required BuildContext context,
-  }) async {
+  Future<void> resetPassword(
+    String email,
+    BuildContext context,
+  ) async {
     try {
-    
       await _auth.sendPasswordResetEmail(email: email);
 
       CustomSnackbar.show(context, "Email di reset inviata a $email.");

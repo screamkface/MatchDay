@@ -1,10 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Importa Firebase Auth
-import 'package:match_day/Admin/admin_home.dart';
+import 'package:match_day/Providers/authDaoProvider.dart';
 import 'package:match_day/Screens/register.dart';
 import 'package:match_day/Screens/reset.dart';
-import 'package:match_day/components/adminNavbar.dart';
-import 'package:match_day/components/custom_snackbar.dart'; // Assicurati di importare il tuo CustomSnackbar
+import 'package:match_day/components/custom_snackbar.dart';
+import 'package:provider/provider.dart'; // Assicurati di importare il tuo CustomSnackbar
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,8 +16,10 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController =
+      TextEditingController(text: "nicolamoscufo7@gmail.com");
+  final TextEditingController _passwordController =
+      TextEditingController(text: "prova123!");
   final GlobalKey<FormState> _formKey =
       GlobalKey<FormState>(); // Chiave per la validazione del form
   bool _obscurePassword = true;
@@ -34,20 +38,17 @@ class _LoginState extends State<Login> {
     });
   }
 
+  //implementare shared preferences
+
   Future<void> _signIn() async {
     if (_formKey.currentState!.validate()) {
       // Controlla se il form è valido
+      final authProvider = Provider.of<AuthDaoProvider>(context, listen: false);
       try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
-        );
-
-        // Naviga alla home dell'admin o a un'altra pagina di successo
-        Navigator.pushReplacement(
+        await authProvider.signIn(
+          _emailController.text.trim(),
+          _passwordController.text.trim(),
           context,
-          MaterialPageRoute(builder: (context) => const AdminHomePage()),
         );
       } on FirebaseAuthException catch (e) {
         // Gestisci gli errori di login

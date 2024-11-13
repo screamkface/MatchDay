@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:match_day/DAO/auth_dao.dart';
-import 'package:match_day/components/custom_snackbar.dart'; // Assicurati di avere questa classe
+import 'package:match_day/Providers/authDaoProvider.dart';
+import 'package:match_day/components/custom_snackbar.dart';
+import 'package:provider/provider.dart'; // Assicurati di avere questa classe
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -32,24 +33,6 @@ class _RegisterState extends State<Register> {
     setState(() {
       _obscurePassword = !_obscurePassword;
     });
-  }
-
-  void _register() {
-    if (_formKey.currentState!.validate()) {
-      // Richiama il metodo createAccount dalla classe AuthDao
-      AuthDao().createAccount(
-        email: _emailController.text,
-        password: _passwordController.text,
-        phone: _phoneController.text,
-        nome: _firstNameController.text,
-        cognome: _lastNameController.text,
-        ruolo: 'user',
-        context: context,
-        formKey: _formKey,
-      );
-    } else {
-      CustomSnackbar.show(context, "Compila tutti i campi correttamente.");
-    }
   }
 
   @override
@@ -176,7 +159,24 @@ class _RegisterState extends State<Register> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: _register,
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      final AuthDaoProvider authDaoProvider =
+                          Provider.of<AuthDaoProvider>(context, listen: false);
+                      authDaoProvider.createAccount(
+                          _emailController.text,
+                          _passwordController.text,
+                          _phoneController.text,
+                          'user', // ruolo
+                          _firstNameController.text,
+                          _lastNameController.text,
+                          context,
+                          _formKey);
+                    } else {
+                      CustomSnackbar.show(
+                          context, "Compila tutti i campi correttamente.");
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
