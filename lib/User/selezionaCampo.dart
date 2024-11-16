@@ -84,8 +84,8 @@ class CampoSelectionPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SelectedCampo(
-                          campoSelezionato: campo,
+                        builder: (context) => CampoCalendar(
+                          campo: campo,
                         ),
                       ),
                     );

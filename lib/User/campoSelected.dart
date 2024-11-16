@@ -1,155 +1,249 @@
 import 'package:flutter/material.dart';
-import 'package:booking_calendar/booking_calendar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:match_day/Models/campo.dart';
-import 'package:match_day/Models/field_booking.dart';
+import 'package:match_day/Models/slot.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class SelectedCampo extends StatefulWidget {
-  final Campo campoSelezionato; // Campo passed as a parameter
+class CampoCalendar extends StatefulWidget {
+  final Campo campo;
 
-  const SelectedCampo({Key? key, required this.campoSelezionato})
-      : super(key: key);
+  CampoCalendar({required this.campo});
 
   @override
-  State<SelectedCampo> createState() => _SelectedCampoState();
+  _CampoCalendarState createState() => _CampoCalendarState();
 }
 
-class _SelectedCampoState extends State<SelectedCampo> {
-  late BookingService bookingService;
-  bool isLoading = false;
-  final now = DateTime.now();
+class _CampoCalendarState extends State<CampoCalendar> {
+  DateTime _selectedDay = DateTime.now();
+  List<Slot> _selectedSlots = [];
 
   @override
   void initState() {
     super.initState();
-    initializeDateFormatting();
-    _setupBookingService();
+    _aggiornaSlot();
+    _fetchSlotFirebase();
   }
 
-  void _setupBookingService() {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    bookingService = BookingService(
-      serviceName: widget.campoSelezionato.nome,
-      serviceDuration: 60,
-      bookingStart: DateTime(now.year, now.month, now.day, 8, 0),
-      bookingEnd: DateTime(now.year, now.month, now.day, 23, 0),
-      userId: currentUser?.uid ?? '',
-      userName: currentUser?.displayName ?? 'Anonimo',
-    );
+  void _aggiornaSlot() {
+    _selectedSlots = widget.campo.calendario[_formatDate(_selectedDay)] ?? [];
   }
 
-  Stream<List<FieldBooking>> getBookingStream({
-    required DateTime start,
-    required DateTime end,
-  }) {
-    return FirebaseFirestore.instance
-        .collection('bookings')
-        .where('campoId',
-            isEqualTo: widget.campoSelezionato.id) // Use the campo ID to filter
-        .where('start', isGreaterThanOrEqualTo: start)
-        .where('end', isLessThanOrEqualTo: end)
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs
-          .map((doc) => FieldBooking.fromMap(doc.data()))
-          .toList();
-    });
+  String _formatDate(DateTime date) {
+    return "${date.year}-${date.month}-${date.day}";
   }
 
-  Future<void> uploadBooking({
-    required BookingService newBooking,
-  }) async {
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     setState(() {
-      isLoading = true;
+      _selectedDay = selectedDay;
+      _fetchSlotFirebase(); // Fetch degli slot da Firebase per la data selezionata
     });
-    try {
-      final currentUser = FirebaseAuth.instance.currentUser;
-      FieldBooking booking = FieldBooking(
-        userId: currentUser?.uid ?? 'N/A',
-        email: currentUser?.email ?? 'N/A',
-        start: newBooking.bookingStart,
-        end: newBooking.bookingEnd,
-        phoneNumber: currentUser?.phoneNumber ?? 'N/A',
-        fieldId: widget.campoSelezionato.id, // Store campo ID with the booking
-      );
-
-      await FirebaseFirestore.instance
-          .collection('bookings')
-          .add(booking.toMap());
-
-      // Log the success message
-    } catch (e) {
-      // Handle error
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Prenotazioni ${widget.campoSelezionato.nome}'),
+        title: Text("Calendario del Campo"),
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            BookingCalendar(
-              bookingService: bookingService,
-              convertStreamResultToDateTimeRanges:
-                  convertFirestoreToDateTimeRanges,
-              getBookingStream: getBookingStream,
-              uploadBooking: uploadBooking,
-              loadingWidget:
-                  isLoading ? const CircularProgressIndicator() : null,
-              errorWidget: const Icon(Icons.error),
-              uploadingWidget: const Center(child: CircularProgressIndicator()),
-              locale: 'it_IT',
+      body: Column(
+        children: [
+          TableCalendar(
+            firstDay: DateTime.utc(2020, 1, 1),
+            lastDay: DateTime.utc(2030, 1, 1),
+            focusedDay: _selectedDay,
+            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+            onDaySelected: _onDaySelected,
+          ),
+          Expanded(
+            child: _selectedSlots.isEmpty
+                ? const Center(
+                    child: Text(
+                        "Nessuno slot disponibile per il giorno selezionato."))
+                : ListView.builder(
+                    itemCount: _selectedSlots.length,
+                    itemBuilder: (context, index) {
+                      final slot = _selectedSlots[index];
+                      return Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Card(
+                          elevation: 5,
+                          borderOnForeground: true,
+                          color: slot.disponibile ? Colors.green : Colors.red,
+                          child: ListTile(
+                            title: Text(slot.orario),
+                            trailing: Switch(
+                              value: slot.disponibile,
+                              onChanged: (value) => setState(() {
+                                slot.disponibile = value;
+                                _aggiornaSlotFirebase(slot);
+                              }),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: FloatingActionButton(
+              onPressed: () {
+                _aggiungiSlotDialog();
+              },
+              child: const Icon(Icons.add),
             ),
-            if (isLoading) const Center(child: CircularProgressIndicator()),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  List<DateTimeRange> convertFirestoreToDateTimeRanges(
-      {required dynamic streamResult}) {
-    List<DateTimeRange> allSlots = generateTimeSlots(DateTime.now());
-    List<DateTimeRange> bookedSlots = [];
-    for (var item in streamResult) {
-      DateTime start = item.start;
-      DateTime end = item.end;
-      bookedSlots.add(DateTimeRange(start: start, end: end));
+  void _aggiungiSlotDialog() async {
+    // Mostra il TimePicker per scegliere l'orario di inizio
+    final TimeOfDay? startTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (startTime != null) {
+      // Mostra il TimePicker per scegliere l'orario di fine
+      final TimeOfDay? endTime = await showTimePicker(
+        context: context,
+        initialTime: startTime.replacing(
+            hour: startTime.hour +
+                1), // Imposta l'ora di fine come 1 ora dopo l'inizio
+      );
+
+      if (endTime != null) {
+        // Formatta gli orari senza AM/PM
+        String startFormatted =
+            startTime.format(context).replaceAll(RegExp(r'\sAM|\sPM'), '');
+        String endFormatted =
+            endTime.format(context).replaceAll(RegExp(r'\sAM|\sPM'), '');
+
+        final TextEditingController _orarioController = TextEditingController(
+          text:
+              '$startFormatted - $endFormatted', // Mostra l'intervallo di tempo
+        );
+
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Aggiungi Slot'),
+              content: TextField(
+                controller: _orarioController,
+                decoration: const InputDecoration(
+                    labelText: 'Orario (es. 10:00 - 11:00)'),
+                readOnly: true, // Rendi il campo di testo di sola lettura
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Annulla'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    final nuovoSlot = Slot(orario: _orarioController.text);
+                    setState(() {
+                      widget.campo
+                          .aggiungiSlot(_formatDate(_selectedDay), nuovoSlot);
+                      _aggiornaSlot();
+                      _aggiungiSlotFirebase(nuovoSlot); // Aggiungi su Firebase
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Aggiungi'),
+                ),
+              ],
+            );
+          },
+        );
+      }
     }
-
-    List<DateTimeRange> availableSlots = allSlots.where((slot) {
-      return !bookedSlots.any((booked) {
-        return (booked.start.isBefore(slot.end) &&
-            booked.end.isAfter(slot.start));
-      });
-    }).toList();
-
-    return availableSlots;
   }
 
-  List<DateTimeRange> generateTimeSlots(DateTime day) {
-    List<DateTimeRange> slots = [];
-    DateTime startTime = DateTime(day.year, day.month, day.day, 8);
-    DateTime endTime = DateTime(day.year, day.month, day.day, 23);
+  void _fetchSlotFirebase() async {
+    final formattedDate = _formatDate(_selectedDay);
 
-    while (startTime.isBefore(endTime)) {
-      slots.add(DateTimeRange(
-        start: startTime,
-        end: startTime.add(const Duration(hours: 1)),
-      ));
-      startTime = startTime.add(const Duration(hours: 1));
+    // Fetch del documento corrispondente alla data selezionata
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection('fields')
+        .doc(widget
+            .campo.id) // Usa l'ID del campo per accedere al documento corretto
+        .collection('calendario')
+        .doc(formattedDate)
+        .get();
+
+    if (snapshot.exists) {
+      List<dynamic> slotData = snapshot['slots'];
+
+      // Converte i dati fetchati in oggetti Slot
+      setState(() {
+        _selectedSlots = slotData.map((data) => Slot.fromMap(data)).toList();
+      });
+
+      print("Slot fetchati da Firebase");
+    } else {
+      // Se non esiste il documento per quella data, setta gli slot vuoti
+      setState(() {
+        _selectedSlots = [];
+      });
+
+      print("Nessuno slot disponibile per la data selezionata");
     }
+  }
 
-    return slots;
+  // Metodo per aggiungere un nuovo slot su Firebase
+  void _aggiungiSlotFirebase(Slot slot) async {
+    final formattedDate = _formatDate(_selectedDay);
+
+    await FirebaseFirestore.instance
+        .collection('fields')
+        .doc(widget.campo.id)
+        .collection('calendario')
+        .doc(formattedDate)
+        .set({
+      'slots': FieldValue.arrayUnion([slot.toMap()])
+    }, SetOptions(merge: true));
+
+    setState(() {
+      _fetchSlotFirebase();
+    });
+  }
+
+  // Metodo per aggiornare uno slot su Firebase
+  void _aggiornaSlotFirebase(Slot slot) async {
+    final formattedDate = _formatDate(_selectedDay);
+
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection('fields')
+        .doc(widget.campo.id)
+        .collection('calendario')
+        .doc(formattedDate)
+        .get();
+
+    if (snapshot.exists) {
+      List<dynamic> slots = snapshot['slots'];
+
+      // Trova lo slot corrispondente e aggiorna il valore della disponibilità
+      for (var i = 0; i < slots.length; i++) {
+        if (slots[i]['orario'] == slot.orario) {
+          slots[i]['disponibile'] = slot.disponibile;
+        }
+      }
+
+      // Aggiorna i dati su Firebase
+      await FirebaseFirestore.instance
+          .collection('fields')
+          .doc(widget.campo.id)
+          .collection('calendario')
+          .doc(formattedDate)
+          .update({
+        'slots': slots,
+      });
+    }
   }
 }

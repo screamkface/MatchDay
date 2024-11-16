@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:match_day/Admin/admin_home.dart';
 
 class AdminNavbar extends StatelessWidget {
-  const AdminNavbar({super.key});
+  final int selectedIndex;
+  final ValueChanged<int> onTabChange;
+
+  const AdminNavbar({
+    super.key,
+    required this.selectedIndex,
+    required this.onTabChange,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,35 +26,27 @@ class AdminNavbar extends StatelessWidget {
         iconSize: 20,
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
         tabBackgroundColor: Colors.grey[200]!,
-        // Aggiunta del bordo grigio al passaggio del mouse (hover) o tab attivo
         tabActiveBorder: Border.all(
             color: const Color.fromARGB(255, 34, 40, 49), width: 1.5),
-        tabs: [
+        selectedIndex: selectedIndex, // L'indice selezionato
+        onTabChange:
+            onTabChange, // Funzione di callback per aggiornare la pagina
+        tabs: const [
           GButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AdminHomePage(),
-                  ));
-            },
             icon: LineIcons.home,
             text: 'Home',
           ),
           GButton(
-            onPressed: () {},
             icon: LineIcons.calendar,
             text: 'Orari',
           ),
           GButton(
-            onPressed: () {},
             icon: LineIcons.bookmark,
             text: 'Prenotazioni',
           ),
           GButton(
-            onPressed: () {},
             icon: LineIcons.user,
-            text: 'Profile',
+            text: 'Profilo',
           ),
         ],
       ),
