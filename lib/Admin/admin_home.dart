@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:match_day/Models/campo.dart';
+import 'package:match_day/User/campoSelected.dart';
 import 'package:match_day/components/adminNavbar.dart';
 
 class AdminHomePage extends StatefulWidget {
@@ -50,39 +51,57 @@ class _AdminHomePageState extends State<AdminHomePage> {
               itemBuilder: (context, index) {
                 final fieldDoc = snapshot.data![index];
                 final fieldName = fieldDoc['nome'];
-                return Card(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  elevation: 2,
-                  child: ListTile(
-                    title: Text(
-                      fieldName,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                final campoId = fieldDoc.id; // Aggiungi l'ID del campo
+
+                final campo =
+                    Campo(id: campoId, nome: fieldName, calendario: {});
+
+                return GestureDetector(
+                  onTap: () {
+                    // Naviga verso la pagina CampoCalendarPage passando l'ID del campo
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CampoCalendar(
+                          campo: campo,
+                        ),
                       ),
+                    );
+                  },
+                  child: Card(
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () {
-                            _editField(context, fieldDoc);
-                          },
+                    elevation: 2,
+                    child: ListTile(
+                      title: Text(
+                        fieldName,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
                         ),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            _deleteField(fieldDoc.id);
-                          },
-                        ),
-                      ],
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {
+                              _editField(context, fieldDoc);
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {
+                              _deleteField(fieldDoc.id);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
