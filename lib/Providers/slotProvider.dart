@@ -1,8 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:match_day/Models/prenotazione.dart';
 import 'package:match_day/Models/slot.dart';
 
 class FirebaseSlotProvider {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _prenotazioniRef =
+      FirebaseFirestore.instance.collection('prenotazioni');
+  final CollectionReference _campiRef =
+      FirebaseFirestore.instance.collection('campi');
+
+  // Aggiungi una prenotazione
+  Future<void> addPrenotazione(Prenotazione prenotazione) async {
+    await _prenotazioniRef.doc(prenotazione.id).set(prenotazione.toMap());
+  }
+
+  // Aggiorna lo slot su Firebase per renderlo non disponibile
+  Future<void> updateSlotAvailability(
+      String campoId, DateTime data, Slot slot) async {
+    String dataFormattata = "${data.year}-${data.month}-${data.day}";
+    await _campiRef
+        .doc(campoId)
+        .collection('calendario')
+        .doc(dataFormattata)
+        .update({
+      'slots': FieldValue.arrayUnion([slot.toMap()])
+    });
+  }
 
   // Metodo per recuperare gli slot da Firebase per una data specifica
   Future<List<Slot>> fetchSlots(String campoId, DateTime selectedDay) async {

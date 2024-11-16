@@ -1,9 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:match_day/Admin/admin_home.dart';
 import 'package:match_day/Models/campo.dart';
 import 'package:match_day/Models/slot.dart';
 import 'package:match_day/Providers/slotProvider.dart';
+import 'package:match_day/components/adminNavbar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CampoCalendar extends StatefulWidget {
@@ -19,6 +21,18 @@ class _CampoCalendarState extends State<CampoCalendar> {
   DateTime _selectedDay = DateTime.now();
   List<Slot> _selectedSlots = [];
   final FirebaseSlotProvider _firebaseSlotProvider = FirebaseSlotProvider();
+
+  int _selectedIndex = 0;
+
+  // Lista delle pagine da visualizzare
+  final List<Widget> _pages = [const AdminHomePage()];
+
+  // Funzione per cambiare pagina
+  void _onTabChange(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   void initState() {
@@ -48,8 +62,12 @@ class _CampoCalendarState extends State<CampoCalendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: AdminNavbar(
+        selectedIndex: _selectedIndex,
+        onTabChange: _onTabChange,
+      ),
       appBar: AppBar(
-        title: Text("Calendario " + widget.campo.nome),
+        title: Text("Calendario ${widget.campo.nome}"),
       ),
       body: Column(
         children: [

@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Importa Firebase Auth
 import 'package:match_day/Providers/authDaoProvider.dart';
@@ -17,7 +15,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final TextEditingController _emailController =
-      TextEditingController(text: "nicolamoscufo7@gmail.com");
+      TextEditingController(text: "admin@admin.com");
   final TextEditingController _passwordController =
       TextEditingController(text: "prova123!");
   final GlobalKey<FormState> _formKey =

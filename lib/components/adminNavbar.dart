@@ -37,10 +37,6 @@ class AdminNavbar extends StatelessWidget {
             text: 'Home',
           ),
           GButton(
-            icon: LineIcons.calendar,
-            text: 'Orari',
-          ),
-          GButton(
             icon: LineIcons.bookmark,
             text: 'Prenotazioni',
           ),

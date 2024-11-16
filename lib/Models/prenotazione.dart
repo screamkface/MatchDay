@@ -11,7 +11,7 @@ class Prenotazione {
   final DateTime dataPrenotazione;
   final Stato stato;
   final String idCampo;
-  final String idUtente;
+  final String? idUtente;
 
   Prenotazione({
     required this.id,
