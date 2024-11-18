@@ -8,7 +8,7 @@ class FirebaseSlotProvider extends ChangeNotifier {
   final CollectionReference _prenotazioniRef =
       FirebaseFirestore.instance.collection('prenotazioni');
   final CollectionReference _campiRef =
-      FirebaseFirestore.instance.collection('campi');
+      FirebaseFirestore.instance.collection('fields');
 
   List<Slot> _selectedSlots = [];
 
@@ -45,15 +45,18 @@ class FirebaseSlotProvider extends ChangeNotifier {
   // Aggiorna lo slot su Firebase per renderlo non disponibile
   Future<void> updateSlotAvailability(
       String campoId, DateTime data, Slot slot) async {
-    String dataFormattata = "${data.year}-${data.month}-${data.day}";
-    await _campiRef
-        .doc(campoId)
-        .collection('calendario')
-        .doc(dataFormattata)
-        .update({
-      'slots': FieldValue.arrayUnion([slot.toMap()])
-    });
-    notifyListeners(); // Notifica le modifiche
+    if (campoId.isEmpty) {
+      throw Exception("L'ID del campo non può essere vuoto");
+    }
+
+    try {
+      final documentPath =
+          'fields/$campoId/slots/${data.toIso8601String()}_${slot.orario}';
+
+      await FirebaseFirestore.instance.doc(documentPath).update(slot.toMap());
+    } catch (e) {
+      throw Exception('Errore nell\'aggiornare lo slot: $e');
+    }
   }
 
   // Metodo per recuperare gli slot da Firebase per una data specifica
@@ -82,6 +85,10 @@ class FirebaseSlotProvider extends ChangeNotifier {
 
   // Metodo per aggiungere uno slot su Firebase
   Future<void> addSlot(String campoId, DateTime selectedDay, Slot slot) async {
+    if (campoId.isEmpty) {
+      throw Exception("L'ID del campo non può essere vuoto");
+    }
+
     final formattedDate = _formatDate(selectedDay);
 
     try {
@@ -202,6 +209,10 @@ class FirebaseSlotProvider extends ChangeNotifier {
   // Metodo per aggiornare la disponibilità di uno slot su Firebase
   Future<void> updateSlot(
       String campoId, DateTime selectedDay, Slot slot) async {
+    if (campoId.isEmpty) {
+      throw Exception("L'ID del campo non può essere vuoto");
+    }
+
     final formattedDate = _formatDate(selectedDay);
 
     try {
@@ -229,7 +240,7 @@ class FirebaseSlotProvider extends ChangeNotifier {
             .update({
           'slots': slots,
         });
-        notifyListeners(); // Notifica le modifiche
+        notifyListeners();
       }
     } catch (e) {
       throw Exception('Errore nell\'aggiornare lo slot: $e');

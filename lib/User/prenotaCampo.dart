@@ -134,6 +134,7 @@ class _CampoCalendarUserState extends State<CampoCalendarUser> {
 
       // Aggiorna lo stato dello slot su Firebase (disponibile -> non disponibile)
       Slot slotAggiornato = Slot(
+        id: slot.id,
         orario: slot.orario,
         disponibile: false,
       );
@@ -156,6 +157,7 @@ class _CampoCalendarUserState extends State<CampoCalendarUser> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Errore durante la prenotazione: $e')),
       );
+      print(e);
     }
   }
 }

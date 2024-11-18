@@ -18,8 +18,7 @@ class _LoginState extends State<Login> {
       TextEditingController(text: "nicolamoscufo7@gmail.com");
   final TextEditingController _passwordController =
       TextEditingController(text: "prova123!");
-  final GlobalKey<FormState> _formKey =
-      GlobalKey<FormState>(); // Chiave per la validazione del form
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _obscurePassword = true;
   bool _rememberMe = false;
 

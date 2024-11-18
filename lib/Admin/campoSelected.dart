@@ -220,7 +220,11 @@ class _CampoCalendarState extends State<CampoCalendar> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    final nuovoSlot = Slot(orario: orarioController.text);
+                    final nuovoSlot = Slot(
+                      disponibile: true,
+                      orario: orarioController.text,
+                      id: DateTime.now().millisecondsSinceEpoch.toString(),
+                    );
                     Provider.of<FirebaseSlotProvider>(context, listen: false)
                         .addSlot(widget.campo.id, _selectedDay, nuovoSlot);
                     Navigator.pop(context);

@@ -26,7 +26,9 @@ class Prenotazione {
     return Prenotazione(
       id: map['id'],
       dataPrenotazione: (map['dataPrenotazione'] as Timestamp).toDateTime(),
-      stato: map['stato'],
+      stato: Stato.values.firstWhere((e) =>
+          e.toString().split('.').last ==
+          map['stato']), // Converte la stringa di nuovo in enum
       idCampo: map['idCampo'],
       idUtente: map['idUtente'],
     );
@@ -37,7 +39,7 @@ class Prenotazione {
     return {
       'id': id,
       'dataPrenotazione': dataPrenotazione,
-      'stato': stato,
+      'stato': stato.toString().split('.').last,
       'idCampo': idCampo,
       'idUtente': idUtente,
     };

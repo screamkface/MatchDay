@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthDaoProvider()),
         ChangeNotifierProvider(create: (_) => BookingServiceManager()),
-        ChangeNotifierProvider(create: (_) => FirebaseSlotProvider())
+        ChangeNotifierProvider(create: (_) => FirebaseSlotProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
