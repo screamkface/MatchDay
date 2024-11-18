@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:match_day/Providers/authDaoProvider.dart';
 import 'package:match_day/Models/bkService.dart';
+import 'package:match_day/Providers/slotProvider.dart';
 import 'package:match_day/Screens/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,8 +30,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthDaoProvider()),
-        ChangeNotifierProvider(
-            create: (_) => BookingServiceManager()), // Inietti BookingService
+        ChangeNotifierProvider(create: (_) => BookingServiceManager()),
+        ChangeNotifierProvider(create: (_) => FirebaseSlotProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

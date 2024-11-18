@@ -4,8 +4,7 @@ import 'package:match_day/Models/slot.dart';
 class Campo {
   final String id;
   final String nome;
-  final Map<String, List<Slot>>
-      calendario; // Chiave: Data, Valore: Lista di Slot
+  final Map<String, List<Slot>> calendario;
 
   Campo({
     required this.id,
@@ -26,7 +25,7 @@ class Campo {
     return Campo(
       nome: data['nome'] ?? '',
       id: doc.id,
-      calendario: {}, // Usa l'ID del documento come identificatore del campo
+      calendario: {},
     );
   }
 }

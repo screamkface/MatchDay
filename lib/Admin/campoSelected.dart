@@ -1,6 +1,5 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:match_day/Admin/admin_home.dart';
 import 'package:match_day/Models/campo.dart';
 import 'package:match_day/Models/slot.dart';
@@ -19,9 +18,6 @@ class CampoCalendar extends StatefulWidget {
 
 class _CampoCalendarState extends State<CampoCalendar> {
   DateTime _selectedDay = DateTime.now();
-  List<Slot> _selectedSlots = [];
-  final FirebaseSlotProvider _firebaseSlotProvider = FirebaseSlotProvider();
-
   int _selectedIndex = 0;
 
   // Lista delle pagine da visualizzare
@@ -37,26 +33,21 @@ class _CampoCalendarState extends State<CampoCalendar> {
   @override
   void initState() {
     super.initState();
-    _firebaseSlotProvider.removePastSlots(widget.campo.id);
-    _aggiornaSlot();
-    _fetchSlotFirebase();
-  }
-
-  void _aggiornaSlot() {
-    _selectedSlots = widget.campo.calendario[_formatDate(_selectedDay)] ?? [];
-    _firebaseSlotProvider.removePastSlots(widget.campo.id);
-  }
-
-  String _formatDate(DateTime date) {
-    return "${date.year}-${date.month}-${date.day}";
+    Provider.of<FirebaseSlotProvider>(context, listen: false)
+        .removePastSlots(widget.campo.id); // Rimuove gli slot passati all'avvio
+    _fetchSlotFirebase(); // Recupera gli slot attuali
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     setState(() {
       _selectedDay = selectedDay;
-      _fetchSlotFirebase(); // Fetch degli slot da Firebase per la data selezionata
-      _firebaseSlotProvider.removePastSlots(widget.campo.id);
     });
+    _fetchSlotFirebase(); // Fetch degli slot da Firebase per la data selezionata
+  }
+
+  void _fetchSlotFirebase() {
+    Provider.of<FirebaseSlotProvider>(context, listen: false)
+        .fetchSlots(widget.campo.id, _selectedDay);
   }
 
   @override
@@ -81,52 +72,74 @@ class _CampoCalendarState extends State<CampoCalendar> {
             onDaySelected: _onDaySelected,
           ),
           Expanded(
-            child: _selectedSlots.isEmpty
-                ? const Center(
+            child: StreamBuilder<List<Slot>>(
+              stream: Provider.of<FirebaseSlotProvider>(context)
+                  .fetchSlotsStream(widget.campo.id, _selectedDay),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (snapshot.hasError) {
+                  return Center(child: Text('Errore: ${snapshot.error}'));
+                }
+
+                final slots = snapshot.data ?? [];
+                if (slots.isEmpty) {
+                  return const Center(
                     child: Text(
-                        "Nessuno slot disponibile per il giorno selezionato."))
-                : ListView.builder(
-                    itemCount: _selectedSlots.length,
-                    itemBuilder: (context, index) {
-                      final slot = _selectedSlots[index];
-                      return Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Card(
-                          elevation: 5,
-                          borderOnForeground: true,
-                          color: slot.disponibile ? Colors.green : Colors.red,
-                          child: ListTile(
-                            title: Text(slot.orario),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Switch(
-                                  value: slot.disponibile,
-                                  onChanged: (value) => setState(() {
-                                    slot.disponibile = value;
-                                    _aggiornaSlotFirebase(slot);
-                                  }),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () {
-                                    _rimuoviSlot(slot);
-                                  },
-                                ),
-                              ],
-                            ),
+                        "Nessuno slot disponibile per il giorno selezionato."),
+                  );
+                }
+
+                return ListView.builder(
+                  itemCount: slots.length,
+                  itemBuilder: (context, index) {
+                    final slot = slots[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Card(
+                        elevation: 5,
+                        borderOnForeground: true,
+                        color: slot.disponibile ? Colors.green : Colors.red,
+                        child: ListTile(
+                          title: Text(slot.orario),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Switch(
+                                value: slot.disponibile,
+                                onChanged: (value) {
+                                  slot.disponibile = value;
+                                  Provider.of<FirebaseSlotProvider>(context,
+                                          listen: false)
+                                      .updateSlot(
+                                          widget.campo.id, _selectedDay, slot);
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  Provider.of<FirebaseSlotProvider>(context,
+                                          listen: false)
+                                      .removeSlot(
+                                          widget.campo.id, _selectedDay, slot);
+                                },
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
             child: FloatingActionButton(
-              onPressed: () {
-                _aggiungiSlotDialog();
-              },
+              onPressed: _aggiungiSlotDialog,
               child: const Icon(Icons.add),
             ),
           ),
@@ -146,10 +159,8 @@ class _CampoCalendarState extends State<CampoCalendar> {
     );
 
     if (startTime != null) {
-      // Controlla se la data selezionata è il giorno corrente
       if (_selectedDay.isAtSameMomentAs(
           DateTime(currentDay.year, currentDay.month, currentDay.day))) {
-        // Se l'orario di inizio è prima dell'orario attuale, mostra un errore
         if (startTime.hour < now.hour ||
             (startTime.hour == now.hour && startTime.minute < now.minute)) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -161,16 +172,12 @@ class _CampoCalendarState extends State<CampoCalendar> {
         }
       }
 
-      // Mostra il TimePicker per scegliere l'orario di fine
       final TimeOfDay? endTime = await showTimePicker(
         context: context,
-        initialTime: startTime.replacing(
-            hour: startTime.hour +
-                1), // Imposta l'ora di fine come 1 ora dopo l'inizio
+        initialTime: startTime.replacing(hour: startTime.hour + 1),
       );
 
       if (endTime != null) {
-        // Controlla se l'orario di fine è nel passato rispetto all'ora corrente
         if (_selectedDay.isAtSameMomentAs(
             DateTime(currentDay.year, currentDay.month, currentDay.day))) {
           if (endTime.hour < now.hour ||
@@ -184,15 +191,13 @@ class _CampoCalendarState extends State<CampoCalendar> {
           }
         }
 
-        // Formatta gli orari senza AM/PM
         String startFormatted =
             startTime.format(context).replaceAll(RegExp(r'\sAM|\sPM'), '');
         String endFormatted =
             endTime.format(context).replaceAll(RegExp(r'\sAM|\sPM'), '');
 
         final TextEditingController orarioController = TextEditingController(
-          text:
-              '$startFormatted - $endFormatted', // Mostra l'intervallo di tempo
+          text: '$startFormatted - $endFormatted',
         );
 
         showDialog(
@@ -204,7 +209,7 @@ class _CampoCalendarState extends State<CampoCalendar> {
                 controller: orarioController,
                 decoration: const InputDecoration(
                     labelText: 'Orario (es. 10:00 - 11:00)'),
-                readOnly: true, // Rendi il campo di testo di sola lettura
+                readOnly: true,
               ),
               actions: [
                 TextButton(
@@ -216,12 +221,8 @@ class _CampoCalendarState extends State<CampoCalendar> {
                 ElevatedButton(
                   onPressed: () {
                     final nuovoSlot = Slot(orario: orarioController.text);
-                    setState(() {
-                      widget.campo
-                          .aggiungiSlot(_formatDate(_selectedDay), nuovoSlot);
-                      _aggiornaSlot();
-                      _aggiungiSlotFirebase(nuovoSlot); // Aggiungi su Firebase
-                    });
+                    Provider.of<FirebaseSlotProvider>(context, listen: false)
+                        .addSlot(widget.campo.id, _selectedDay, nuovoSlot);
                     Navigator.pop(context);
                   },
                   child: const Text('Aggiungi'),
@@ -232,35 +233,5 @@ class _CampoCalendarState extends State<CampoCalendar> {
         );
       }
     }
-  }
-
-  // Metodo per recuperare gli slot da Firebase
-  void _fetchSlotFirebase() async {
-    final slots =
-        await _firebaseSlotProvider.fetchSlots(widget.campo.id, _selectedDay);
-    setState(() {
-      _selectedSlots = slots;
-    });
-  }
-
-  // Metodo per aggiungere uno slot su Firebase
-  void _aggiungiSlotFirebase(Slot slot) async {
-    await _firebaseSlotProvider.addSlot(widget.campo.id, _selectedDay, slot);
-    _firebaseSlotProvider.removePastSlots(widget.campo.id);
-    _fetchSlotFirebase();
-  }
-
-  // Metodo per aggiornare la disponibilità dello slot su Firebase
-  void _aggiornaSlotFirebase(Slot slot) async {
-    await _firebaseSlotProvider.updateSlot(widget.campo.id, _selectedDay, slot);
-    _firebaseSlotProvider.removePastSlots(widget.campo.id);
-    _fetchSlotFirebase();
-  }
-
-  // Metodo per rimuovere uno slot
-  void _rimuoviSlot(Slot slot) async {
-    await _firebaseSlotProvider.removeSlot(widget.campo.id, _selectedDay, slot);
-    _firebaseSlotProvider.removePastSlots(widget.campo.id);
-    _fetchSlotFirebase();
   }
 }

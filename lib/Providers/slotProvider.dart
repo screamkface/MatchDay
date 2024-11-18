@@ -1,17 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart'; // Aggiungi questa importazione per ChangeNotifier
 import 'package:match_day/Models/prenotazione.dart';
 import 'package:match_day/Models/slot.dart';
 
-class FirebaseSlotProvider {
+class FirebaseSlotProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference _prenotazioniRef =
       FirebaseFirestore.instance.collection('prenotazioni');
   final CollectionReference _campiRef =
       FirebaseFirestore.instance.collection('campi');
 
+  List<Slot> _selectedSlots = [];
+
+  List<Slot> get selectedSlots => _selectedSlots;
+
+  final List<Slot> _slots = []; // Stato interno
+  List<Slot> get slots => _slots;
+
   // Aggiungi una prenotazione
   Future<void> addPrenotazione(Prenotazione prenotazione) async {
     await _prenotazioniRef.doc(prenotazione.id).set(prenotazione.toMap());
+    notifyListeners(); // Notifica le modifiche
+  }
+
+  Stream<List<Slot>> fetchSlotsStream(String campoId, DateTime selectedDay) {
+    final formattedDate = _formatDate(selectedDay);
+
+    return _firestore
+        .collection('fields')
+        .doc(campoId)
+        .collection('calendario')
+        .doc(formattedDate)
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.exists) {
+        List<dynamic> slotData = snapshot['slots'];
+        return slotData.map((data) => Slot.fromMap(data)).toList();
+      } else {
+        return [];
+      }
+    });
   }
 
   // Aggiorna lo slot su Firebase per renderlo non disponibile
@@ -25,10 +53,11 @@ class FirebaseSlotProvider {
         .update({
       'slots': FieldValue.arrayUnion([slot.toMap()])
     });
+    notifyListeners(); // Notifica le modifiche
   }
 
   // Metodo per recuperare gli slot da Firebase per una data specifica
-  Future<List<Slot>> fetchSlots(String campoId, DateTime selectedDay) async {
+  Future<void> fetchSlots(String campoId, DateTime selectedDay) async {
     final formattedDate = _formatDate(selectedDay);
 
     try {
@@ -41,10 +70,11 @@ class FirebaseSlotProvider {
 
       if (snapshot.exists) {
         List<dynamic> slotData = snapshot['slots'];
-        return slotData.map((data) => Slot.fromMap(data)).toList();
+        _selectedSlots = slotData.map((data) => Slot.fromMap(data)).toList();
       } else {
-        return [];
+        _selectedSlots = [];
       }
+      notifyListeners(); // Notifica i listener dopo aver aggiornato gli slot
     } catch (e) {
       throw Exception('Errore nel recupero degli slot: $e');
     }
@@ -63,9 +93,22 @@ class FirebaseSlotProvider {
           .set({
         'slots': FieldValue.arrayUnion([slot.toMap()])
       }, SetOptions(merge: true));
+      notifyListeners();
     } catch (e) {
       throw Exception('Errore nell\'aggiungere lo slot: $e');
     }
+  }
+
+  DateTime _parseSlotTime(String orario) {
+    // Supponiamo che l'orario sia nel formato 'HH:mm - HH:mm' (es. '10:00 - 11:00')
+    final startTime = orario.split(' - ')[0];
+    final now = DateTime.now();
+
+    final timeParts = startTime.split(':');
+    final hour = int.parse(timeParts[0]);
+    final minute = int.parse(timeParts[1]);
+
+    return DateTime(now.year, now.month, now.day, hour, minute);
   }
 
   // Metodo per eliminare tutti gli slot di giorni passati
@@ -115,21 +158,10 @@ class FirebaseSlotProvider {
           }
         }
       }
+      notifyListeners(); // Notifica le modifiche
     } catch (e) {
       throw Exception('Errore nel rimuovere gli slot di giorni passati: $e');
     }
-  }
-
-  DateTime _parseSlotTime(String orario) {
-    // Supponiamo che l'orario sia nel formato 'HH:mm - HH:mm' (es. '10:00 - 11:00')
-    final startTime = orario.split(' - ')[0];
-    final now = DateTime.now();
-
-    final timeParts = startTime.split(':');
-    final hour = int.parse(timeParts[0]);
-    final minute = int.parse(timeParts[1]);
-
-    return DateTime(now.year, now.month, now.day, hour, minute);
   }
 
   // Metodo per rimuovere uno slot da Firebase
@@ -160,6 +192,7 @@ class FirebaseSlotProvider {
             .update({
           'slots': slots,
         });
+        notifyListeners(); // Notifica le modifiche
       }
     } catch (e) {
       throw Exception('Errore nel rimuovere lo slot: $e');
@@ -196,6 +229,7 @@ class FirebaseSlotProvider {
             .update({
           'slots': slots,
         });
+        notifyListeners(); // Notifica le modifiche
       }
     } catch (e) {
       throw Exception('Errore nell\'aggiornare lo slot: $e');

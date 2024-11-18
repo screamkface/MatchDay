@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:match_day/Models/campo.dart';
+import 'package:match_day/User/prenotaCampo.dart';
 
 import '../Admin/campoSelected.dart';
 
@@ -86,7 +87,7 @@ class CampoSelectionPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CampoCalendar(
+                        builder: (context) => CampoCalendarUser(
                           campo: campo,
                         ),
                       ),

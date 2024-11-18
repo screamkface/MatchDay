@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:match_day/Models/campo.dart';
 import 'package:match_day/Models/slot.dart';
 import 'package:match_day/Providers/slotProvider.dart';
+import 'package:provider/provider.dart'; // Importa Provider
 import 'package:table_calendar/table_calendar.dart';
 
 import '../Models/prenotazione.dart';
@@ -19,23 +19,12 @@ class CampoCalendarUser extends StatefulWidget {
 
 class _CampoCalendarUserState extends State<CampoCalendarUser> {
   DateTime _selectedDay = DateTime.now();
-  List<Slot> _selectedSlots = [];
-  final FirebaseSlotProvider _firebaseSlotProvider = FirebaseSlotProvider();
   final String? userId = FirebaseAuth.instance.currentUser?.uid;
 
   @override
   void initState() {
     super.initState();
-    _aggiornaSlot();
     _fetchSlotFirebase();
-  }
-
-  void _aggiornaSlot() {
-    _selectedSlots = widget.campo.calendario[_formatDate(_selectedDay)] ?? [];
-  }
-
-  String _formatDate(DateTime date) {
-    return "${date.year}-${date.month}-${date.day}";
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -47,6 +36,8 @@ class _CampoCalendarUserState extends State<CampoCalendarUser> {
 
   @override
   Widget build(BuildContext context) {
+    final firebaseSlotProvider = Provider.of<FirebaseSlotProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Prenota uno slot per ${widget.campo.nome}"),
@@ -63,38 +54,54 @@ class _CampoCalendarUserState extends State<CampoCalendarUser> {
             onDaySelected: _onDaySelected,
           ),
           Expanded(
-            child: _selectedSlots.isEmpty
-                ? const Center(
-                    child: Text(
-                        "Nessuno slot disponibile per il giorno selezionato."))
-                : ListView.builder(
-                    itemCount: _selectedSlots.length,
-                    itemBuilder: (context, index) {
-                      final slot = _selectedSlots[index];
-                      return Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Card(
-                          elevation: 5,
-                          borderOnForeground: true,
-                          color: slot.disponibile ? Colors.green : Colors.grey,
-                          child: ListTile(
-                            title: Text(slot.orario),
-                            trailing: slot.disponibile
-                                ? ElevatedButton(
-                                    onPressed: () {
-                                      _prenotaSlot(slot);
-                                    },
-                                    child: const Text('Prenota'),
-                                  )
-                                : const Text(
-                                    "Non disponibile",
-                                    style: TextStyle(color: Colors.red),
-                                  ),
-                          ),
-                        ),
+            child: StreamBuilder<List<Slot>>(
+              stream: firebaseSlotProvider.fetchSlotsStream(
+                  widget.campo.id, _selectedDay),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (snapshot.hasError) {
+                  return Center(child: Text('Errore: ${snapshot.error}'));
+                }
+
+                final selectedSlots = snapshot.data ?? [];
+                return selectedSlots.isEmpty
+                    ? const Center(
+                        child: Text(
+                            "Nessuno slot disponibile per il giorno selezionato."),
+                      )
+                    : ListView.builder(
+                        itemCount: selectedSlots.length,
+                        itemBuilder: (context, index) {
+                          final slot = selectedSlots[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Card(
+                              elevation: 5,
+                              color:
+                                  slot.disponibile ? Colors.green : Colors.grey,
+                              child: ListTile(
+                                title: Text(slot.orario),
+                                trailing: slot.disponibile
+                                    ? ElevatedButton(
+                                        onPressed: () {
+                                          _prenotaSlot(slot);
+                                        },
+                                        child: const Text('Prenota'),
+                                      )
+                                    : const Text(
+                                        "Non disponibile",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                              ),
+                            ),
+                          );
+                        },
                       );
-                    },
-                  ),
+              },
+            ),
           ),
         ],
       ),
@@ -102,40 +109,36 @@ class _CampoCalendarUserState extends State<CampoCalendarUser> {
   }
 
   // Metodo per recuperare gli slot da Firebase
-  void _fetchSlotFirebase() async {
-    final slots =
-        await _firebaseSlotProvider.fetchSlots(widget.campo.id, _selectedDay);
-    setState(() {
-      _selectedSlots = slots;
-    });
+  void _fetchSlotFirebase() {
+    // Recupera gli slot utilizzando il provider
+    final provider = Provider.of<FirebaseSlotProvider>(context, listen: false);
+    provider.fetchSlots(widget.campo.id, _selectedDay);
   }
 
   // Metodo per prenotare uno slot
-// Metodo per prenotare uno slot
   void _prenotaSlot(Slot slot) async {
+    final provider = Provider.of<FirebaseSlotProvider>(context, listen: false);
+
     // Crea una nuova prenotazione
     final nuovaPrenotazione = Prenotazione(
-      id: DateTime.now()
-          .millisecondsSinceEpoch
-          .toString(), // Genera un ID univoco per la prenotazione
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
       idCampo: widget.campo.id,
       dataPrenotazione: _selectedDay,
       stato: Stato.inAttesa,
-      idUtente:
-          userId, // Usa l'enum che hai definito per lo stato della prenotazione
+      idUtente: userId,
     );
 
     try {
       // Salva la prenotazione su Firebase
-      await _firebaseSlotProvider.addPrenotazione(nuovaPrenotazione);
+      await provider.addPrenotazione(nuovaPrenotazione);
 
       // Aggiorna lo stato dello slot su Firebase (disponibile -> non disponibile)
       Slot slotAggiornato = Slot(
         orario: slot.orario,
-        disponibile: false, // Imposta lo slot come non disponibile
+        disponibile: false,
       );
 
-      await _firebaseSlotProvider.updateSlotAvailability(
+      await provider.updateSlotAvailability(
         widget.campo.id,
         _selectedDay,
         slotAggiornato,
