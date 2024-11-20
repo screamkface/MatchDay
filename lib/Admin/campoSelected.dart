@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:match_day/Admin/admin_home.dart';
@@ -34,20 +36,24 @@ class _CampoCalendarState extends State<CampoCalendar> {
   void initState() {
     super.initState();
     Provider.of<FirebaseSlotProvider>(context, listen: false)
-        .removePastSlots(widget.campo.id); // Rimuove gli slot passati all'avvio
-    _fetchSlotFirebase(); // Recupera gli slot attuali
+        .removePastSlots(widget.campo.id);
+    _fetchSlotFirebase();
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     setState(() {
       _selectedDay = selectedDay;
     });
-    _fetchSlotFirebase(); // Fetch degli slot da Firebase per la data selezionata
+    Provider.of<FirebaseSlotProvider>(context, listen: false)
+        .removePastSlots(widget.campo.id);
+    _fetchSlotFirebase();
   }
 
   void _fetchSlotFirebase() {
     Provider.of<FirebaseSlotProvider>(context, listen: false)
         .fetchSlots(widget.campo.id, _selectedDay);
+    Provider.of<FirebaseSlotProvider>(context, listen: false)
+        .removePastSlots(widget.campo.id);
   }
 
   @override

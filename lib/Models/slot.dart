@@ -1,15 +1,14 @@
 class Slot {
-  final String id; // Aggiungi l'ID dello slot
+  final String id;
   final String orario;
   bool disponibile;
 
   Slot({
-    required this.id, // Rendi obbligatorio l'ID
+    required this.id,
     required this.orario,
     this.disponibile = true,
   });
 
-  // Metodo per convertire il Slot in una mappa
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -18,12 +17,27 @@ class Slot {
     };
   }
 
-  // Metodo per creare un Slot da una mappa
   factory Slot.fromMap(Map<String, dynamic> map) {
     return Slot(
-      id: map['id'] ?? '', // Assicurati che l'ID sia presente
+      id: map['id'] ?? '',
       orario: map['orario'] ?? '',
       disponibile: map['disponibile'] ?? true,
+    );
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'id': id,
+      'orario': orario,
+      'disponibile': disponibile,
+    };
+  }
+
+  factory Slot.fromFirestore(Map<String, dynamic> firestoreData) {
+    return Slot(
+      id: firestoreData['id'] ?? '',
+      orario: firestoreData['orario'] ?? '',
+      disponibile: firestoreData['disponibile'] ?? true,
     );
   }
 }

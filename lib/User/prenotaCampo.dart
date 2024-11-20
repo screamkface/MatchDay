@@ -19,12 +19,14 @@ class CampoCalendarUser extends StatefulWidget {
 
 class _CampoCalendarUserState extends State<CampoCalendarUser> {
   DateTime _selectedDay = DateTime.now();
-  final String? userId = FirebaseAuth.instance.currentUser?.uid;
+  final String userId = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   void initState() {
     super.initState();
     _fetchSlotFirebase();
+    Provider.of<FirebaseSlotProvider>(context, listen: false)
+        .removePastSlots(widget.campo.id);
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -52,7 +54,29 @@ class _CampoCalendarUserState extends State<CampoCalendarUser> {
             focusedDay: _selectedDay,
             selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
             onDaySelected: _onDaySelected,
+            headerStyle: const HeaderStyle(
+              formatButtonVisible:
+                  false, // Nasconde il pulsante del formato del calendario
+              titleCentered: true, // Centra il titolo del mese
+              leftChevronIcon: Icon(
+                Icons.chevron_left,
+                color: Colors.black, // Imposta il colore della freccia sinistra
+              ),
+              rightChevronIcon: Icon(
+                Icons.chevron_right,
+                color: Colors.black, // Imposta il colore della freccia destra
+              ),
+            ),
           ),
+          const Padding(
+            padding: EdgeInsets.all(5),
+            child: Divider(
+              thickness: 1,
+              color: Colors.black,
+            ),
+          ),
+          // ignore: prefer_const_constructors
+          Text("Seleziona slot", style: TextStyle(fontWeight: FontWeight.bold)),
           Expanded(
             child: StreamBuilder<List<Slot>>(
               stream: firebaseSlotProvider.fetchSlotsStream(
@@ -93,7 +117,9 @@ class _CampoCalendarUserState extends State<CampoCalendarUser> {
                                       )
                                     : const Text(
                                         "Non disponibile",
-                                        style: TextStyle(color: Colors.red),
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold),
                                       ),
                               ),
                             ),
@@ -119,17 +145,19 @@ class _CampoCalendarUserState extends State<CampoCalendarUser> {
   void _prenotaSlot(Slot slot) async {
     final provider = Provider.of<FirebaseSlotProvider>(context, listen: false);
 
-    // Crea una nuova prenotazione
+    // Crea una nuova prenotazione senza passare un ID manuale
     final nuovaPrenotazione = Prenotazione(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      id: '',
       idCampo: widget.campo.id,
-      dataPrenotazione: _selectedDay,
+      dataPrenotazione:
+          _selectedDay.toIso8601String(), // Salviamo la data come stringa
       stato: Stato.inAttesa,
       idUtente: userId,
+      slot: slot,
     );
 
     try {
-      // Salva la prenotazione su Firebase
+      // Salva la prenotazione su Firebase, Firestore genererà un ID automaticamente
       await provider.addPrenotazione(nuovaPrenotazione);
 
       // Aggiorna lo stato dello slot su Firebase (disponibile -> non disponibile)
@@ -141,7 +169,7 @@ class _CampoCalendarUserState extends State<CampoCalendarUser> {
 
       await provider.updateSlotAvailability(
         widget.campo.id,
-        _selectedDay,
+        _selectedDay, // Salviamo la data come stringa anche per lo slot
         slotAggiornato,
       );
 

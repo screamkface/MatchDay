@@ -1,8 +1,8 @@
-// ignore_for_file: depend_on_referenced_packages
+// ignore_for_file: depend_on_referenced_packages, prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:match_day/Providers/authDaoProvider.dart';
-import 'package:match_day/Models/bkService.dart';
+import 'package:match_day/Providers/prenotazioniProvider.dart';
 import 'package:match_day/Providers/slotProvider.dart';
 import 'package:match_day/Screens/login.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,14 +30,18 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthDaoProvider()),
-        ChangeNotifierProvider(create: (_) => BookingServiceManager()),
         ChangeNotifierProvider(create: (_) => FirebaseSlotProvider()),
+        ChangeNotifierProvider(create: (_) => PrenotazioneProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Match Day',
         theme: ThemeData(
-          textTheme: GoogleFonts.robotoTextTheme(),
+          textTheme: TextTheme(
+            headlineSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            titleMedium: TextStyle(fontSize: 16),
+            titleSmall: TextStyle(fontSize: 14),
+          ),
           colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 34, 40, 49),
             primary: const Color.fromARGB(255, 34, 40, 49),

@@ -19,8 +19,14 @@ class FirebaseSlotProvider extends ChangeNotifier {
 
   // Aggiungi una prenotazione
   Future<void> addPrenotazione(Prenotazione prenotazione) async {
-    await _prenotazioniRef.doc(prenotazione.id).set(prenotazione.toMap());
-    notifyListeners(); // Notifica le modifiche
+    try {
+      final docRef = await FirebaseFirestore.instance
+          .collection('prenotazioni')
+          .add(prenotazione.toMap());
+      print("Prenotazione aggiunta con ID: ${docRef.id}");
+    } catch (e) {
+      print('Errore durante l\'aggiunta della prenotazione: $e');
+    }
   }
 
   Stream<List<Slot>> fetchSlotsStream(String campoId, DateTime selectedDay) {
@@ -50,10 +56,54 @@ class FirebaseSlotProvider extends ChangeNotifier {
     }
 
     try {
-      final documentPath =
-          'fields/$campoId/slots/${data.toIso8601String()}_${slot.orario}';
+      // Formatta la data come 'yyyy-MM-dd' per il documento
+      final formattedDate = "${data.year}-${data.month}-${data.day}";
 
-      await FirebaseFirestore.instance.doc(documentPath).update(slot.toMap());
+      // Percorso per accedere al documento specifico del giorno all'interno della collezione 'calendario'
+      final documentPath = 'fields/$campoId/calendario/$formattedDate';
+
+      // Recupera il documento che rappresenta il giorno selezionato
+      DocumentSnapshot calendarioDoc =
+          await FirebaseFirestore.instance.doc(documentPath).get();
+
+      if (!calendarioDoc.exists) {
+        // Se il documento non esiste, lo crea con una lista di slot vuota
+        await FirebaseFirestore.instance.doc(documentPath).set({
+          'slots': [] // Creiamo il documento con una lista vuota di slot
+        });
+        print('Documento calendario creato per la data $formattedDate');
+      }
+
+      // A questo punto, il documento esiste, quindi possiamo procedere con l'aggiornamento
+      Map<String, dynamic> calendarioData =
+          (await FirebaseFirestore.instance.doc(documentPath).get()).data()
+              as Map<String, dynamic>;
+
+      List<dynamic> slotsList = calendarioData['slots'];
+
+      bool slotFound = false;
+
+      // Trova lo slot corrispondente all'orario
+      for (var slotItem in slotsList) {
+        if (slotItem['orario'] == slot.orario) {
+          // Aggiorna la disponibilità dello slot
+          slotItem['disponibile'] = slot.disponibile;
+          slotFound = true;
+          break;
+        }
+      }
+
+      // Se non abbiamo trovato lo slot, significa che dobbiamo aggiungerlo
+      if (!slotFound) {
+        slotsList.add(slot.toMap());
+      }
+
+      // Salva il documento aggiornato con il nuovo stato dello slot
+      await FirebaseFirestore.instance.doc(documentPath).update({
+        'slots': slotsList,
+      });
+
+      print('Slot aggiornato con successo');
     } catch (e) {
       throw Exception('Errore nell\'aggiornare lo slot: $e');
     }
@@ -77,15 +127,15 @@ class FirebaseSlotProvider extends ChangeNotifier {
       } else {
         _selectedSlots = [];
       }
-      notifyListeners(); // Notifica i listener dopo aver aggiornato gli slot
+      notifyListeners();
     } catch (e) {
       throw Exception('Errore nel recupero degli slot: $e');
     }
   }
 
   // Metodo per aggiungere uno slot su Firebase
-  Future<void> addSlot(String campoId, DateTime selectedDay, Slot slot) async {
-    if (campoId.isEmpty) {
+  Future<void> addSlot(String id, DateTime selectedDay, Slot slot) async {
+    if (id.isEmpty) {
       throw Exception("L'ID del campo non può essere vuoto");
     }
 
@@ -94,7 +144,7 @@ class FirebaseSlotProvider extends ChangeNotifier {
     try {
       await _firestore
           .collection('fields')
-          .doc(campoId)
+          .doc(id)
           .collection('calendario')
           .doc(formattedDate)
           .set({

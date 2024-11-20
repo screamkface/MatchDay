@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:match_day/Admin/campoSelected.dart';
+import 'package:match_day/Admin/prenotazioni.dart';
 import 'package:match_day/Models/campo.dart';
-import 'package:match_day/components/adminNavbar.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({super.key});
@@ -12,7 +12,13 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
-  int _selectedIndex = 0;
+  final int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    const AdminHomePage(), // La tua pagina Home
+    const PrenotazioniScreen(), // La pagina delle prenotazioni
+    // La tua pagina Profilo
+  ];
 
   // Fetch field names from Firestore
   Future<List<DocumentSnapshot>> fetchFields() async {
@@ -24,14 +30,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: AdminNavbar(
-        selectedIndex: _selectedIndex,
-        onTabChange: (value) {
-          setState(() {
-            _selectedIndex = value;
-          });
-        },
-      ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Center(child: Text("Campi Disponibili")),
@@ -119,6 +117,18 @@ class _AdminHomePageState extends State<AdminHomePage> {
         },
         child: const Icon(Icons.add),
       ),
+      persistentFooterButtons: [
+        IconButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => const PrenotazioniScreen(),
+              ));
+            },
+            icon: const Icon(
+              Icons.bookmark,
+              color: Color.fromARGB(255, 34, 40, 49),
+            ))
+      ],
     );
   }
 

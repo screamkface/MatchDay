@@ -1,4 +1,7 @@
-import 'package:firebase_data_connect/firebase_data_connect.dart';
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
+import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
+import 'package:match_day/Models/slot.dart';
 
 enum Stato {
   confermata,
@@ -7,11 +10,12 @@ enum Stato {
 }
 
 class Prenotazione {
-  final String id;
-  final DateTime dataPrenotazione;
+  final String? id;
+  final String dataPrenotazione;
   final Stato stato;
   final String idCampo;
-  final String? idUtente;
+  final String idUtente;
+  final Slot? slot;
 
   Prenotazione({
     required this.id,
@@ -19,29 +23,40 @@ class Prenotazione {
     required this.stato,
     required this.idCampo,
     required this.idUtente,
+    this.slot,
   });
 
-  // Factory method to convert a map into a Prenotazione object
-  factory Prenotazione.fromMap(Map<String, dynamic> map) {
+  factory Prenotazione.fromMap(Map<String, dynamic> map, String id) {
+    var data = map['dataPrenotazione'];
+    DateTime dataPrenotazione;
+
+    // Se la data è una stringa, convertila in DateTime
+    if (data is String) {
+      dataPrenotazione = DateTime.parse(data);
+    } else {
+      // Se è un altro tipo, gestisci il caso (potresti voler lanciare un errore o usarne una predefinita)
+      dataPrenotazione =
+          DateTime.now(); // Imposta una data predefinita se non è valida
+    }
+
     return Prenotazione(
-      id: map['id'],
-      dataPrenotazione: (map['dataPrenotazione'] as Timestamp).toDateTime(),
-      stato: Stato.values.firstWhere((e) =>
-          e.toString().split('.').last ==
-          map['stato']), // Converte la stringa di nuovo in enum
-      idCampo: map['idCampo'],
-      idUtente: map['idUtente'],
+      id: id,
+      dataPrenotazione: dataPrenotazione.toString(),
+      stato: Stato.values.byName(map['stato'] as String),
+      idCampo: map['idCampo'] as String,
+      idUtente: map['idUtente'] as String,
+      slot: map['slot'] != null ? Slot.fromFirestore(map['slot']) : null,
     );
   }
 
-  // Method to convert Prenotazione to Map
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      'id': id, // Non necessario se Firestore genera un ID automaticamente
       'dataPrenotazione': dataPrenotazione,
       'stato': stato.toString().split('.').last,
       'idCampo': idCampo,
       'idUtente': idUtente,
+      'slot': slot?.toMap(),
     };
   }
 }

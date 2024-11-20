@@ -3,8 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:match_day/Models/campo.dart';
 import 'package:match_day/User/prenotaCampo.dart';
 
-import '../Admin/campoSelected.dart';
-
 class CampoSelectionPage extends StatelessWidget {
   const CampoSelectionPage({super.key});
 
