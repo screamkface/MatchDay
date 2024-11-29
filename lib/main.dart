@@ -5,7 +5,6 @@ import 'package:match_day/Providers/authDaoProvider.dart';
 import 'package:match_day/Providers/prenotazioniProvider.dart';
 import 'package:match_day/Providers/slotProvider.dart';
 import 'package:match_day/Screens/login.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart'; // Assicurati di avere il file firebase_options.dart

@@ -26,6 +26,85 @@ class PrenotazioneProvider extends ChangeNotifier {
     }
   }
 
+  Stream<List<Prenotazione>> fetchPrenotazioniStream() {
+    return FirebaseFirestore.instance
+        .collection('prenotazioni')
+        .snapshots()
+        .map((querySnapshot) {
+      return querySnapshot.docs.map((doc) {
+        var data = doc.data();
+        return Prenotazione(
+          id: doc.id,
+          idCampo: data['idCampo'],
+          idUtente: data['idUtente'],
+          stato: _getStatoFromString(data['stato']),
+          dataPrenotazione: data['dataPrenotazione'],
+          slot: data['slot'] != null ? Slot.fromMap(data['slot']) : null,
+        );
+      }).toList();
+    });
+  }
+
+  Stato _getStatoFromString(String stato) {
+    switch (stato) {
+      case 'inAttesa':
+        return Stato.inAttesa;
+      case 'confermata':
+        return Stato.confermata;
+      case 'annullata':
+        return Stato.annullata;
+      default:
+        return Stato.inAttesa; // Stato di fallback se il valore non è valido
+    }
+  }
+
+  Future<void> rifiutaPrenotazione(
+      String prenotazioneId, String campoId, String slotId) async {
+    try {
+      // 1. Rimuovi la prenotazione dalla collezione 'prenotazioni'
+      await FirebaseFirestore.instance
+          .collection('prenotazioni')
+          .doc(prenotazioneId)
+          .delete();
+
+      // 2. Aggiorna lo stato dello slot nel campo specificato
+      final fieldDoc =
+          FirebaseFirestore.instance.collection('fields').doc(campoId);
+
+      // 3. Recupera il documento del campo
+      DocumentSnapshot campoSnapshot = await fieldDoc.get();
+      if (campoSnapshot.exists) {
+        // 4. Recupera gli slot dal calendario con il cast esplicito
+        var calendario =
+            (campoSnapshot.data() as Map<String, dynamic>)['calendario'];
+
+        // Se il calendario esiste e ha slot, procediamo con l'aggiornamento
+        if (calendario != null) {
+          List<dynamic> slots = calendario['slots'] ?? [];
+
+          // Trova lo slot specifico e aggiorna il suo stato
+          for (var slot in slots) {
+            if (slot['id'] == slotId) {
+              slot['disponibile'] = true; // Imposta lo slot come disponibile
+              break;
+            }
+          }
+
+          // 5. Aggiorna l'intero array di slot nel documento
+          await fieldDoc.update({
+            'calendario.slots': slots,
+          });
+        }
+      }
+
+      // Notifica che la prenotazione è stata rifiutata
+      notifyListeners();
+    } catch (e) {
+      print('Errore nel rifiutare la prenotazione: $e');
+      throw Exception('Errore nel rifiutare la prenotazione');
+    }
+  }
+
   Future<void> ripristinaSlotDisponibile(
       String campoId, String data, Slot slot) async {
     try {
@@ -139,6 +218,20 @@ class PrenotazioneProvider extends ChangeNotifier {
       notifyListeners(); // Notifica i listener dopo aver eliminato una prenotazione
     } catch (e) {
       print('Errore durante l\'eliminazione della prenotazione: $e');
+    }
+  }
+
+  Future<void> accettaPrenotazione(String prenotazioneId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('prenotazioni')
+          .doc(prenotazioneId)
+          .update({'stato': 'confermata'});
+
+      notifyListeners();
+      print('Prenotazione aggiornata con successo.');
+    } catch (e) {
+      print('Errore durante l\'aggiornamento della prenotazione: $e');
     }
   }
 }

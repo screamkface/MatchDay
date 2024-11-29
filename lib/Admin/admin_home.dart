@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:match_day/Admin/campoSelected.dart';
 import 'package:match_day/Admin/prenotazioni.dart';
+import 'package:match_day/Admin/settings.dart';
 import 'package:match_day/Models/campo.dart';
 
 class AdminHomePage extends StatefulWidget {
@@ -66,39 +67,42 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       ),
                     );
                   },
-                  child: Card(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 2,
-                    child: ListTile(
-                      title: Text(
-                        fieldName,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Card(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              _editField(context, fieldDoc);
-                            },
+                      elevation: 2,
+                      child: ListTile(
+                        title: Text(
+                          fieldName,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              _deleteField(fieldDoc.id);
-                            },
-                          ),
-                        ],
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                _editField(context, fieldDoc);
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                _deleteField(fieldDoc.id);
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -118,16 +122,45 @@ class _AdminHomePageState extends State<AdminHomePage> {
         child: const Icon(Icons.add),
       ),
       persistentFooterButtons: [
-        IconButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => const PrenotazioniScreen(),
-              ));
-            },
-            icon: const Icon(
-              Icons.bookmark,
-              color: Color.fromARGB(255, 34, 40, 49),
-            ))
+        Container(
+          decoration: BoxDecoration(
+            color:
+                Theme.of(context).primaryColor, // Colore di sfondo della barra
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, -2), // Ombra sopra la barra
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const PrenotazioniScreen(),
+                  ));
+                },
+                icon: const Icon(Icons.bookmark, color: Colors.white),
+              ),
+              IconButton(
+                onPressed: () {},
+                isSelected: true,
+                icon: const Icon(Icons.home, color: Colors.white),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AdminSettings(),
+                  ));
+                },
+                icon: const Icon(Icons.settings, color: Colors.white),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

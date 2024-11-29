@@ -6,7 +6,6 @@ import 'package:match_day/Admin/admin_home.dart';
 import 'package:match_day/Models/campo.dart';
 import 'package:match_day/Models/slot.dart';
 import 'package:match_day/Providers/slotProvider.dart';
-import 'package:match_day/components/adminNavbar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CampoCalendar extends StatefulWidget {
@@ -59,16 +58,22 @@ class _CampoCalendarState extends State<CampoCalendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: AdminNavbar(
-        selectedIndex: _selectedIndex,
-        onTabChange: _onTabChange,
-      ),
       appBar: AppBar(
         title: Text("Calendario ${widget.campo.nome}"),
       ),
       body: Column(
         children: [
           TableCalendar(
+            headerStyle: const HeaderStyle(
+              leftChevronIcon: Icon(
+                Icons.chevron_left,
+                color: Colors.black, // Imposta il colore della freccia sinistra
+              ),
+              rightChevronIcon: Icon(
+                Icons.chevron_right,
+                color: Colors.black, // Imposta il colore della freccia destra
+              ),
+            ),
             calendarFormat: CalendarFormat.twoWeeks,
             calendarStyle: const CalendarStyle(isTodayHighlighted: true),
             firstDay: DateTime.utc(2020, 1, 1),
