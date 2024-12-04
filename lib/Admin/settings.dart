@@ -16,9 +16,9 @@ class _AdminSettingsState extends State<AdminSettings> {
     try {
       await FirebaseAuth.instance.signOut();
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => Login(),
+        builder: (context) => const Login(),
       ));
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Logout Effettuato!"),
       ));
     } catch (e) {

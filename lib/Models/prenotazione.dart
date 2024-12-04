@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:match_day/Models/slot.dart';
 
 enum Stato {
@@ -35,7 +36,6 @@ class Prenotazione extends ChangeNotifier {
     if (data is String) {
       dataPrenotazione = DateTime.parse(data);
     } else {
-      // Se è un altro tipo, gestisci il caso (potresti voler lanciare un errore o usarne una predefinita)
       dataPrenotazione =
           DateTime.now(); // Imposta una data predefinita se non è valida
     }
@@ -50,6 +50,14 @@ class Prenotazione extends ChangeNotifier {
     );
   }
 
+  // Aggiungi questa funzione per ottenere la data formattata
+  String get formattedDataPrenotazione {
+    final DateTime date = DateTime.parse(dataPrenotazione);
+    final DateFormat formatter =
+        DateFormat('dd MMMM yyyy'); // Modifica il formato come desiderato
+    return formatter.format(date);
+  }
+
   factory Prenotazione.fromFirestore(DocumentSnapshot doc) {
     return Prenotazione(
       id: doc.id, // Questo è l'ID del documento
@@ -61,9 +69,14 @@ class Prenotazione extends ChangeNotifier {
   }
 
   Map<String, dynamic> toMap() {
+    final DateTime date = DateTime.parse(dataPrenotazione);
+    final DateFormat formatter =
+        DateFormat('dd MMMM yyyy'); // Il formato che preferisci
+    String formattedDate = formatter.format(date);
+
     return {
-      'id': id, // Non necessario se Firestore genera un ID automaticamente
-      'dataPrenotazione': dataPrenotazione,
+      'id': id,
+      'dataPrenotazione': formattedDate, // Usa la data formattata
       'stato': stato.toString().split('.').last,
       'idCampo': idCampo,
       'idUtente': idUtente,

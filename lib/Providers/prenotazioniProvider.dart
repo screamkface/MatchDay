@@ -61,41 +61,41 @@ class PrenotazioneProvider extends ChangeNotifier {
   Future<void> rifiutaPrenotazione(
       String prenotazioneId, String campoId, String slotId) async {
     try {
-      // 1. Rimuovi la prenotazione dalla collezione 'prenotazioni'
+      // 1. Recupera il documento del campo
+      final fieldDoc =
+          FirebaseFirestore.instance.collection('fields').doc(campoId);
+      DocumentSnapshot campoSnapshot = await fieldDoc.get();
+
+      if (campoSnapshot.exists) {
+        // 2. Recupera gli slot dal calendario
+        var calendario =
+            (campoSnapshot.data() as Map<String, dynamic>)['calendario'];
+
+        // Se il calendario esiste e ha slot
+        if (calendario != null) {
+          List<dynamic> slots = calendario['slots'] ?? [];
+
+          // 3. Trova lo slot specifico e aggiorna il suo stato
+          for (var slot in slots) {
+            if (slot['id'] == slotId) {
+              // Modifica lo slot direttamente in memoria
+              slot['disponibile'] = true;
+
+              // 4. Aggiorna l'intero array di slot nel documento
+              await fieldDoc.update({
+                'calendario.slots': slots, // Aggiorna l'intero array di slot
+              });
+              break;
+            }
+          }
+        }
+      }
+
+      // 5. Rimuovi la prenotazione dalla collezione 'prenotazioni'
       await FirebaseFirestore.instance
           .collection('prenotazioni')
           .doc(prenotazioneId)
           .delete();
-
-      // 2. Aggiorna lo stato dello slot nel campo specificato
-      final fieldDoc =
-          FirebaseFirestore.instance.collection('fields').doc(campoId);
-
-      // 3. Recupera il documento del campo
-      DocumentSnapshot campoSnapshot = await fieldDoc.get();
-      if (campoSnapshot.exists) {
-        // 4. Recupera gli slot dal calendario con il cast esplicito
-        var calendario =
-            (campoSnapshot.data() as Map<String, dynamic>)['calendario'];
-
-        // Se il calendario esiste e ha slot, procediamo con l'aggiornamento
-        if (calendario != null) {
-          List<dynamic> slots = calendario['slots'] ?? [];
-
-          // Trova lo slot specifico e aggiorna il suo stato
-          for (var slot in slots) {
-            if (slot['id'] == slotId) {
-              slot['disponibile'] = true; // Imposta lo slot come disponibile
-              break;
-            }
-          }
-
-          // 5. Aggiorna l'intero array di slot nel documento
-          await fieldDoc.update({
-            'calendario.slots': slots,
-          });
-        }
-      }
 
       // Notifica che la prenotazione è stata rifiutata
       notifyListeners();

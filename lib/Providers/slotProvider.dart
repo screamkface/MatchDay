@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart'; // Aggiungi questa importazione per ChangeNotifier
+import 'package:intl/intl.dart';
 import 'package:match_day/Models/prenotazione.dart';
 import 'package:match_day/Models/slot.dart';
 
@@ -169,6 +170,7 @@ class FirebaseSlotProvider extends ChangeNotifier {
   }
 
   // Metodo per eliminare tutti gli slot di giorni passati
+
   Future<void> removePastSlots(String campoId) async {
     try {
       QuerySnapshot snapshot = await _firestore
@@ -178,10 +180,12 @@ class FirebaseSlotProvider extends ChangeNotifier {
           .get();
 
       final now = DateTime.now();
+      final dateFormat = DateFormat('yyyy-MM-dd'); // Usa il formato corretto
 
       for (var doc in snapshot.docs) {
+        // Usa DateFormat per parsare correttamente l'ID della data
         DateTime slotDate =
-            DateTime.parse(doc.id); // ID del documento è 'yyyy-mm-dd'
+            dateFormat.parse(doc.id); // ID del documento è 'yyyy-mm-dd'
 
         // Se la data è passata, elimina tutti gli slot del giorno
         if (slotDate.isBefore(DateTime(now.year, now.month, now.day))) {

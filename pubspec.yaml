@@ -1,5 +1,5 @@
 name: match_day
-description: "A new Flutter project."
+description: "Booking App"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -44,8 +44,12 @@ dependencies:
   table_calendar: ^3.0.9
 
 dev_dependencies:
-  flutter_test:
+  flutter_test: #unit test
     sdk: flutter
+  integration_test: 
+    sdk: flutter
+  mockito: ^5.4.4 #
+  build_runner: ^2.4.13
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
