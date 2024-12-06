@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:match_day/Admin/prenotazioni.dart';
 import 'package:match_day/Models/campo.dart';
 import 'package:match_day/Models/slot.dart';
 import 'package:match_day/Providers/slotProvider.dart';

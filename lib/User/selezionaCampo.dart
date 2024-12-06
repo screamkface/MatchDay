@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:match_day/Models/campo.dart';
-import 'package:match_day/User/prenotaCampo.dart';
+import 'package:match_day/User/prenotazioniUser.dart';
+import 'package:match_day/User/userHome.dart';
 
 class CampoSelectionPage extends StatelessWidget {
   const CampoSelectionPage({super.key});
@@ -98,6 +99,47 @@ class CampoSelectionPage extends StatelessWidget {
         },
       ),
       backgroundColor: Colors.grey[100],
+      persistentFooterButtons: [
+        Container(
+          decoration: BoxDecoration(
+            color:
+                Theme.of(context).primaryColor, // Colore di sfondo della barra
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, -2), // Ombra sopra la barra
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const PrenotazioniUtenteScreen(),
+                  ));
+                },
+                icon: const Icon(Icons.bookmark, color: Colors.white),
+              ),
+              IconButton(
+                onPressed: () {},
+                isSelected: true,
+                icon: const Icon(Icons.home, color: Colors.white),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AboutDialog(),
+                  ));
+                },
+                icon: const Icon(Icons.settings, color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

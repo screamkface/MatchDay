@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:match_day/Screens/login.dart';
-import 'package:match_day/components/custom_snackbar.dart';
 
 class AdminSettings extends StatefulWidget {
   const AdminSettings({super.key});

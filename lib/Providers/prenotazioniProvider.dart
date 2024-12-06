@@ -91,11 +91,13 @@ class PrenotazioneProvider extends ChangeNotifier {
         }
       }
 
-      // 5. Rimuovi la prenotazione dalla collezione 'prenotazioni'
+      // 5. Aggiorna lo stato della prenotazione a "annullata" senza rimuoverla
       await FirebaseFirestore.instance
           .collection('prenotazioni')
           .doc(prenotazioneId)
-          .delete();
+          .update({
+        'stato': 'annullata',
+      });
 
       // Notifica che la prenotazione è stata rifiutata
       notifyListeners();
@@ -103,6 +105,27 @@ class PrenotazioneProvider extends ChangeNotifier {
       print('Errore nel rifiutare la prenotazione: $e');
       throw Exception('Errore nel rifiutare la prenotazione');
     }
+  }
+
+  Stream<List<Prenotazione>> fetchPrenotazioniStreamByUser(String userId) {
+    return FirebaseFirestore.instance
+        .collection('prenotazioni')
+        .where('idUtente', isEqualTo: userId) // Filtro per idUtente
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        var data = doc.data();
+        return Prenotazione(
+          id: doc.id,
+          idUtente: data['idUtente'] ?? '',
+          idCampo: data['idCampo'] ?? '',
+          dataPrenotazione: data['dataPrenotazione'] ?? '',
+          slot: data['slot'] != null ? Slot.fromMap(data['slot']) : null,
+          stato: _getStatoFromString(
+              data['stato'] ?? 'inAttesa'), // Conversione dello stato
+        );
+      }).toList();
+    });
   }
 
   Future<void> ripristinaSlotDisponibile(
