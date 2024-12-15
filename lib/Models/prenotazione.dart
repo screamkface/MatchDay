@@ -9,6 +9,7 @@ enum Stato {
   confermata,
   inAttesa,
   annullata,
+  richiestaModifica,
 }
 
 class Prenotazione extends ChangeNotifier {

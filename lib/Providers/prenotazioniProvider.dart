@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:match_day/Models/prenotazione.dart';
 import 'package:match_day/Models/slot.dart';
+import 'package:match_day/components/custom_snackbar.dart';
 
 class PrenotazioneProvider extends ChangeNotifier {
   List<Prenotazione> _prenotazioni = [];
 
   List<Prenotazione> get prenotazioni => _prenotazioni;
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // 1. Recuperare tutte le prenotazioni
   Future<void> fetchPrenotazioni() async {
@@ -58,49 +62,63 @@ class PrenotazioneProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> rifiutaPrenotazione(
-      String prenotazioneId, String campoId, String slotId) async {
+  Future<void> rifiutaPrenotazione(String prenotazioneId, String campoId,
+      String slotId, String dataPrenotazione) async {
     try {
-      // 1. Recupera il documento del campo
-      final fieldDoc =
-          FirebaseFirestore.instance.collection('fields').doc(campoId);
-      DocumentSnapshot campoSnapshot = await fieldDoc.get();
+      // 1. Trasforma la data da "05 December 2024" a "2024-12-5"
+      DateTime parsedDate = DateFormat('dd MMMM yyyy').parse(dataPrenotazione);
+      String dataFormattata = DateFormat('yyyy-MM-d').format(parsedDate);
 
-      if (campoSnapshot.exists) {
-        // 2. Recupera gli slot dal calendario
-        var calendario =
-            (campoSnapshot.data() as Map<String, dynamic>)['calendario'];
+      // 2. Recupera il documento della prenotazione
+      DocumentSnapshot prenotazioneSnapshot = await FirebaseFirestore.instance
+          .collection('prenotazioni')
+          .doc(prenotazioneId)
+          .get();
 
-        // Se il calendario esiste e ha slot
-        if (calendario != null) {
-          List<dynamic> slots = calendario['slots'] ?? [];
+      if (prenotazioneSnapshot.exists) {
+        // 3. Recupera il documento della data del calendario nel campo specifico
+        final slotDocRef = FirebaseFirestore.instance
+            .collection('fields')
+            .doc(campoId)
+            .collection('calendario')
+            .doc(dataFormattata); // Usa la data nel formato "2024-12-5"
 
-          // 3. Trova lo slot specifico e aggiorna il suo stato
-          for (var slot in slots) {
-            if (slot['id'] == slotId) {
-              // Modifica lo slot direttamente in memoria
-              slot['disponibile'] = true;
+        DocumentSnapshot slotSnapshot = await slotDocRef.get();
 
-              // 4. Aggiorna l'intero array di slot nel documento
-              await fieldDoc.update({
-                'calendario.slots': slots, // Aggiorna l'intero array di slot
-              });
+        if (slotSnapshot.exists) {
+          // 4. Recupera gli slot dalla data specifica
+          var dataCalendario = slotSnapshot.data() as Map<String, dynamic>;
+          List<dynamic> slots = List.from(dataCalendario['slots'] ?? []);
+
+          // 5. Cerca lo slot corrispondente per ID e aggiorna la disponibilità
+          for (var i = 0; i < slots.length; i++) {
+            if (slots[i]['id'] == slotId) {
+              slots[i]['disponibile'] = true; // Rendi lo slot disponibile
               break;
             }
           }
+
+          // 6. Aggiorna lo stato dello slot nel database Firestore
+          await slotDocRef.update({
+            'slots': slots, // Aggiorna l'array degli slot nella data specifica
+          });
+
+          // 5. Aggiorna lo stato della prenotazione a "annullata" senza rimuoverla
+          await FirebaseFirestore.instance
+              .collection('prenotazioni')
+              .doc(prenotazioneId)
+              .update({
+            'stato': 'annullata',
+          });
+
+          // Notifica l'aggiornamento
+          notifyListeners();
+        } else {
+          throw Exception('Calendario per la data non trovato');
         }
+      } else {
+        throw Exception('Prenotazione non trovata');
       }
-
-      // 5. Aggiorna lo stato della prenotazione a "annullata" senza rimuoverla
-      await FirebaseFirestore.instance
-          .collection('prenotazioni')
-          .doc(prenotazioneId)
-          .update({
-        'stato': 'annullata',
-      });
-
-      // Notifica che la prenotazione è stata rifiutata
-      notifyListeners();
     } catch (e) {
       print('Errore nel rifiutare la prenotazione: $e');
       throw Exception('Errore nel rifiutare la prenotazione');
@@ -255,6 +273,52 @@ class PrenotazioneProvider extends ChangeNotifier {
       print('Prenotazione aggiornata con successo.');
     } catch (e) {
       print('Errore durante l\'aggiornamento della prenotazione: $e');
+    }
+  }
+
+  // Metodo per modificare una prenotazione
+  void modificaPrenotazione(
+      String id, String dataPrenotazioneString, String selectedSlot) async {
+    // Usa DateFormat per parsare la stringa della data in formato 'dd MMMM yyyy'
+    DateFormat format = DateFormat('dd MMMM yyyy'); // '06 December 2024'
+    DateTime dataPrenotazione =
+        format.parse(dataPrenotazioneString); // Converte in DateTime
+
+    // Ottieni l'oggetto Slot per il nuovo slot selezionato
+    Slot nuovoSlot = Slot(
+      id: selectedSlot, // Assumi che selectedSlot contenga l'ID dello slot selezionato
+      orario: selectedSlot, // Imposta l'orario per il nuovo slot, se necessario
+      disponibile: false, // O altro stato, in base alla logica della tua app
+    );
+
+    // Crea una nuova prenotazione con i nuovi dati
+    Prenotazione prenotazioneModificata = Prenotazione(
+      id: id,
+      idCampo: 'idCampo', // Aggiungi l'id del campo, se necessario
+      dataPrenotazione: dataPrenotazione
+          .toIso8601String(), // Converte la data in formato ISO 8601
+      stato: Stato.inAttesa, // Puoi cambiare lo stato a seconda della logica
+      idUtente: 'userId', // Usa l'ID dell'utente attualmente loggato
+      slot: nuovoSlot,
+    );
+
+    // Aggiorna la prenotazione nel database (Firestore)
+    try {
+      await FirebaseFirestore.instance
+          .collection('prenotazioni')
+          .doc(id) // Usa l'ID della prenotazione da modificare
+          .update({
+        'dataPrenotazione': prenotazioneModificata.dataPrenotazione,
+        'slot': prenotazioneModificata.slot
+            ?.toMap(), // Assicurati di convertire lo slot in mappa
+        'stato': prenotazioneModificata.stato.toString(),
+      });
+
+      // Mostra un messaggio di conferma
+      CustomSnackbar("Prenotazione modificata!");
+    } catch (e) {
+      // Gestisci eventuali errori
+      CustomSnackbar("Errore nella modifica!");
     }
   }
 }

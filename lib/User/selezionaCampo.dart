@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:match_day/Models/campo.dart';
 import 'package:match_day/User/prenotazioniUser.dart';
-import 'package:match_day/User/userHome.dart';
+import 'package:match_day/User/selezionaSlot.dart';
 
 class CampoSelectionPage extends StatelessWidget {
   const CampoSelectionPage({super.key});

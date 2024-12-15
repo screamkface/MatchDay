@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:match_day/Admin/prenotazioni.dart';
 import 'package:match_day/Models/campo.dart';
 import 'package:match_day/Models/slot.dart';
 import 'package:match_day/Providers/slotProvider.dart';
+import 'package:match_day/components/customTbCalendar.dart';
 import 'package:provider/provider.dart'; // Importa Provider
-import 'package:table_calendar/table_calendar.dart';
 
 import '../Models/prenotazione.dart';
 
@@ -30,7 +29,7 @@ class _CampoCalendarUserState extends State<CampoCalendarUser> {
         .removePastSlots(widget.campo.id);
   }
 
-  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+  void _onDaySelected(DateTime selectedDay) {
     setState(() {
       _selectedDay = selectedDay;
       _fetchSlotFirebase(); // Fetch degli slot da Firebase per la data selezionata
@@ -47,28 +46,8 @@ class _CampoCalendarUserState extends State<CampoCalendarUser> {
       ),
       body: Column(
         children: [
-          TableCalendar(
-            calendarFormat: CalendarFormat.twoWeeks,
-            calendarStyle: const CalendarStyle(isTodayHighlighted: true),
-            firstDay: DateTime.utc(2020, 1, 1),
-            lastDay: DateTime.utc(2030, 1, 1),
-            focusedDay: _selectedDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            onDaySelected: _onDaySelected,
-            headerStyle: const HeaderStyle(
-              formatButtonVisible:
-                  false, // Nasconde il pulsante del formato del calendario
-              titleCentered: true, // Centra il titolo del mese
-              leftChevronIcon: Icon(
-                Icons.chevron_left,
-                color: Colors.black, // Imposta il colore della freccia sinistra
-              ),
-              rightChevronIcon: Icon(
-                Icons.chevron_right,
-                color: Colors.black, // Imposta il colore della freccia destra
-              ),
-            ),
-          ),
+          // Passa correttamente la funzione _onDaySelected come callback
+          CustomTableCalendar(onDaySelected: _onDaySelected),
           const Padding(
             padding: EdgeInsets.all(5),
             child: Divider(
@@ -76,8 +55,8 @@ class _CampoCalendarUserState extends State<CampoCalendarUser> {
               color: Colors.black,
             ),
           ),
-          // ignore: prefer_const_constructors
-          Text("Seleziona slot", style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text("Seleziona slot",
+              style: TextStyle(fontWeight: FontWeight.bold)),
           Expanded(
             child: StreamBuilder<List<Slot>>(
               stream: firebaseSlotProvider.fetchSlotsStream(

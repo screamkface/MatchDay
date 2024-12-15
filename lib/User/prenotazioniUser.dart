@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:match_day/Admin/prenotazioni.dart';
 import 'package:match_day/Models/prenotazione.dart';
-import 'package:match_day/components/custom_snackbar.dart';
+import 'package:match_day/User/editBooking.dart';
 import 'package:provider/provider.dart';
 import '../Providers/prenotazioniProvider.dart';
 
@@ -13,7 +13,7 @@ class PrenotazioniUtenteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const userId = 'VAdhsu4Lw0dvMqabzUPiI2yo2MQ2';
+    final String userId = FirebaseAuth.instance.currentUser!.uid;
 
     return Scaffold(
       appBar: AppBar(
@@ -22,7 +22,6 @@ class PrenotazioniUtenteScreen extends StatelessWidget {
       ),
       body: Consumer<PrenotazioneProvider>(
         builder: (context, prenotazioneProvider, child) {
-          // Usa StreamBuilder per ottenere solo le prenotazioni dell'utente corrente
           return StreamBuilder<List<Prenotazione>>(
             stream: prenotazioneProvider.fetchPrenotazioniStreamByUser(userId),
             builder: (context, snapshot) {
@@ -70,9 +69,7 @@ class PrenotazioniUtenteScreen extends StatelessWidget {
                                   style: Theme.of(context)
                                       .textTheme
                                       .headlineMedium
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      ?.copyWith(fontWeight: FontWeight.bold),
                                 );
                               }
                               return Text(
@@ -80,9 +77,7 @@ class PrenotazioniUtenteScreen extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineMedium
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    ?.copyWith(fontWeight: FontWeight.bold),
                               );
                             },
                           ),
@@ -112,6 +107,23 @@ class PrenotazioniUtenteScreen extends StatelessWidget {
                                 ),
                           ),
                           const SizedBox(height: 12),
+                          // Pulsante di modifica solo se lo stato è confermato
+                          if (prenotazione.stato == Stato.confermata)
+                            ElevatedButton(
+                              onPressed: () {
+                                // Logica per la modifica della prenotazione
+                                // Puoi navigare a una schermata di modifica o cambiare lo stato della prenotazione
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ModificaPrenotazioneScreen(
+                                            prenotazione: prenotazione),
+                                  ),
+                                );
+                              },
+                              child: const Text('Modifica Prenotazione'),
+                            ),
                         ],
                       ),
                     ),

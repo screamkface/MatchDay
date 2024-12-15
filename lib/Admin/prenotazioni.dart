@@ -188,7 +188,8 @@ class PrenotazioniScreen extends StatelessWidget {
                                     prenotazioneProvider.rifiutaPrenotazione(
                                         prenotazione.id,
                                         prenotazione.idCampo,
-                                        prenotazione.slot!.id);
+                                        prenotazione.slot!.id,
+                                        prenotazione.dataPrenotazione);
                                     CustomSnackbar("Prenotazione Annullata!");
                                   },
                                   style: ElevatedButton.styleFrom(
