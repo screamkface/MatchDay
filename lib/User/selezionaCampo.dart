@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:match_day/Models/campo.dart';
 import 'package:match_day/User/prenotazioniUser.dart';
 import 'package:match_day/User/selezionaSlot.dart';
+import 'package:match_day/User/userSettings.dart';
 
 class CampoSelectionPage extends StatelessWidget {
   const CampoSelectionPage({super.key});
@@ -131,7 +132,7 @@ class CampoSelectionPage extends StatelessWidget {
               IconButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AboutDialog(),
+                    builder: (context) => const Usersettings(),
                   ));
                 },
                 icon: const Icon(Icons.settings, color: Colors.white),

@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:match_day/DAO/auth_dao.dart';
+import 'package:match_day/Screens/login.dart';
 
 class AuthDaoProvider with ChangeNotifier {
   final AuthDao authDao = AuthDao();
@@ -25,5 +27,22 @@ class AuthDaoProvider with ChangeNotifier {
   Future<void> sendPasswordResetEmail(
       BuildContext context, String email) async {
     await authDao.resetPassword(email, context);
+  }
+
+  Future<void> logout(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const Login(),
+      ));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Logout Effettuato!"),
+      ));
+    } catch (e) {
+      print('Errore durante il logout: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Errore durante il logout: $e')),
+      );
+    }
   }
 }

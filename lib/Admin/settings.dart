@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:match_day/Providers/authDaoProvider.dart';
 import 'package:match_day/Screens/login.dart';
+import 'package:provider/provider.dart';
 
 class AdminSettings extends StatefulWidget {
   const AdminSettings({super.key});
@@ -11,22 +13,6 @@ class AdminSettings extends StatefulWidget {
 
 class _AdminSettingsState extends State<AdminSettings> {
   // Metodo per sloggare
-  Future<void> logout() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const Login(),
-      ));
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Logout Effettuato!"),
-      ));
-    } catch (e) {
-      print('Errore durante il logout: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Errore durante il logout: $e')),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +22,10 @@ class _AdminSettingsState extends State<AdminSettings> {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: logout,
+          onPressed: () {
+            Provider.of<AuthDaoProvider>(context, listen: false)
+                .logout(context);
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),

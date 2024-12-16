@@ -2,15 +2,22 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:match_day/Admin/prenotazioni.dart';
 import 'package:match_day/Models/prenotazione.dart';
 import 'package:match_day/User/editBooking.dart';
 import 'package:provider/provider.dart';
 import '../Providers/prenotazioniProvider.dart';
 
-class PrenotazioniUtenteScreen extends StatelessWidget {
+class PrenotazioniUtenteScreen extends StatefulWidget {
   const PrenotazioniUtenteScreen({super.key});
 
+  @override
+  State<PrenotazioniUtenteScreen> createState() =>
+      _PrenotazioniUtenteScreenState();
+}
+
+class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
   @override
   Widget build(BuildContext context) {
     final String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -39,6 +46,27 @@ class PrenotazioniUtenteScreen extends StatelessWidget {
               }
 
               final prenotazioni = snapshot.data!;
+
+              prenotazioni.sort((a, b) {
+                int getStatoPriority(Stato stato) {
+                  switch (stato) {
+                    case Stato.inAttesa:
+                      return 1;
+                    case Stato.confermata:
+                      return 2;
+                    case Stato.annullata:
+                      return 3;
+                    case Stato.richiestaModifica:
+                      return 4;
+                    default:
+                      return 5;
+                  }
+                }
+
+                // Confronta le prenotazioni in base alla priorità dello stato
+                return getStatoPriority(a.stato)
+                    .compareTo(getStatoPriority(b.stato));
+              });
 
               return ListView.builder(
                 itemCount: prenotazioni.length,
@@ -106,13 +134,16 @@ class PrenotazioniUtenteScreen extends StatelessWidget {
                                           : Colors.green,
                                 ),
                           ),
+
                           const SizedBox(height: 12),
                           // Pulsante di modifica solo se lo stato è confermato
-                          if (prenotazione.stato == Stato.confermata)
+
+                          if (prenotazione.stato == Stato.confermata &&
+                              DateFormat('d MMMM yyyy')
+                                  .parse(prenotazione.dataPrenotazione)
+                                  .isAfter(DateTime.now()))
                             ElevatedButton(
                               onPressed: () {
-                                // Logica per la modifica della prenotazione
-                                // Puoi navigare a una schermata di modifica o cambiare lo stato della prenotazione
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
