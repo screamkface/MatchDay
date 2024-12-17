@@ -1,6 +1,7 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, unused_element
 
 import 'package:flutter/material.dart';
+import 'package:match_day/components/customTbCalendar.dart';
 import 'package:provider/provider.dart';
 import 'package:match_day/Admin/admin_home.dart';
 import 'package:match_day/Models/campo.dart';
@@ -39,13 +40,11 @@ class _CampoCalendarState extends State<CampoCalendar> {
     _fetchSlotFirebase();
   }
 
-  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+  void _onDaySelected(DateTime selectedDay) {
     setState(() {
       _selectedDay = selectedDay;
+      _fetchSlotFirebase(); // Fetch degli slot da Firebase per la data selezionata
     });
-    Provider.of<FirebaseSlotProvider>(context, listen: false)
-        .removePastSlots(widget.campo.id);
-    _fetchSlotFirebase();
   }
 
   void _fetchSlotFirebase() {
@@ -63,25 +62,7 @@ class _CampoCalendarState extends State<CampoCalendar> {
       ),
       body: Column(
         children: [
-          TableCalendar(
-            headerStyle: const HeaderStyle(
-              leftChevronIcon: Icon(
-                Icons.chevron_left,
-                color: Colors.black, // Imposta il colore della freccia sinistra
-              ),
-              rightChevronIcon: Icon(
-                Icons.chevron_right,
-                color: Colors.black, // Imposta il colore della freccia destra
-              ),
-            ),
-            calendarFormat: CalendarFormat.twoWeeks,
-            calendarStyle: const CalendarStyle(isTodayHighlighted: true),
-            firstDay: DateTime.utc(2020, 1, 1),
-            lastDay: DateTime.utc(2030, 1, 1),
-            focusedDay: _selectedDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            onDaySelected: _onDaySelected,
-          ),
+          CustomTableCalendar(onDaySelected: _onDaySelected),
           Expanded(
             child: StreamBuilder<List<Slot>>(
               stream: Provider.of<FirebaseSlotProvider>(context)
