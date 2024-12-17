@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:match_day/DAO/prenotazioniDao.dart';
 import 'package:match_day/Models/prenotazione.dart';
 import 'package:match_day/Models/slot.dart';
 import 'package:match_day/components/custom_snackbar.dart';
@@ -8,26 +9,16 @@ import 'package:match_day/components/custom_snackbar.dart';
 class PrenotazioneProvider extends ChangeNotifier {
   List<Prenotazione> _prenotazioni = [];
 
+  final PrenotazioniDao _prenotazioniDao = PrenotazioniDao();
+
   List<Prenotazione> get prenotazioni => _prenotazioni;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // 1. Recuperare tutte le prenotazioni
   Future<void> fetchPrenotazioni() async {
-    try {
-      // Fetch the data from Firebase or any API
-      final snapshot =
-          await FirebaseFirestore.instance.collection('prenotazioni').get();
-
-      // Ensure you map the snapshot correctly into your data model
-      _prenotazioni = snapshot.docs
-          .map((doc) => Prenotazione.fromMap(doc.data(), doc.id))
-          .toList();
-
-      notifyListeners();
-    } catch (e) {
-      print('Error fetching prenotazioni: $e');
-    }
+    await _prenotazioniDao.fetchPrenotazioni();
+    notifyListeners();
   }
 
   Stream<List<Prenotazione>> fetchPrenotazioniStream() {
