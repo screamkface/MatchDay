@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:match_day/Providers/authDaoProvider.dart';
-import 'package:match_day/Screens/login.dart';
 import 'package:provider/provider.dart';
 
 class AdminSettings extends StatefulWidget {

@@ -4,7 +4,6 @@ import 'package:match_day/Models/prenotazione.dart';
 import 'package:match_day/Models/slot.dart';
 
 class FirebaseSlotProvider extends ChangeNotifier {
-
   final SlotDao _slotDao = SlotDao();
 
   // Aggiungi una prenotazione
@@ -20,6 +19,7 @@ class FirebaseSlotProvider extends ChangeNotifier {
   Future<void> updateSlotAvailability(
       String campoId, DateTime data, Slot slot) async {
     await _slotDao.updateSlotAvailability(campoId, data, slot);
+    notifyListeners();
   }
 
   // Metodo per recuperare gli slot da Firebase per una data specifica
@@ -44,14 +44,26 @@ class FirebaseSlotProvider extends ChangeNotifier {
   // Metodo per rimuovere uno slot da Firebase
   Future<void> removeSlot(
       String campoId, DateTime selectedDay, Slot slot) async {
-   await _slotDao.removeSlot(campoId, selectedDay, slot);
-   notifyListeners();
+    await _slotDao.removeSlot(campoId, selectedDay, slot);
+    notifyListeners();
   }
 
   // Metodo per aggiornare la disponibilità di uno slot su Firebase
   Future<void> updateSlot(
       String campoId, DateTime selectedDay, Slot slot) async {
-   
-   await _slotDao.updateSlot(campoId, selectedDay, slot);
+    await _slotDao.updateSlot(campoId, selectedDay, slot);
+    notifyListeners();
+  }
+
+  Future<void> updateSlotAsUnavailable(
+      String campoId, DateTime data, Slot slot) async {
+    await _slotDao.updateSlotAsUnavailable(campoId, data, slot);
+    notifyListeners();
+  }
+
+  Future<void> updateSlotAsAvailable(
+      String campoId, DateTime data, Slot slot) async {
+    await _slotDao.updateSlotAsAvailable(campoId, data, slot);
+    notifyListeners();
   }
 }

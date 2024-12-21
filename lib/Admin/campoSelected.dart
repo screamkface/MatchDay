@@ -7,7 +7,6 @@ import 'package:match_day/Admin/admin_home.dart';
 import 'package:match_day/Models/campo.dart';
 import 'package:match_day/Models/slot.dart';
 import 'package:match_day/Providers/slotProvider.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class CampoCalendar extends StatefulWidget {
   final Campo campo;
@@ -164,8 +163,12 @@ class _CampoCalendarState extends State<CampoCalendar> {
     );
 
     if (startTime != null) {
-      if (_selectedDay.isAtSameMomentAs(
-          DateTime(currentDay.year, currentDay.month, currentDay.day))) {
+      // Check if the selected day is today
+      bool isToday = _selectedDay.isAtSameMomentAs(
+        DateTime(currentDay.year, currentDay.month, currentDay.day),
+      );
+
+      if (isToday) {
         if (startTime.hour < now.hour ||
             (startTime.hour == now.hour && startTime.minute < now.minute)) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -190,8 +193,8 @@ class _CampoCalendarState extends State<CampoCalendar> {
       );
 
       if (endTime != null) {
-        if (_selectedDay.isAtSameMomentAs(
-            DateTime(currentDay.year, currentDay.month, currentDay.day))) {
+        // Check if the selected day is today for the end time validation
+        if (isToday) {
           if (endTime.hour < now.hour ||
               (endTime.hour == now.hour && endTime.minute < now.minute)) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -203,15 +206,26 @@ class _CampoCalendarState extends State<CampoCalendar> {
           }
         }
 
-        // Convert start and end times to DateTime to validate and compare
-        final startDateTime = DateTime(currentDay.year, currentDay.month,
-            currentDay.day, startTime.hour, startTime.minute);
-        final endDateTime = DateTime(currentDay.year, currentDay.month,
-            currentDay.day, endTime.hour, endTime.minute);
+        // Convert start and end times to DateTime using _selectedDay instead of currentDay
+        final startDateTime = DateTime(
+          _selectedDay.year,
+          _selectedDay.month,
+          _selectedDay.day,
+          startTime.hour,
+          startTime.minute,
+        );
+        final endDateTime = DateTime(
+          _selectedDay.year,
+          _selectedDay.month,
+          _selectedDay.day,
+          endTime.hour,
+          endTime.minute,
+        );
 
-        // Ensure the times are not in the past
-        if (startDateTime.isBefore(DateTime.now()) ||
-            endDateTime.isBefore(DateTime.now())) {
+        // Ensure the times are not in the past if the day is today
+        if (isToday &&
+            (startDateTime.isBefore(DateTime.now()) ||
+                endDateTime.isBefore(DateTime.now()))) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
                 content: Text('Non puoi selezionare orari nel passato')),

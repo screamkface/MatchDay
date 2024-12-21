@@ -131,7 +131,11 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                       ? Colors.orange
                                       : prenotazione.stato == Stato.annullata
                                           ? Colors.red
-                                          : Colors.green,
+                                          : prenotazione.stato ==
+                                                  Stato.richiestaModifica
+                                              ? Colors
+                                                  .blue // Colore per richiestaModifica
+                                              : Colors.green,
                                 ),
                           ),
 
@@ -141,15 +145,14 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                           if (prenotazione.stato == Stato.confermata &&
                               DateFormat('d MMMM yyyy')
                                   .parse(prenotazione.dataPrenotazione)
-                                  .isAfter(DateTime.now()))
+                                  .isAfter(DateTime.timestamp()))
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        ModificaPrenotazioneScreen(
-                                            prenotazione: prenotazione),
+                                    builder: (context) => ModificaPrenotazione(
+                                        primaPrenotazione: prenotazione),
                                   ),
                                 );
                               },

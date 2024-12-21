@@ -4,8 +4,6 @@ import 'package:match_day/Models/prenotazione.dart';
 import 'package:match_day/Models/slot.dart';
 
 class PrenotazioneProvider extends ChangeNotifier {
-
-
   final PrenotazioniDao _prenotazioniDao = PrenotazioniDao();
 
   // 1. Recuperare tutte le prenotazioni
@@ -20,7 +18,8 @@ class PrenotazioneProvider extends ChangeNotifier {
 
   Future<void> rifiutaPrenotazione(String prenotazioneId, String campoId,
       String slotId, String dataPrenotazione) async {
-    await _prenotazioniDao.rifiutaPrenotazione(prenotazioneId, campoId, slotId, dataPrenotazione);
+    await _prenotazioniDao.rifiutaPrenotazione(
+        prenotazioneId, campoId, slotId, dataPrenotazione);
     notifyListeners();
   }
 
@@ -31,13 +30,14 @@ class PrenotazioneProvider extends ChangeNotifier {
   // 3. Aggiornare lo stato di una prenotazione
   Future<void> aggiornaPrenotazione(
       String prenotazioneId, Stato nuovoStato) async {
-        await _prenotazioniDao.aggiornaPrenotazione(prenotazioneId, nuovoStato);
-   notifyListeners();
+    await _prenotazioniDao.aggiornaPrenotazione(prenotazioneId, nuovoStato);
+    notifyListeners();
   }
 
   // Funzione per recuperare lo slot
   Future<Slot?> recuperaSlot(String campoId, String dataPrenotazione) async {
     await _prenotazioniDao.recuperaSlot(campoId, dataPrenotazione);
+    return null;
   }
 
   // 4. Eliminare una prenotazione
@@ -51,9 +51,30 @@ class PrenotazioneProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Metodo per modificare una prenotazione
-  void modificaPrenotazione(
-      String id, String dataPrenotazioneString, String selectedSlot) {
-    _prenotazioniDao.modificaPrenotazione(id, dataPrenotazioneString, selectedSlot);
+  Future<void> modificaPrenotazione(
+      String id,
+      String dataPrenotazioneString,
+      Slot selectedSlot,
+      String idCampoPrecedente,
+      String slotPrecedenteId) async {
+    await _prenotazioniDao.modificaPrenotazioneConSlot(
+        id,
+        dataPrenotazioneString,
+        selectedSlot,
+        idCampoPrecedente,
+        slotPrecedenteId);
+    notifyListeners();
   }
+
+  Future<void> modificaPrenotazioneinAnnullata(
+    String idPrenotazione,
+  ) async {
+    _prenotazioniDao.modificaPrenotazioneinAnnullata(idPrenotazione);
+    notifyListeners();
+  }
+
+  void rifiutaModificaPrenotazione(String id) {}
+
+  void accettaModificaPrenotazione(
+      String id, String idCampo, String slotId, String dataPrenotazione) {}
 }

@@ -1,149 +1,141 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:match_day/Models/prenotazione.dart';
+import 'package:match_day/Models/slot.dart';
 import 'package:match_day/Providers/prenotazioniProvider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:match_day/Providers/slotProvider.dart';
+import 'package:match_day/components/customTbCalendar.dart';
 import 'package:provider/provider.dart';
 
-class ModificaPrenotazioneScreen extends StatefulWidget {
-  final Prenotazione prenotazione;
-  const ModificaPrenotazioneScreen({super.key, required this.prenotazione});
+class ModificaPrenotazione extends StatefulWidget {
+  const ModificaPrenotazione({super.key, required this.primaPrenotazione});
+
+  final Prenotazione primaPrenotazione;
 
   @override
-  _ModificaPrenotazioneScreenState createState() =>
-      _ModificaPrenotazioneScreenState();
+  State<ModificaPrenotazione> createState() => _ModificaPrenotazioneState();
 }
 
-class _ModificaPrenotazioneScreenState
-    extends State<ModificaPrenotazioneScreen> {
-  late DateTime selectedDate;
-  late String selectedSlot;
-  late List<String> availableSlots; // Lista degli slot disponibili
+class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
   DateTime _selectedDay = DateTime.now();
+  final String userId = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   void initState() {
     super.initState();
-
-    // Se la data della prenotazione non è già nel formato giusto, riformattala
-    DateTime parsedDate;
-    try {
-      // Se la data arriva nel formato "dd MMMM yyyy", usa DateFormat per convertirla
-      parsedDate = DateFormat('dd MMMM yyyy')
-          .parse(widget.prenotazione.dataPrenotazione);
-    } catch (e) {
-      // Gestisci l'errore nel caso in cui il formato non sia corretto
-      print("Errore nel parsing della data: $e");
-      parsedDate = DateTime.now(); // Imposta la data attuale come fallback
-    }
-
-    selectedDate = parsedDate;
-    selectedSlot = widget.prenotazione.slot?.orario ?? '';
-    availableSlots = []; // Inizialmente la lista è vuota
-    _fetchAvailableSlots(
-        selectedDate); // Recupera gli slot disponibili per la data iniziale
+    _fetchSlotFirebase();
+    Provider.of<FirebaseSlotProvider>(context, listen: false)
+        .removePastSlots(widget.primaPrenotazione.idCampo);
   }
 
-  // Funzione per recuperare gli slot disponibili da Firestore
-  Future<void> _fetchAvailableSlots(DateTime date) async {
-    // Formatta la data per utilizzarla nella query
-    String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+  @override
+  Widget build(BuildContext context) {
+    final firebaseSlotProvider = Provider.of<FirebaseSlotProvider>(context);
 
-    try {
-      // Recupera gli slot dal Firestore in base alla data
-      var snapshot = await FirebaseFirestore.instance
-          .collection(
-              'slots') // Assicurati di usare la tua collezione Firestore
-          .where('idCampo',
-              isEqualTo:
-                  widget.prenotazione.idCampo) // Aggiungi filtro per idCampo
-          .where('data', isEqualTo: formattedDate) // Filtro per la data
-          .get();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Modifica Prenotazione"),
+      ),
+      body: Column(
+        children: [
+          // Passa correttamente la funzione _onDaySelected come callback
+          CustomTableCalendar(onDaySelected: _onDaySelected),
+          const Padding(
+            padding: EdgeInsets.all(5),
+            child: Divider(
+              thickness: 1,
+              color: Colors.black,
+            ),
+          ),
+          const Text("Seleziona nuovo slot",
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          Expanded(
+            child: StreamBuilder<List<Slot>>(
+              stream: firebaseSlotProvider.fetchSlotsStream(
+                  widget.primaPrenotazione.idCampo, _selectedDay),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-      // Mappa i dati degli slot e aggiorna la lista
-      setState(() {
-        availableSlots =
-            snapshot.docs.map((doc) => doc['orario'].toString()).toList();
-      });
-    } catch (e) {
-      print('Errore nel recuperare gli slot: $e');
-      setState(() {
-        availableSlots = [];
-      });
-    }
-  }
+                if (snapshot.hasError) {
+                  return Center(child: Text('Errore: ${snapshot.error}'));
+                }
 
-  // Funzione per modificare la prenotazione
-  void _modificaPrenotazione() {
-    final prenotazioneProvider =
-        Provider.of<PrenotazioneProvider>(context, listen: false);
+                final selectedSlots = snapshot.data ?? [];
+                return selectedSlots.isEmpty
+                    ? const Center(
+                        child: Text(
+                            "Nessuno slot disponibile per il giorno selezionato."),
+                      )
+                    : ListView.builder(
+                        itemCount: selectedSlots.length,
+                        itemBuilder: (context, index) {
+                          final slot = selectedSlots[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Card(
+                              elevation: 5,
+                              color:
+                                  slot.disponibile ? Colors.green : Colors.grey,
+                              child: ListTile(
+                                title: Text(slot.orario),
+                                trailing: slot.disponibile
+                                    ? ElevatedButton(
+                                        onPressed: () {
+                                          Provider.of<PrenotazioneProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .modificaPrenotazione(
+                                            widget.primaPrenotazione
+                                                .id, // ID della prenotazione
+                                            widget.primaPrenotazione
+                                                .dataPrenotazione, // Data della prenotazione precedente
+                                            slot, // Nuovo slot selezionato
+                                            // ID del campo della prenotazione precedente
+                                            widget.primaPrenotazione.idCampo,
+                                            widget.primaPrenotazione.slot!
+                                                .id, // ID dello slot precedente
+                                          );
 
-    prenotazioneProvider.modificaPrenotazione(
-        widget.prenotazione.id, selectedDate.toString(), selectedSlot);
-
-    // Mostra una snackbar di conferma
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Prenotazione modificata con successo!')),
+                                          Provider.of<PrenotazioneProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .modificaPrenotazioneinAnnullata(
+                                                  widget.primaPrenotazione.id);
+                                        },
+                                        child: const Text('Modifica'),
+                                      )
+                                    : const Text(
+                                        "Non disponibile",
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+              },
+            ),
+          ),
+        ],
+      ),
     );
+  }
 
-    // Torna indietro alla schermata precedente
-    Navigator.pop(context);
+  // Metodo per recuperare gli slot da Firebase
+  void _fetchSlotFirebase() {
+    // Recupera gli slot utilizzando il provider
+    final provider = Provider.of<FirebaseSlotProvider>(context, listen: false);
+    provider.fetchSlots(widget.primaPrenotazione.idCampo, _selectedDay);
   }
 
   void _onDaySelected(DateTime selectedDay) {
     setState(() {
       _selectedDay = selectedDay;
-      _fetchAvailableSlots(
-          _selectedDay); // Ricarica gli slot per la data selezionata
+      _fetchSlotFirebase(); // Fetch degli slot da Firebase per la data selezionata
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Modifica Prenotazione'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Seleziona una nuova data:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Seleziona uno slot:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            availableSlots.isEmpty
-                ? const Center(child: CircularProgressIndicator())
-                : DropdownButton<String>(
-                    value: selectedSlot.isEmpty ? null : selectedSlot,
-                    hint: const Text('Seleziona uno slot'),
-                    onChanged: (newSlot) {
-                      setState(() {
-                        selectedSlot = newSlot!;
-                      });
-                    },
-                    items: availableSlots
-                        .map<DropdownMenuItem<String>>((String slot) {
-                      return DropdownMenuItem<String>(
-                        value: slot,
-                        child: Text(slot),
-                      );
-                    }).toList(),
-                  ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: selectedSlot.isEmpty ? null : _modificaPrenotazione,
-              child: const Text('Conferma Modifica'),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

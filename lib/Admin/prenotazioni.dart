@@ -54,7 +54,6 @@ class PrenotazioniScreen extends StatelessWidget {
       ),
       body: Consumer<PrenotazioneProvider>(
         builder: (context, prenotazioneProvider, child) {
-          // Usa StreamBuilder per ottenere le prenotazioni in tempo reale
           return StreamBuilder<List<Prenotazione>>(
             stream: prenotazioneProvider.fetchPrenotazioniStream(),
             builder: (context, snapshot) {
@@ -106,14 +105,29 @@ class PrenotazioniScreen extends StatelessWidget {
                                       ),
                                 );
                               }
-                              return Text(
-                                snapshot.data!,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    snapshot.data!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {
+                                      prenotazioneProvider
+                                          .eliminaPrenotazione(prenotazione.id)
+                                          .then((value) {});
+                                      CustomSnackbar("Prenotazione Eliminata!");
+                                    },
+                                  ),
+                                ],
                               );
                             },
                           ),
@@ -186,10 +200,11 @@ class PrenotazioniScreen extends StatelessWidget {
                                 ElevatedButton(
                                   onPressed: () {
                                     prenotazioneProvider.rifiutaPrenotazione(
-                                        prenotazione.id,
-                                        prenotazione.idCampo,
-                                        prenotazione.slot!.id,
-                                        prenotazione.dataPrenotazione);
+                                      prenotazione.id,
+                                      prenotazione.idCampo,
+                                      prenotazione.slot!.id,
+                                      prenotazione.dataPrenotazione,
+                                    );
                                     CustomSnackbar("Prenotazione Annullata!");
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -199,6 +214,48 @@ class PrenotazioniScreen extends StatelessWidget {
                                     ),
                                   ),
                                   child: const Text('Rifiuta'),
+                                ),
+                              ],
+                            ),
+                          if (prenotazione.stato == Stato.richiestaModifica)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    prenotazioneProvider
+                                        .accettaModificaPrenotazione(
+                                      prenotazione.id,
+                                      prenotazione.idCampo,
+                                      prenotazione.slot!.id,
+                                      prenotazione.dataPrenotazione,
+                                    );
+                                    CustomSnackbar("Modifica Accettata!");
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  child: const Text('Accetta Modifica'),
+                                ),
+                                const SizedBox(width: 8),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    prenotazioneProvider
+                                        .rifiutaModificaPrenotazione(
+                                      prenotazione.id,
+                                    );
+                                    CustomSnackbar("Modifica Rifiutata!");
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  child: const Text('Rifiuta Modifica'),
                                 ),
                               ],
                             ),
