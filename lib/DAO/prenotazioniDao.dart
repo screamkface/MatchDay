@@ -394,8 +394,8 @@ class PrenotazioniDao {
     }
   }
 
-  Future<void> accettaModificaPrenotazione(
-      String id, String idCampo, String slotId, String dataPrenotazione) async {
+  Future<void> accettaModificaPrenotazione(String id, String idCampo,
+      String slotId, String dataPrenotazione, String orarioSlot) async {
     try {
       // Riferimento alla prenotazione da modificare
       DocumentReference prenotazioneRef =
@@ -407,34 +407,57 @@ class PrenotazioniDao {
         Map<String, dynamic> prenotazioneData =
             prenotazioneSnapshot.data() as Map<String, dynamic>;
 
-        // Recupero dei dati della prenotazione
-        String idSlotPrecedente = prenotazioneData['slotId'];
-        String statoPrenotazione = prenotazioneData['stato'];
+        // Recupero dell'ID del campo e dello slot precedente dalla prenotazione
+        String idSlotPrecedente = prenotazioneData['slot']['id'];
 
-        // Aggiornamento dello stato della prenotazione
+        // Aggiorna la prenotazione con il nuovo slot e la nuova data
         await prenotazioneRef.update({
-          'slotId': slotId, // Nuovo slot
+          'slot': {
+            'id': slotId,
+            'orario': orarioSlot,
+          },
           'dataPrenotazione': dataPrenotazione, // Nuova data
-          'stato': 'confermata', // Stato modificato
+          'stato': 'confermata', // Stato confermato
         });
 
-        // Aggiornamento dello slot precedente per renderlo disponibile
-        await FirebaseFirestore.instance
+        // Recupera il documento del campo per aggiornare gli slot
+        DocumentSnapshot fieldSnapshot = await FirebaseFirestore.instance
             .collection('fields')
             .doc(idCampo)
-            .update({
-          'calendario.slots.$idSlotPrecedente.stato': 'disponibile',
-        });
+            .get();
 
-        // Aggiornamento dello slot nuovo per "occupato"
-        await FirebaseFirestore.instance
-            .collection('fields')
-            .doc(idCampo)
-            .update({
-          'calendario.slots.$slotId.stato': 'occupato',
-        });
+        if (fieldSnapshot.exists) {
+          Map<String, dynamic> fieldData =
+              fieldSnapshot.data() as Map<String, dynamic>;
 
-        print('Modifica prenotazione accettata!');
+          // Trova lo slot precedente nell'array di slot e rendilo disponibile
+          List<dynamic> slots = fieldData['calendario']['slots'];
+          int indexSlotPrecedente =
+              slots.indexWhere((slot) => slot['id'] == idSlotPrecedente);
+
+          if (indexSlotPrecedente != -1) {
+            slots[indexSlotPrecedente]['disponibile'] = true;
+          }
+
+          // Trova il nuovo slot nell'array di slot e impostalo come non disponibile
+          int indexNuovoSlot = slots.indexWhere((slot) => slot['id'] == slotId);
+
+          if (indexNuovoSlot != -1) {
+            slots[indexNuovoSlot]['disponibile'] = false;
+          }
+
+          // Aggiorna il campo con lo stato aggiornato degli slot
+          await FirebaseFirestore.instance
+              .collection('fields')
+              .doc(idCampo)
+              .update({
+            'calendario.slots': slots,
+          });
+
+          print('Modifica prenotazione accettata!');
+        } else {
+          print('Campo non trovato!');
+        }
       } else {
         print('Prenotazione non trovata!');
       }

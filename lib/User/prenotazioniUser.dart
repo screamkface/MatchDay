@@ -54,12 +54,10 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                       return 1;
                     case Stato.confermata:
                       return 2;
-                    case Stato.annullata:
-                      return 3;
                     case Stato.richiestaModifica:
+                      return 3;
+                    case Stato.annullata:
                       return 4;
-                    default:
-                      return 5;
                   }
                 }
 

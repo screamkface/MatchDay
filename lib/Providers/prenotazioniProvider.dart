@@ -73,8 +73,12 @@ class PrenotazioneProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void rifiutaModificaPrenotazione(String id) {}
+  Future<void> rifiutaModificaPrenotazione(String id) async {}
 
-  void accettaModificaPrenotazione(
-      String id, String idCampo, String slotId, String dataPrenotazione) {}
+  Future<void> accettaModificaPrenotazione(String id, String idCampo,
+      String slotId, String dataPrenotazione, String orarioSlot) async {
+    await _prenotazioniDao.accettaModificaPrenotazione(
+        id, idCampo, slotId, dataPrenotazione, orarioSlot);
+    notifyListeners();
+  }
 }

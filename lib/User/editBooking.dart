@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:match_day/Models/prenotazione.dart';
 import 'package:match_day/Models/slot.dart';
 import 'package:match_day/Providers/prenotazioniProvider.dart';
@@ -82,8 +83,19 @@ class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
                                 title: Text(slot.orario),
                                 trailing: slot.disponibile
                                     ? ElevatedButton(
-                                        onPressed: () {
-                                          Provider.of<PrenotazioneProvider>(
+                                        onPressed: () async {
+                                          String dateString = widget
+                                              .primaPrenotazione
+                                              .dataPrenotazione;
+
+                                          // Usa DateFormat per il parsing
+                                          DateFormat format =
+                                              DateFormat("d MMMM yyyy");
+                                          DateTime dateTime =
+                                              format.parse(dateString);
+
+                                          await Provider.of<
+                                                      PrenotazioneProvider>(
                                                   context,
                                                   listen: false)
                                               .modificaPrenotazione(
@@ -97,12 +109,25 @@ class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
                                             widget.primaPrenotazione.slot!
                                                 .id, // ID dello slot precedente
                                           );
-
-                                          Provider.of<PrenotazioneProvider>(
+                                          print(
+                                              "asdasdadsdasdasdasdasdasdasdas");
+                                          await Provider.of<
+                                                      PrenotazioneProvider>(
                                                   context,
                                                   listen: false)
                                               .modificaPrenotazioneinAnnullata(
                                                   widget.primaPrenotazione.id);
+
+                                          await Provider.of<
+                                                      FirebaseSlotProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .updateSlotAsAvailable(
+                                                  widget.primaPrenotazione
+                                                      .idCampo,
+                                                  dateTime,
+                                                  widget
+                                                      .primaPrenotazione.slot);
                                         },
                                         child: const Text('Modifica'),
                                       )

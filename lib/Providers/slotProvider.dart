@@ -62,7 +62,7 @@ class FirebaseSlotProvider extends ChangeNotifier {
   }
 
   Future<void> updateSlotAsAvailable(
-      String campoId, DateTime data, Slot slot) async {
+      String campoId, DateTime data, Slot? slot) async {
     await _slotDao.updateSlotAsAvailable(campoId, data, slot);
     notifyListeners();
   }

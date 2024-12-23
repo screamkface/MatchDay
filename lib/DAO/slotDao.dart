@@ -106,7 +106,7 @@ class SlotDao {
   }
 
   Future<void> updateSlotAsAvailable(
-      String campoId, DateTime data, Slot slot) async {
+      String campoId, DateTime data, Slot? slot) async {
     if (campoId.isEmpty) {
       throw Exception("L'ID del campo non può essere vuoto");
     }
@@ -139,6 +139,15 @@ class SlotDao {
 
       bool slotFound = false;
 
+      // Se lo slot è nullo, creiamo uno slot vuoto con valori predefiniti
+      if (slot == null) {
+        slot = Slot(
+          orario: 'Non disponibile', // Modifica con un valore appropriato
+          disponibile: true,
+          id: 'nuovoSlot', // Un ID per lo slot, puoi generarlo dinamicamente
+        );
+      }
+
       // Trova lo slot corrispondente all'orario e imposta "disponibile" su true
       for (var slotItem in slotsList) {
         if (slotItem['orario'] == slot.orario) {
@@ -151,7 +160,6 @@ class SlotDao {
 
       // Se non abbiamo trovato lo slot, significa che dobbiamo aggiungerlo come disponibile
       if (!slotFound) {
-        slot.disponibile = true;
         slotsList.add(slot.toMap());
       }
 

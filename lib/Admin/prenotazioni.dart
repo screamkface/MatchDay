@@ -229,6 +229,7 @@ class PrenotazioniScreen extends StatelessWidget {
                                       prenotazione.idCampo,
                                       prenotazione.slot!.id,
                                       prenotazione.dataPrenotazione,
+                                      prenotazione.slot!.orario,
                                     );
                                     CustomSnackbar("Modifica Accettata!");
                                   },
