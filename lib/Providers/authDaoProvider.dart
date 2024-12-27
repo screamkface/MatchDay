@@ -19,9 +19,18 @@ class AuthDaoProvider with ChangeNotifier {
         email, password, phone, nome, cognome, ruolo, context, formKey);
   }
 
+  Future<void> _logout(BuildContext context) async {
+    await authDao.logoutSP(context);
+  }
+
   Future<void> signIn(
       String email, String password, BuildContext context) async {
     await authDao.login(email, password, context);
+  }
+
+  Future<UserCredential?> signInCred(
+      String email, String password, BuildContext context) {
+    return authDao.loginAndReturnUserCredential(email, password, context);
   }
 
   Future<void> sendPasswordResetEmail(

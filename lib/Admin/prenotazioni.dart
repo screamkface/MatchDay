@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:match_day/Models/prenotazione.dart';
+import 'package:match_day/Models/slot.dart';
+import 'package:match_day/Providers/slotProvider.dart';
 import 'package:match_day/components/custom_snackbar.dart';
 import 'package:provider/provider.dart';
 
@@ -124,7 +127,14 @@ class PrenotazioniScreen extends StatelessWidget {
                                       prenotazioneProvider
                                           .eliminaPrenotazione(prenotazione.id)
                                           .then((value) {});
-                                      CustomSnackbar("Prenotazione Eliminata!");
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content:
+                                              Text("Prenotazione Eliminata"),
+                                        ),
+                                      );
+                                      ;
                                     },
                                   ),
                                 ],
@@ -205,7 +215,11 @@ class PrenotazioniScreen extends StatelessWidget {
                                       prenotazione.slot!.id,
                                       prenotazione.dataPrenotazione,
                                     );
-                                    CustomSnackbar("Prenotazione Annullata!");
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Prenotazione Annullata"),
+                                      ),
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.red,
@@ -231,7 +245,11 @@ class PrenotazioniScreen extends StatelessWidget {
                                       prenotazione.dataPrenotazione,
                                       prenotazione.slot!.orario,
                                     );
-                                    CustomSnackbar("Modifica Accettata!");
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Modifica Confermata"),
+                                      ),
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.green,
@@ -244,11 +262,27 @@ class PrenotazioniScreen extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 ElevatedButton(
                                   onPressed: () {
-                                    prenotazioneProvider
-                                        .rifiutaModificaPrenotazione(
+                                    prenotazioneProvider.aggiornaPrenotazione(
                                       prenotazione.id,
+                                      Stato.annullata,
                                     );
-                                    CustomSnackbar("Modifica Rifiutata!");
+
+                                    Slot? sl = prenotazione.slot;
+                                    print(sl.toString());
+
+                                    Provider.of<FirebaseSlotProvider>(context,
+                                            listen: false)
+                                        .updateSlotAsAvailable(
+                                            prenotazione.idCampo,
+                                            DateFormat('dd MMMM yyyy').parse(
+                                                prenotazione
+                                                    .dataPrenotazione), // Conversione corretta
+                                            sl!);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Modifica Rifiutata"),
+                                      ),
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.red,

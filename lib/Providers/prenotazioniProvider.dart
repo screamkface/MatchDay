@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:match_day/DAO/prenotazioniDao.dart';
 import 'package:match_day/Models/prenotazione.dart';
@@ -73,12 +74,27 @@ class PrenotazioneProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> rifiutaModificaPrenotazione(String id) async {}
+  Future<void> rifiutaModificaPrenotazione(String id) async {
+    await _prenotazioniDao.rifiutaModificaPrenotazione(id);
+    notifyListeners();
+  }
 
   Future<void> accettaModificaPrenotazione(String id, String idCampo,
       String slotId, String dataPrenotazione, String orarioSlot) async {
     await _prenotazioniDao.accettaModificaPrenotazione(
         id, idCampo, slotId, dataPrenotazione, orarioSlot);
     notifyListeners();
+  }
+
+  Stream<List<Prenotazione>> fetchPrenotazioniConfermate() {
+    return FirebaseFirestore.instance
+        .collection('prenotazioni')
+        .where('stato', isEqualTo: Stato.confermata.toString().split('.').last)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return Prenotazione.fromFirestore(doc);
+      }).toList();
+    });
   }
 }

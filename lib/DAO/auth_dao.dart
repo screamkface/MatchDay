@@ -7,6 +7,7 @@ import 'package:match_day/Screens/login.dart';
 import 'package:match_day/User/selezionaCampo.dart';
 import 'package:match_day/components/custom_snackbar.dart';
 import 'package:match_day/Admin/admin_home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthDao {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -71,6 +72,15 @@ class AuthDao {
     }
   }
 
+  Future<void> logoutSP(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('userId'); // Rimuove l'ID utente
+    await prefs.setBool('isLoggedIn', false); // Imposta isLoggedIn su false
+
+    // Naviga alla schermata di login
+    Navigator.pushReplacementNamed(context, '/login');
+  }
+
   // Login
   Future<void> login(
     String email,
@@ -117,6 +127,59 @@ class AuthDao {
       debugPrint("Errore generico durante il login: $error");
       CustomSnackbar.show(context, "Errore durante il login.");
     }
+  }
+
+  Future<UserCredential?> loginAndReturnUserCredential(
+    String email,
+    String password,
+    BuildContext context,
+  ) async {
+    try {
+      // Effettua il login
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Recupera il ruolo dell'utente dal Firestore
+      DocumentSnapshot userDoc = await _firestore
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .get();
+
+      String ruolo = userDoc['Ruolo'] ?? '';
+
+      // Naviga alla homepage appropriata in base al ruolo
+      if (ruolo == 'admin') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const AdminHomePage()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const CampoSelectionPage()),
+        );
+      }
+
+      // Restituisce l'oggetto UserCredential
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        CustomSnackbar.show(context, "Nessun utente trovato con questa email.");
+      } else if (e.code == 'wrong-password') {
+        CustomSnackbar.show(context, "Password errata. Riprova.");
+      } else {
+        debugPrint("Errore durante il login: ${e.message}");
+        CustomSnackbar.show(context, "Errore durante il login.");
+      }
+    } catch (error) {
+      debugPrint("Errore generico durante il login: $error");
+      CustomSnackbar.show(context, "Errore durante il login.");
+    }
+
+    // Se il login fallisce, restituisce null
+    return null;
   }
 
   Future<void> resetPassword(

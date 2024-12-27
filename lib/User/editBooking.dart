@@ -109,6 +109,11 @@ class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
                                             widget.primaPrenotazione.slot!
                                                 .id, // ID dello slot precedente
                                           );
+
+                                          const ScaffoldMessenger(
+                                              child: SnackBar(
+                                                  content: Text(
+                                                      "Richiesta di modifica inviata!")));
                                           print(
                                               "asdasdadsdasdasdasdasdasdasdas");
                                           await Provider.of<

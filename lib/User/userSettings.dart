@@ -17,7 +17,8 @@ class Usersettings extends StatelessWidget {
           TextButton(
               onPressed: () {
                 Provider.of<AuthDaoProvider>(context, listen: false)
-                    .logout(context);
+                    .authDao
+                    .logoutSP(context);
               },
               child: const Text("Logout"))
         ],

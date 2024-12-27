@@ -270,6 +270,18 @@ class PrenotazioniDao {
     }
   }
 
+  Stream<List<Prenotazione>> fetchPrenotazioniConfermate() {
+    return FirebaseFirestore.instance
+        .collection('prenotazioni')
+        .where('stato', isEqualTo: Stato.confermata.toString().split('.').last)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return Prenotazione.fromFirestore(doc);
+      }).toList();
+    });
+  }
+
   // 3. Aggiornare lo stato di una prenotazione
   Future<void> aggiornaPrenotazione(
       String prenotazioneId, Stato nuovoStato) async {
@@ -372,20 +384,31 @@ class PrenotazioniDao {
         Map<String, dynamic> prenotazioneData =
             prenotazioneSnapshot.data() as Map<String, dynamic>;
 
-        // Recupero del campo e dello slot
-        String idCampo = prenotazioneData['idCampo'];
-        String slotId = prenotazioneData['slotId'];
+        // Controllo se 'idCampo' e 'slotId' esistono e non sono nulli
+        if (prenotazioneData.containsKey('idCampo') &&
+            prenotazioneData['idCampo'] != null &&
+            prenotazioneData.containsKey('slot.id') &&
+            prenotazioneData['slot']['id'] != null) {
+          String idCampo = prenotazioneData['idCampo'];
+          String slotId = prenotazioneData['slot']
+              ['id']; // Modificato per accedere alla mappa slot
 
-        // Aggiornamento dello slot: lo slot torna disponibile
-        await FirebaseFirestore.instance
-            .collection('fields') // La collezione dei campi
-            .doc(idCampo)
-            .update({
-          'calendario.slots.$slotId.stato': 'disponibile',
-        });
+          // Aggiornamento dello slot: lo slot torna disponibile
+          await FirebaseFirestore.instance
+              .collection('fields') // La collezione dei campi
+              .doc(idCampo)
+              .update({
+            'calendario.slots.$slotId.disponibile':
+                true, // Aggiornato per modificare lo stato di disponibilità
+          });
 
-        // Rimozione della prenotazione dalla collezione
-        await prenotazioneRef.delete();
+          // Rimozione della prenotazione dalla collezione
+          await prenotazioneRef.delete();
+
+          print("Prenotazione rifiutata e slot reso disponibile.");
+        } else {
+          print('Dati mancanti: idCampo o slotId non trovati.');
+        }
       } else {
         print('Prenotazione non trovata!');
       }
@@ -415,6 +438,7 @@ class PrenotazioniDao {
           'slot': {
             'id': slotId,
             'orario': orarioSlot,
+            'disponibile': false,
           },
           'dataPrenotazione': dataPrenotazione, // Nuova data
           'stato': 'confermata', // Stato confermato

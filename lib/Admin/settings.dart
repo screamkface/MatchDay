@@ -22,7 +22,8 @@ class _AdminSettingsState extends State<AdminSettings> {
         child: ElevatedButton(
           onPressed: () {
             Provider.of<AuthDaoProvider>(context, listen: false)
-                .logout(context);
+                .authDao
+                .logoutSP(context);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,

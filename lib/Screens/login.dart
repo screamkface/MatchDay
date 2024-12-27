@@ -5,6 +5,7 @@ import 'package:match_day/Screens/register.dart';
 import 'package:match_day/Screens/reset.dart';
 import 'package:match_day/components/custom_snackbar.dart';
 import 'package:provider/provider.dart'; // Assicurati di importare il tuo CustomSnackbar
+import 'package:shared_preferences/shared_preferences.dart'; // Aggiungi SharedPreferences
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,8 +16,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController =
-      TextEditingController(text: "prova123!");
+  final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _obscurePassword = true;
   bool _rememberMe = false;
@@ -34,18 +34,39 @@ class _LoginState extends State<Login> {
     });
   }
 
-  //implementare shared preferences
+  // Funzione per salvare le credenziali nelle SharedPreferences
+  Future<void> _saveUserCredentials(String userId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userId', userId); // Salva l'ID dell'utente
+    await prefs.setBool('isLoggedIn', true); // Indica che l'utente è loggato
+  }
 
+  // Funzione per controllare se l'utente è già loggato
+  Future<bool> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    return isLoggedIn;
+  }
+
+  // Funzione di login
   Future<void> _signIn() async {
     if (_formKey.currentState!.validate()) {
       // Controlla se il form è valido
       final authProvider = Provider.of<AuthDaoProvider>(context, listen: false);
       try {
-        await authProvider.signIn(
+        // Esegui il login
+        UserCredential? userCredential = await authProvider.signInCred(
           _emailController.text.trim(),
           _passwordController.text.trim(),
           context,
         );
+
+        // Dopo il login riuscito, salva l'ID dell'utente
+        await _saveUserCredentials(userCredential!.user!.uid);
+
+        // Naviga alla pagina principale o alla schermata desiderata
+        Navigator.pushReplacementNamed(
+            context, '/home'); // Modifica con la tua route
       } on FirebaseAuthException catch (e) {
         // Gestisci gli errori di login
         if (e.code == 'user-not-found') {
@@ -58,6 +79,21 @@ class _LoginState extends State<Login> {
         }
       }
     }
+  }
+
+  // Funzione di logout
+
+  @override
+  void initState() {
+    super.initState();
+    // Controlla se l'utente è già loggato
+    _checkLoginStatus().then((isLoggedIn) {
+      if (isLoggedIn) {
+        // Se l'utente è già loggato, naviga direttamente alla schermata principale
+        Navigator.pushReplacementNamed(
+            context, '/home'); // Modifica con la tua route
+      }
+    });
   }
 
   @override
@@ -79,7 +115,6 @@ class _LoginState extends State<Login> {
             ],
           ),
           child: Form(
-            // Aggiunto il Form
             key: _formKey,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -96,7 +131,6 @@ class _LoginState extends State<Login> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  // Cambiato in TextFormField
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -116,7 +150,6 @@ class _LoginState extends State<Login> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  // Cambiato in TextFormField
                   controller: _passwordController,
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -191,7 +224,6 @@ class _LoginState extends State<Login> {
                 const SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
-                    // Naviga alla pagina di registrazione
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const Register()),
