@@ -120,11 +120,11 @@ class _LoginState extends State<Login> {
 
         // Naviga alla pagina principale o alla schermata desiderata in base al ruolo
         if (role == 'admin') {
-          Navigator.of(context).push(MaterialPageRoute(
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => AdminHomePage(),
           ));
         } else {
-          Navigator.of(context).push(MaterialPageRoute(
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => CampoSelectionPage(),
           ));
         }

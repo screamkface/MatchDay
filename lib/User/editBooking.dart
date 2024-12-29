@@ -6,6 +6,7 @@ import 'package:match_day/Models/slot.dart';
 import 'package:match_day/Providers/prenotazioniProvider.dart';
 import 'package:match_day/Providers/slotProvider.dart';
 import 'package:match_day/components/customTbCalendar.dart';
+import 'package:match_day/components/custom_snackbar.dart';
 import 'package:provider/provider.dart';
 
 class ModificaPrenotazione extends StatefulWidget {
@@ -110,12 +111,8 @@ class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
                                                 .id, // ID dello slot precedente
                                           );
 
-                                          const ScaffoldMessenger(
-                                              child: SnackBar(
-                                                  content: Text(
-                                                      "Richiesta di modifica inviata!")));
-                                          print(
-                                              "asdasdadsdasdasdasdasdasdasdas");
+                                          CustomSnackbar.show(context,
+                                              "Richiesta di modifica inviata!");
                                           await Provider.of<
                                                       PrenotazioneProvider>(
                                                   context,

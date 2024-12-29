@@ -124,15 +124,38 @@ class PrenotazioniScreen extends StatelessWidget {
                                   IconButton(
                                     icon: Icon(Icons.delete, color: Colors.red),
                                     onPressed: () {
-                                      prenotazioneProvider
-                                          .eliminaPrenotazione(prenotazione.id)
-                                          .then((value) {});
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content:
-                                              Text("Prenotazione Eliminata"),
-                                        ),
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title:
+                                                Text('Conferma Eliminazione'),
+                                            content: Text(
+                                                'Sei sicuro di voler eliminare questa prenotazione?'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: Text('Annulla'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              // Bottone per confermare l'eliminazione
+                                              TextButton(
+                                                child: Text('Elimina'),
+                                                onPressed: () {
+                                                  prenotazioneProvider
+                                                      .eliminaPrenotazione(
+                                                          prenotazione.id)
+                                                      .then((value) {
+                                                    CustomSnackbar.show(context,
+                                                        "Prenotazione Eliminata!");
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
                                       );
                                     },
                                   ),
