@@ -51,6 +51,14 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.4.4 #
   build_runner: ^2.4.13
+  flutter_launcher_icons: ^0.14.2
+
+
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/matchday.png"  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
