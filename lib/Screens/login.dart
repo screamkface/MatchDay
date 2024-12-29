@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Importa Firebase Auth
+import 'package:match_day/Admin/admin_home.dart';
 import 'package:match_day/Providers/authDaoProvider.dart';
 import 'package:match_day/Screens/register.dart';
 import 'package:match_day/Screens/reset.dart';
+import 'package:match_day/User/selezionaCampo.dart';
 import 'package:match_day/components/custom_snackbar.dart';
 import 'package:provider/provider.dart'; // Assicurati di importare il tuo CustomSnackbar
 import 'package:shared_preferences/shared_preferences.dart'; // Aggiungi SharedPreferences
@@ -35,23 +37,67 @@ class _LoginState extends State<Login> {
   }
 
   // Funzione per salvare le credenziali nelle SharedPreferences
-  Future<void> _saveUserCredentials(String userId) async {
+  Future<void> _saveUserCredentials(
+      String email, String password, String userId, String role) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('userId', userId); // Salva l'ID dell'utente
-    await prefs.setBool('isLoggedIn', true); // Indica che l'utente è loggato
+    if (_rememberMe) {
+      // Salva solo se il checkbox è selezionato
+      await prefs.setString('userId', userId); // Salva l'ID dell'utente
+      await prefs.setString('email', email); // Salva l'email
+      await prefs.setString('password',
+          password); // Salva la password (NB: Non è sicuro salvare la password così)
+      await prefs.setString('role', role); // Salva il ruolo dell'utente
+      await prefs.setBool('isLoggedIn', true); // Indica che l'utente è loggato
+    } else {
+      await prefs.remove(
+          'email'); // Rimuovi le credenziali se "Ricordami" non è selezionato
+      await prefs.remove('password');
+      await prefs.setBool('isLoggedIn', false);
+    }
   }
 
   // Funzione per controllare se l'utente è già loggato
-  Future<bool> _checkLoginStatus() async {
+  Future<void> _checkLoginStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-    return isLoggedIn;
+    if (isLoggedIn) {
+      final String? email = prefs.getString('email');
+      final String? password = prefs.getString('password');
+      if (email != null && password != null) {
+        try {
+          final authProvider =
+              Provider.of<AuthDaoProvider>(context, listen: false);
+          UserCredential? userCredential =
+              await authProvider.signInCred(email, password, context);
+
+          if (userCredential != null) {
+            final String role = await authProvider.getUserRole();
+            await _saveUserCredentials(
+                email, password, userCredential.user!.uid, role);
+
+            // Esegui la navigazione solo se non è già in corso
+            if (!Navigator.of(context).canPop()) {
+              if (role == 'admin') {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => AdminHomePage(),
+                ));
+              } else {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => CampoSelectionPage(),
+                ));
+              }
+            }
+          }
+        } catch (e) {
+          CustomSnackbar.show(context, "Errore durante il login automatico.");
+        }
+      }
+    }
   }
 
   // Funzione di login
   Future<void> _signIn() async {
     if (_formKey.currentState!.validate()) {
-      // Controlla se il form è valido
       final authProvider = Provider.of<AuthDaoProvider>(context, listen: false);
       try {
         // Esegui il login
@@ -61,39 +107,40 @@ class _LoginState extends State<Login> {
           context,
         );
 
-        // Dopo il login riuscito, salva l'ID dell'utente
-        await _saveUserCredentials(userCredential!.user!.uid);
+        // Ottieni il ruolo dell'utente dal database
+        final String role = await authProvider.getUserRole();
 
-        // Naviga alla pagina principale o alla schermata desiderata
-        Navigator.pushReplacementNamed(
-            context, '/home'); // Modifica con la tua route
-      } on FirebaseAuthException catch (e) {
-        // Gestisci gli errori di login
-        if (e.code == 'user-not-found') {
-          CustomSnackbar.show(
-              context, "Nessun utente trovato per quell'email.");
-        } else if (e.code == 'wrong-password') {
-          CustomSnackbar.show(context, "La password è errata.");
+        // Dopo il login riuscito, salva le credenziali e il ruolo
+        await _saveUserCredentials(
+          _emailController.text.trim(),
+          _passwordController.text.trim(),
+          role,
+          userCredential!.user!.uid,
+        );
+
+        // Naviga alla pagina principale o alla schermata desiderata in base al ruolo
+        if (role == 'admin') {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => AdminHomePage(),
+          ));
         } else {
-          CustomSnackbar.show(context, "Errore durante il login.");
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => CampoSelectionPage(),
+          ));
         }
+      } catch (e) {
+        // Gestisci gli errori di login
+        CustomSnackbar.show(context, "Errore durante il login.");
+        print(e);
       }
     }
   }
 
-  // Funzione di logout
-
   @override
   void initState() {
     super.initState();
-    // Controlla se l'utente è già loggato
-    _checkLoginStatus().then((isLoggedIn) {
-      if (isLoggedIn) {
-        // Se l'utente è già loggato, naviga direttamente alla schermata principale
-        Navigator.pushReplacementNamed(
-            context, '/home'); // Modifica con la tua route
-      }
-    });
+    // Controlla se l'utente è già loggato all'avvio dell'app
+    _checkLoginStatus();
   }
 
   @override

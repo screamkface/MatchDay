@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:match_day/Providers/authDaoProvider.dart';
+import 'package:match_day/Screens/login.dart';
+import 'package:match_day/components/custom_snackbar.dart';
 import 'package:provider/provider.dart';
 
 class AdminSettings extends StatefulWidget {
@@ -24,6 +26,10 @@ class _AdminSettingsState extends State<AdminSettings> {
             Provider.of<AuthDaoProvider>(context, listen: false)
                 .authDao
                 .logoutSP(context);
+            CustomSnackbar.show(context, "Logout Effettuato");
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => Login(),
+            ));
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,

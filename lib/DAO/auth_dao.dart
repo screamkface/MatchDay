@@ -72,6 +72,27 @@ class AuthDao {
     }
   }
 
+  Future<String> getUserRole() async {
+    try {
+      if (_auth.currentUser == null) {
+        throw Exception("Nessun utente loggato.");
+      }
+
+      // Recupera il documento dell'utente dal Firestore
+      DocumentSnapshot userDoc = await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .get();
+
+      // Restituisce il ruolo dell'utente, se presente
+      return userDoc['Ruolo'] ??
+          ''; // Restituisce una stringa vuota se il ruolo non è trovato
+    } catch (error) {
+      debugPrint("Errore durante il recupero del ruolo dell'utente: $error");
+      throw Exception("Errore durante il recupero del ruolo dell'utente.");
+    }
+  }
+
   Future<void> logoutSP(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('userId'); // Rimuove l'ID utente

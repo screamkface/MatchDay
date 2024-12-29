@@ -54,4 +54,8 @@ class AuthDaoProvider with ChangeNotifier {
       );
     }
   }
+
+  Future<String> getUserRole() async {
+    return authDao.getUserRole();
+  }
 }
