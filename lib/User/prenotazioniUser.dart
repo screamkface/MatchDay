@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:match_day/Admin/prenotazioni.dart';
 import 'package:match_day/Models/prenotazione.dart';
+import 'package:match_day/Models/slot.dart';
+import 'package:match_day/Providers/slotProvider.dart';
 import 'package:match_day/User/editBooking.dart';
 import 'package:provider/provider.dart';
 import '../Providers/prenotazioniProvider.dart';
@@ -82,30 +84,86 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          FutureBuilder<String>(
-                            future: fetchCampoName(prenotazione.idCampo),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const CircularProgressIndicator();
-                              }
-                              if (snapshot.hasError || snapshot.data == null) {
-                                return Text(
-                                  'Campo: Errore o non disponibile',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold),
-                                );
-                              }
-                              return Text(
-                                snapshot.data!,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium
-                                    ?.copyWith(fontWeight: FontWeight.bold),
-                              );
-                            },
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FutureBuilder<String>(
+                                future: fetchCampoName(prenotazione.idCampo),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const CircularProgressIndicator();
+                                  }
+                                  if (snapshot.hasError ||
+                                      snapshot.data == null) {
+                                    return Text(
+                                      'Campo: Errore o non disponibile',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    );
+                                  }
+                                  return Text(
+                                    snapshot.data!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium
+                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                  );
+                                },
+                              ),
+                              if (prenotazione.stato !=
+                                  Stato
+                                      .annullata) // Mostra il cestino solo se la prenotazione non è già annullata
+                                IconButton(
+                                  icon: Icon(Icons.delete, color: Colors.red),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Conferma Annullamento'),
+                                          content: Text(
+                                              'Sei sicuro di voler annullare questa prenotazione?'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('Annulla'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Slot? sl = prenotazione.slot;
+                                                prenotazioneProvider
+                                                    .modificaPrenotazioneinAnnullata(
+                                                        prenotazione.id);
+                                                Provider.of<FirebaseSlotProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .updateSlotAsAvailable(
+                                                        prenotazione.idCampo,
+                                                        DateFormat(
+                                                                'dd MMMM yyyy')
+                                                            .parse(prenotazione
+                                                                .dataPrenotazione), // Conversione corretta
+                                                        sl!);
+
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('Conferma',
+                                                  style: TextStyle(
+                                                      color: Colors.red)),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                            ],
                           ),
                           const SizedBox(height: 8),
                           Text(
@@ -131,15 +189,11 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                           ? Colors.red
                                           : prenotazione.stato ==
                                                   Stato.richiestaModifica
-                                              ? Colors
-                                                  .blue // Colore per richiestaModifica
+                                              ? Colors.blue
                                               : Colors.green,
                                 ),
                           ),
-
                           const SizedBox(height: 12),
-                          // Pulsante di modifica solo se lo stato è confermato
-
                           if (prenotazione.stato == Stato.confermata &&
                               DateFormat('d MMMM yyyy')
                                   .parse(prenotazione.dataPrenotazione)

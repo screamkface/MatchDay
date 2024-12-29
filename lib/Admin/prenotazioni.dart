@@ -134,7 +134,6 @@ class PrenotazioniScreen extends StatelessWidget {
                                               Text("Prenotazione Eliminata"),
                                         ),
                                       );
-                                      ;
                                     },
                                   ),
                                 ],
@@ -185,7 +184,10 @@ class PrenotazioniScreen extends StatelessWidget {
                                       ? Colors.orange
                                       : prenotazione.stato == Stato.annullata
                                           ? Colors.red
-                                          : Colors.green,
+                                          : prenotazione.stato ==
+                                                  Stato.richiestaModifica
+                                              ? Colors.blue
+                                              : Colors.green,
                                 ),
                           ),
                           const SizedBox(height: 12),
@@ -268,7 +270,6 @@ class PrenotazioniScreen extends StatelessWidget {
                                     );
 
                                     Slot? sl = prenotazione.slot;
-                                    print(sl.toString());
 
                                     Provider.of<FirebaseSlotProvider>(context,
                                             listen: false)

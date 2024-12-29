@@ -9,19 +9,27 @@ class Usersettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Impostazioni"),
+        title: const Text('Impostazioni'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextButton(
-              onPressed: () {
-                Provider.of<AuthDaoProvider>(context, listen: false)
-                    .authDao
-                    .logoutSP(context);
-              },
-              child: const Text("Logout"))
-        ],
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Provider.of<AuthDaoProvider>(context, listen: false)
+                .authDao
+                .logoutSP(context);
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red,
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          child: const Text(
+            'Logout',
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ),
       ),
     );
   }
