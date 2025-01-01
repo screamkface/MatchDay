@@ -74,6 +74,25 @@ class PrenotazioniScreen extends StatelessWidget {
 
               final prenotazioni = snapshot.data!;
 
+              prenotazioni.sort((a, b) {
+                int getStatoPriority(Stato stato) {
+                  switch (stato) {
+                    case Stato.inAttesa:
+                      return 1;
+                    case Stato.richiestaModifica:
+                      return 2;
+                    case Stato.confermata:
+                      return 3;
+                    case Stato.annullata:
+                      return 4;
+                  }
+                }
+
+                // Confronta le prenotazioni in base alla priorità dello stato
+                return getStatoPriority(a.stato)
+                    .compareTo(getStatoPriority(b.stato));
+              });
+
               return ListView.builder(
                 itemCount: prenotazioni.length,
                 itemBuilder: (context, index) {
