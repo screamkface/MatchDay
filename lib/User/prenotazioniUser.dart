@@ -124,12 +124,15 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                               fontWeight: FontWeight.bold),
                                     );
                                   }
-                                  return TextScroll(
-                                    snapshot.data!,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineMedium
-                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                  return Flexible(
+                                    child: TextScroll(
+                                      snapshot.data!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
                                   );
                                 },
                               ),
