@@ -10,6 +10,7 @@ import 'package:match_day/Models/slot.dart';
 import 'package:match_day/Providers/slotProvider.dart';
 import 'package:match_day/User/editBooking.dart';
 import 'package:provider/provider.dart';
+import 'package:text_scroll/text_scroll.dart';
 import '../Providers/prenotazioniProvider.dart';
 
 class PrenotazioniUtenteScreen extends StatefulWidget {
@@ -90,14 +91,6 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                 itemCount: prenotazioni.length,
                 itemBuilder: (context, index) {
                   final prenotazione = prenotazioni[index];
-                  // Calcola la data di annullamento possibile (almeno il giorno prima)
-                  final prenotazioneDate = DateFormat('d MMMM yyyy')
-                      .parse(prenotazione.dataPrenotazione);
-                  final isAnnullabile = prenotazioneDate.isAfter(DateTime.now()
-                      .add(Duration(
-                          days:
-                              1))); // Prenotazione annullabile solo il giorno prima
-
                   return Card(
                     margin:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -131,7 +124,7 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                               fontWeight: FontWeight.bold),
                                     );
                                   }
-                                  return Text(
+                                  return TextScroll(
                                     snapshot.data!,
                                     style: Theme.of(context)
                                         .textTheme
@@ -140,8 +133,9 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                   );
                                 },
                               ),
-                              if (prenotazione.stato != Stato.annullata &&
-                                  isAnnullabile) // Mostra il cestino solo se la prenotazione è annullabile
+                              if (prenotazione.stato !=
+                                  Stato
+                                      .annullata) // Mostra il cestino solo se la prenotazione non è già annullata
                                 IconButton(
                                   icon: Icon(Icons.delete, color: Colors.red),
                                   onPressed: () {
@@ -170,7 +164,10 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                                         listen: false)
                                                     .updateSlotAsAvailable(
                                                         prenotazione.idCampo,
-                                                        prenotazioneDate, // Usa la data corretta
+                                                        DateFormat(
+                                                                'dd MMMM yyyy')
+                                                            .parse(prenotazione
+                                                                .dataPrenotazione), // Conversione corretta
                                                         sl!);
 
                                                 Navigator.of(context).pop();
@@ -217,7 +214,9 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                           ),
                           const SizedBox(height: 12),
                           if (prenotazione.stato == Stato.confermata &&
-                              prenotazioneDate.isAfter(DateTime.now()))
+                              DateFormat('d MMMM yyyy')
+                                  .parse(prenotazione.dataPrenotazione)
+                                  .isAfter(DateTime.timestamp()))
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.push(

@@ -40,7 +40,6 @@ class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
       ),
       body: Column(
         children: [
-          // Passa correttamente la funzione _onDaySelected come callback
           CustomTableCalendar(onDaySelected: _onDaySelected),
           const Padding(
             padding: EdgeInsets.all(5),
@@ -94,42 +93,72 @@ class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
                                               DateFormat("d MMMM yyyy");
                                           DateTime dateTime =
                                               format.parse(dateString);
+                                          DateTime newDate =
+                                              _selectedDay; // Nuova data selezionata
 
-                                          await Provider.of<
-                                                      PrenotazioneProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .modificaPrenotazione(
-                                            widget.primaPrenotazione
-                                                .id, // ID della prenotazione
-                                            widget.primaPrenotazione
-                                                .dataPrenotazione, // Data della prenotazione precedente
-                                            slot, // Nuovo slot selezionato
-                                            // ID del campo della prenotazione precedente
-                                            widget.primaPrenotazione.idCampo,
-                                            widget.primaPrenotazione.slot!
-                                                .id, // ID dello slot precedente
-                                          );
+                                          if (newDate != dateTime) {
+                                            // Crea un nuovo oggetto Prenotazione con la nuova data e slot
+                                            Prenotazione nuovaPrenotazione =
+                                                Prenotazione(
+                                              id: '', // L'ID verrà generato da Firebase
+                                              idUtente: userId,
+                                              dataPrenotazione:
+                                                  newDate.toString(),
+                                              stato: Stato
+                                                  .richiestaModifica, // Stato della prenotazione (puoi cambiarlo come preferisci)
+                                              idCampo: widget
+                                                  .primaPrenotazione.idCampo,
+                                              slot:
+                                                  slot, // Nuovo slot selezionato
+                                            );
 
-                                          CustomSnackbar.show(context,
-                                              "Richiesta di modifica inviata!");
-                                          await Provider.of<
-                                                      PrenotazioneProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .modificaPrenotazioneinAnnullata(
-                                                  widget.primaPrenotazione.id);
+                                            // Aggiungi la nuova prenotazione nel database
+                                            await Provider.of<
+                                                        FirebaseSlotProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .addPrenotazione(
+                                                    nuovaPrenotazione);
 
-                                          await Provider.of<
-                                                      FirebaseSlotProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .updateSlotAsAvailable(
-                                                  widget.primaPrenotazione
-                                                      .idCampo,
-                                                  dateTime,
-                                                  widget
-                                                      .primaPrenotazione.slot);
+                                            CustomSnackbar.show(context,
+                                                "Prenotazione modificata con successo!");
+
+                                            Navigator.pop(context);
+
+                                            // Annulla la prenotazione precedente
+                                            await Provider.of<
+                                                        PrenotazioneProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .modificaPrenotazioneinAnnullata(
+                                                    widget
+                                                        .primaPrenotazione.id);
+
+                                            // Disattiva il vecchio slot
+                                            await Provider.of<
+                                                        FirebaseSlotProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .updateSlotAsAvailable(
+                                              widget.primaPrenotazione.idCampo,
+                                              dateTime,
+                                              widget.primaPrenotazione.slot!,
+                                            );
+
+                                            // Disattiva il nuovo slot selezionato
+                                            await Provider.of<
+                                                        FirebaseSlotProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .updateSlotAsUnavailable(
+                                              widget.primaPrenotazione.idCampo,
+                                              newDate,
+                                              slot,
+                                            );
+                                          } else {
+                                            CustomSnackbar.show(context,
+                                                "La data selezionata è la stessa della prenotazione originale.");
+                                          }
                                         },
                                         child: const Text('Modifica'),
                                       )
@@ -152,9 +181,7 @@ class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
     );
   }
 
-  // Metodo per recuperare gli slot da Firebase
   void _fetchSlotFirebase() {
-    // Recupera gli slot utilizzando il provider
     final provider = Provider.of<FirebaseSlotProvider>(context, listen: false);
     provider.fetchSlots(widget.primaPrenotazione.idCampo, _selectedDay);
   }
@@ -162,7 +189,7 @@ class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
   void _onDaySelected(DateTime selectedDay) {
     setState(() {
       _selectedDay = selectedDay;
-      _fetchSlotFirebase(); // Fetch degli slot da Firebase per la data selezionata
+      _fetchSlotFirebase();
     });
   }
 }

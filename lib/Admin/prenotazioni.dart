@@ -6,6 +6,7 @@ import 'package:match_day/Models/slot.dart';
 import 'package:match_day/Providers/slotProvider.dart';
 import 'package:match_day/components/custom_snackbar.dart';
 import 'package:provider/provider.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 import '../Providers/prenotazioniProvider.dart';
 
@@ -198,14 +199,23 @@ class PrenotazioniScreen extends StatelessWidget {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          snapshot.data!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineMedium
-                              ?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                        Flexible(
+                          child: TextScroll(
+                            snapshot.data!,
+                            mode: TextScrollMode.endless,
+                            velocity: Velocity(pixelsPerSecond: Offset(150, 0)),
+                            delayBefore: Duration(milliseconds: 500),
+                            numberOfReps: 5,
+                            pauseBetween: Duration(milliseconds: 50),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                            textAlign: TextAlign.right,
+                            selectable: true,
+                          ),
                         ),
                         IconButton(
                           icon: Icon(Icons.delete, color: Colors.red),

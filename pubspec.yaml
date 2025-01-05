@@ -43,6 +43,7 @@ dependencies:
   logger: ^1.0.0
   table_calendar: ^3.0.9
   shared_preferences: ^2.3.4
+  text_scroll: ^0.2.0
 
 dev_dependencies:
   flutter_test: #unit test
