@@ -319,16 +319,18 @@ class PrenotazioniScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           DateTime pres = DateFormat('dd MMMM yyyy')
                               .parse(prenotazione.dataPrenotazione);
-                          prenotazioneProvider
+                          await prenotazioneProvider
                               .modificaPrenotazioneinAnnullata(prenotazione.id);
 
                           Slot? tmp = prenotazione.slot;
-                          Provider.of<FirebaseSlotProvider>(context)
+
+                          await Provider.of<FirebaseSlotProvider>(context,
+                                  listen: false)
                               .updateSlotAsAvailable(
-                                  prenotazione.idCampo, pres, tmp!);
+                                  prenotazione.idCampo, pres, tmp);
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
