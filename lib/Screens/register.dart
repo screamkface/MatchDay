@@ -166,8 +166,9 @@ class _RegisterState extends State<Register> {
                       authDaoProvider.createAccount(
                           _emailController.text,
                           _passwordController.text,
-                          _phoneController.text,
-                          'user', // ruolo
+                          'user', // Passa correttamente il ruolo qui
+                          _phoneController
+                              .text, // Passa il numero di telefono qui
                           _firstNameController.text,
                           _lastNameController.text,
                           context,

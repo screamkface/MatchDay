@@ -89,12 +89,16 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                 itemBuilder: (context, index) {
                   final prenotazione = prenotazioni[index];
                   final DateTime prenotazioneData = DateFormat('d MMMM yyyy')
-                      .parse(prenotazione.dataPrenotazione);
+                      .parse(prenotazione.dataPrenotazione)
+                      .add(const Duration(
+                          hours: 23,
+                          minutes:
+                              59)); // Aggiungi l'orario massimo di annullamento (23:59)
+
                   final DateTime now = DateTime.now();
                   final bool canCancel = prenotazioneData
-                      .subtract(const Duration(hours: 24))
-                      .isAfter(now); // Controllo 24 ore prima
-
+                          .isAfter(now.add(const Duration(hours: 24))) &&
+                      prenotazione.stato != Stato.annullata;
                   return Card(
                     margin:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -140,8 +144,7 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                   );
                                 },
                               ),
-                              if (canCancel &&
-                                  prenotazione.stato != Stato.annullata)
+                              if (canCancel)
                                 IconButton(
                                   icon: Icon(Icons.delete, color: Colors.red),
                                   onPressed: () {
@@ -173,7 +176,7 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                                         DateFormat(
                                                                 'dd MMMM yyyy')
                                                             .parse(prenotazione
-                                                                .dataPrenotazione), // Conversione corretta
+                                                                .dataPrenotazione),
                                                         sl!);
 
                                                 Navigator.of(context).pop();
