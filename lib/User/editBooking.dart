@@ -123,8 +123,6 @@ class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
                                             CustomSnackbar.show(context,
                                                 "Prenotazione modificata con successo!");
 
-                                            Navigator.pop(context);
-
                                             // Annulla la prenotazione precedente
                                             await Provider.of<
                                                         PrenotazioneProvider>(
@@ -146,6 +144,8 @@ class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
                                             );
 
                                             // Disattiva il nuovo slot selezionato
+
+                                            Slot newSlot = slot;
                                             await Provider.of<
                                                         FirebaseSlotProvider>(
                                                     context,
@@ -153,8 +153,10 @@ class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
                                                 .updateSlotAsUnavailable(
                                               widget.primaPrenotazione.idCampo,
                                               newDate,
-                                              slot,
+                                              newSlot,
                                             );
+
+                                            Navigator.pop(context);
                                           } else {
                                             CustomSnackbar.show(context,
                                                 "La data selezionata è la stessa della prenotazione originale.");
