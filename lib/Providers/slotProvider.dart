@@ -66,4 +66,11 @@ class FirebaseSlotProvider extends ChangeNotifier {
     await _slotDao.updateSlotAsAvailable(campoId, data, slot);
     notifyListeners();
   }
+
+  Future<void> generateHourlySlots(DateTime startHour, DateTime endHour,
+      String campoId, DateTime selectedDay) async {
+    await _slotDao.generateHourlySlots(
+        startHour, endHour, campoId, selectedDay);
+    notifyListeners();
+  }
 }

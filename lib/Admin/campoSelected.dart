@@ -128,10 +128,22 @@ class _CampoCalendarState extends State<CampoCalendar> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: FloatingActionButton(
-              onPressed: _aggiungiSlotDialog,
-              child: const Icon(Icons.add),
+            padding: const EdgeInsets.only(bottom: 20, top: 20),
+            child: Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                FloatingActionButton(
+                  onPressed: _aggiungiSlotDialog,
+                  child: const Icon(Icons.add),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                FloatingActionButton(
+                  onPressed: _aggiungiSlotRangeDialog,
+                  child: const Icon(Icons.date_range),
+                ),
+              ]),
             ),
           ),
         ],
@@ -279,6 +291,86 @@ class _CampoCalendarState extends State<CampoCalendar> {
               ],
             );
           },
+        );
+      }
+    }
+  }
+
+  void _aggiungiSlotRangeDialog() async {
+    final now = TimeOfDay.now();
+    final DateTime currentDay = DateTime.now();
+
+    // Mostra il TimePicker per l'orario di inizio
+    final TimeOfDay? startTime = await showTimePicker(
+      context: context,
+      initialTime: now,
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
+        );
+      },
+    );
+
+    if (startTime != null) {
+      // Check if the selected day is today
+      bool isToday = _selectedDay.isAtSameMomentAs(
+        DateTime(currentDay.year, currentDay.month, currentDay.day),
+      );
+
+      if (isToday) {
+        if (startTime.hour < now.hour ||
+            (startTime.hour == now.hour && startTime.minute < now.minute)) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text(
+                    'Non è possibile selezionare un orario di inizio nel passato')),
+          );
+          return;
+        }
+      }
+
+      // Mostra il TimePicker per l'orario di fine
+      final TimeOfDay? endTime = await showTimePicker(
+        context: context,
+        initialTime: startTime.replacing(hour: startTime.hour + 1),
+        builder: (BuildContext context, Widget? child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child!,
+          );
+        },
+      );
+
+      if (endTime != null) {
+        // Check if the selected day is today for the end time validation
+        if (isToday) {
+          if (endTime.hour < now.hour ||
+              (endTime.hour == now.hour && endTime.minute < now.minute)) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  content: Text(
+                      'Non è possibile selezionare un orario di fine nel passato')),
+            );
+            return;
+          }
+        }
+// Converti startTime e endTime in DateTime utilizzando _selectedDay
+        DateTime startDateTime = DateTime(_selectedDay.year, _selectedDay.month,
+            _selectedDay.day, startTime.hour, startTime.minute);
+
+        DateTime endDateTime = DateTime(_selectedDay.year, _selectedDay.month,
+            _selectedDay.day, endTime.hour, endTime.minute);
+
+// Chiama il provider per generare e aggiungere gli slot orari
+        await Provider.of<FirebaseSlotProvider>(context, listen: false)
+            .generateHourlySlots(
+                startDateTime, endDateTime, widget.campo.id, _selectedDay);
+
+// Informa l'utente che gli slot sono stati aggiunti
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('Slot orari generati per il giorno selezionato')),
         );
       }
     }

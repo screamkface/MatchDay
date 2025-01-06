@@ -278,6 +278,66 @@ class SlotDao {
     }
   }
 
+  Future<void> generateHourlySlots(DateTime startHour, DateTime endHour,
+      String campoId, DateTime selectedDay) async {
+    // Controllo per assicurarsi che l'ora di inizio sia precedente all'ora di fine
+    if (startHour.isAfter(endHour)) {
+      throw Exception("L'ora di inizio deve essere precedente all'ora di fine");
+    }
+
+    List<Slot> slots = [];
+
+    // Ciclo per creare gli slot con intervalli di un'ora nel range di date
+    DateTime currentHour = startHour;
+    while (currentHour.isBefore(endHour)) {
+      DateTime nextHour = currentHour.add(const Duration(hours: 1));
+
+      // Creazione dello slot
+      Slot slot = Slot(
+        id: FirebaseFirestore.instance
+            .collection('fields')
+            .doc(campoId)
+            .collection('calendario')
+            .doc()
+            .id, // ID univoco generato da Firestore
+        orario: "${_formatTime(currentHour)} - ${_formatTime(nextHour)}",
+        disponibile: true, // Imposta il valore di default se necessario
+      );
+
+      // Aggiungi lo slot alla lista
+      slots.add(slot);
+
+      // Passa all'ora successiva
+      currentHour = nextHour;
+    }
+
+    // Converti la data selezionata in formato stringa
+    String formattedDate = _formatDate(selectedDay);
+
+    try {
+      // Aggiungi gli slot al database Firestore
+      await FirebaseFirestore.instance
+          .collection('fields')
+          .doc(campoId)
+          .collection('calendario')
+          .doc(formattedDate)
+          .set({
+        'slots':
+            FieldValue.arrayUnion(slots.map((slot) => slot.toMap()).toList()),
+      }, SetOptions(merge: true));
+
+      print("Slot aggiunti correttamente");
+    } catch (e) {
+      print("Errore nel salvataggio degli slot: $e");
+      throw Exception('Errore nel salvataggio degli slot: $e');
+    }
+  }
+
+// Metodo di formattazione dell'orario in formato stringa (esempio: 7:00)
+  String _formatTime(DateTime time) {
+    return "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}";
+  }
+
   DateTime _parseSlotTime(String orario) {
     // Supponiamo che l'orario sia nel formato 'HH:mm - HH:mm' (es. '10:00 - 11:00')
     final startTime = orario.split(' - ')[0];
