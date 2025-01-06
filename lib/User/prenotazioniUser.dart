@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -90,6 +88,13 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                 itemCount: prenotazioni.length,
                 itemBuilder: (context, index) {
                   final prenotazione = prenotazioni[index];
+                  final DateTime prenotazioneData = DateFormat('d MMMM yyyy')
+                      .parse(prenotazione.dataPrenotazione);
+                  final DateTime now = DateTime.now();
+                  final bool canCancel = prenotazioneData
+                      .subtract(const Duration(hours: 24))
+                      .isAfter(now); // Controllo 24 ore prima
+
                   return Card(
                     margin:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -135,9 +140,8 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                   );
                                 },
                               ),
-                              if (prenotazione.stato !=
-                                  Stato
-                                      .annullata) // Mostra il cestino solo se la prenotazione non è già annullata
+                              if (canCancel &&
+                                  prenotazione.stato != Stato.annullata)
                                 IconButton(
                                   icon: Icon(Icons.delete, color: Colors.red),
                                   onPressed: () {
