@@ -13,32 +13,29 @@ class SlotDao {
   final List<Slot> _slots = []; // Stato interno
   List<Slot> get slots => _slots;
 
-  // Aggiungi una prenotazione
-// Aggiungi una prenotazione con transazione
   Future<void> addPrenotazione(Prenotazione prenotazione) async {
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
     try {
-      // Esegui una transazione
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      final prenotazioniRef = firestore.collection('prenotazioni');
+
+      // Avvia una transazione
       await firestore.runTransaction((transaction) async {
-        // Recupera il documento dello slot che si vuole prenotare
-        DocumentReference slotRef =
-            firestore.collection('slots').doc(prenotazione.slot!.id);
-        DocumentSnapshot snapshot = await transaction.get(slotRef);
+        // Verifica se lo slot è già prenotato
+        final querySnapshot = await prenotazioniRef
+            .where('campoId', isEqualTo: prenotazione.idCampo)
+            .where('data', isEqualTo: prenotazione.dataPrenotazione)
+            .where('orario', isEqualTo: prenotazione.slot!.orario)
+            .get();
 
-        // Verifica che lo slot sia ancora disponibile
-        if (snapshot.exists && snapshot['stato'] == 'disponibile') {
-          // Se disponibile, aggiorna lo stato a 'prenotato' e aggiungi la prenotazione
-          transaction.update(slotRef, {'stato': 'prenotato'});
-
-          // Aggiungi la prenotazione alla collezione 'prenotazioni'
-          final docRef = firestore.collection('prenotazioni').doc();
-          transaction.set(docRef, prenotazione.toMap());
-
-          print("Prenotazione aggiunta con ID: ${docRef.id}");
-        } else {
-          throw Exception('Lo slot non è più disponibile');
+        if (querySnapshot.docs.isNotEmpty) {
+          // Lo slot è già prenotato, lancia un'eccezione per interrompere la transazione
+          throw Exception('Lo slot è già prenotato.');
         }
+
+        // Aggiungi la prenotazione se lo slot è libero
+        final docRef = prenotazioniRef.doc();
+        transaction.set(docRef, prenotazione.toMap());
+        print("Prenotazione aggiunta con ID: ${docRef.id}");
       });
     } catch (e) {
       print('Errore durante l\'aggiunta della prenotazione: $e');
