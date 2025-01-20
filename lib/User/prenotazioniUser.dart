@@ -89,16 +89,35 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                 itemBuilder: (context, index) {
                   final prenotazione = prenotazioni[index];
                   final DateTime prenotazioneData = DateFormat('d MMMM yyyy')
-                      .parse(prenotazione.dataPrenotazione)
-                      .add(const Duration(
-                          hours: 23,
-                          minutes:
-                              59)); // Aggiungi l'orario massimo di annullamento (23:59)
+                      .parse(prenotazione.dataPrenotazione);
 
+// Converti l'orario dello slot in un oggetto DateTime
+                  final DateTime slotOrario =
+                      DateFormat('HH:mm').parse(prenotazione.slot!.orario);
+                  final DateTime slotDataOrario = DateTime(
+                    prenotazioneData.year,
+                    prenotazioneData.month,
+                    prenotazioneData.day,
+                    slotOrario.hour,
+                    slotOrario.minute,
+                  );
+
+// Data e orario corrente
                   final DateTime now = DateTime.now();
-                  final bool canCancel = prenotazioneData
-                          .isAfter(now.add(const Duration(hours: 24))) &&
+
+// Verifica se il tempo rimanente allo slot è maggiore di 24 ore
+                  final bool canCancelOrModify = slotDataOrario
+                      .subtract(const Duration(hours: 24))
+                      .isAfter(now);
+
+// Controllo per mostrare o nascondere il pulsante Annulla
+                  final bool canCancel = canCancelOrModify &&
                       prenotazione.stato != Stato.annullata;
+
+// Controllo per mostrare o nascondere il pulsante Modifica
+                  final bool canModify = canCancelOrModify &&
+                      prenotazione.stato == Stato.confermata;
+
                   return Card(
                     margin:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -144,7 +163,7 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                   );
                                 },
                               ),
-                              if (canCancel)
+                              if (canCancel) // Mostra il pulsante Annulla se mancano più di 24 ore
                                 IconButton(
                                   icon: Icon(Icons.delete, color: Colors.red),
                                   onPressed: () {
@@ -222,10 +241,10 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                 ),
                           ),
                           const SizedBox(height: 12),
-                          if (prenotazione.stato == Stato.confermata &&
-                              DateFormat('d MMMM yyyy')
-                                  .parse(prenotazione.dataPrenotazione)
-                                  .isAfter(DateTime.timestamp()))
+                          if (canModify &&
+                              prenotazione.stato ==
+                                  Stato
+                                      .confermata) // Mostra il pulsante Modifica se mancano più di 24 ore e lo stato è confermato
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
