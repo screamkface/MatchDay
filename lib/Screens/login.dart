@@ -178,6 +178,7 @@ class _LoginState extends State<Login> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  key: Key('email_input'),
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -197,6 +198,7 @@ class _LoginState extends State<Login> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  key: Key('password_input'),
                   controller: _passwordController,
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -259,6 +261,7 @@ class _LoginState extends State<Login> {
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
+                  key: Key('submit_button'),
                   onPressed: _signIn,
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
@@ -270,6 +273,7 @@ class _LoginState extends State<Login> {
                 ),
                 const SizedBox(height: 10),
                 TextButton(
+                  key: Key('registrazione_button'),
                   onPressed: () {
                     Navigator.push(
                       context,

@@ -15,7 +15,7 @@ enum Stato {
 class Prenotazione extends ChangeNotifier {
   final String id;
   final String dataPrenotazione;
-  final Stato stato;
+  Stato stato;
   final String idCampo;
   final String idUtente;
   final Slot? slot;

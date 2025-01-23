@@ -4,7 +4,7 @@ import 'package:match_day/DAO/auth_dao.dart';
 import 'package:match_day/Screens/login.dart';
 
 class AuthDaoProvider with ChangeNotifier {
-  final AuthDao authDao = AuthDao();
+  late AuthDao authDao = AuthDao();
 
   void createAccount(
       String email,
