@@ -84,6 +84,7 @@ class CampoSelectionPage extends StatelessWidget {
                     color: Color.fromARGB(255, 34, 40, 49),
                   ),
                   onTap: () {
+                    Key('nav_button');
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -117,6 +118,7 @@ class CampoSelectionPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
+                key: Key('prenotazioni_utente'),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const PrenotazioniUtenteScreen(),

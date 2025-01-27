@@ -90,6 +90,7 @@ class _CampoCalendarUserState extends State<CampoCalendarUser> {
                                 title: Text(slot.orario),
                                 trailing: slot.disponibile
                                     ? ElevatedButton(
+                                        key: Key('prenota_button'),
                                         onPressed: () {
                                           _prenotaSlot(slot);
                                         },

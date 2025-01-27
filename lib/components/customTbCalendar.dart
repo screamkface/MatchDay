@@ -25,6 +25,7 @@ class _CustomTableCalendarState extends State<CustomTableCalendar> {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
+      key: Key('calendar_button'),
       calendarFormat: CalendarFormat.twoWeeks,
       calendarStyle: const CalendarStyle(isTodayHighlighted: true),
       firstDay: DateTime.utc(2020, 1, 1),

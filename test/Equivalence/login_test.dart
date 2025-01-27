@@ -24,10 +24,11 @@ Future<void> main() async {
     expect(submitButton, findsOneWidget);
 
     // **Caso 1: Entrambi i campi validi**
-    await tester.enterText(emailInput, 'test@example.com');
-    await tester.enterText(passwordInput, 'Password123!');
+    await tester.enterText(emailInput, 'nicolamoscufo7@gmail.com');
+    await tester.enterText(passwordInput, 'prova123!');
     await tester.tap(submitButton);
     await tester.pumpAndSettle();
+    expect(find.text('Seleziona un campo'), findsOneWidget);
 
     // **Caso 2: Email vuota (classe invalida)**
     await tester.enterText(emailInput, '');
@@ -67,9 +68,10 @@ Future<void> main() async {
         findsOneWidget);
 
     // **Caso 7: Credenziali corrette (login riuscito)**
-    await tester.enterText(emailInput, 'test@example.com');
-    await tester.enterText(passwordInput, 'Password123!');
+    await tester.enterText(emailInput, 'nicolamoscufo7@gmail.com');
+    await tester.enterText(passwordInput, 'prova123!');
     await tester.tap(submitButton);
     await tester.pumpAndSettle();
+    expect(find.text('Seleziona un campo'), findsOneWidget);
   });
 }
