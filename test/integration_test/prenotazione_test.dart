@@ -82,8 +82,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Individua il campo di test
-      final campoItem = find.widgetWithText(ListTile,
-          "Campo di calcio a 5 (inferiore)"); // Sostituisci "Campo di test" col nome del tuo campo test
+      final campoItem =
+          find.widgetWithText(ListTile, "Campo di calcio a 5 (inferiore)");
       expect(campoItem, findsOneWidget, reason: 'Campo di test non trovato');
 
       await tester.tap(campoItem); // Seleziona il campo di test
@@ -94,7 +94,7 @@ void main() {
           reason: 'Pagina dettagli campo non trovata');
       debugPrint('Pagina dettaglio campo trovata');
 
-      // Simula la navigazione alla pagina di prenotazione (adattalo alla tua UI)
+      // Simula la navigazione alla pagina di prenotazione
       await tester.tap(find.byKey(Key('prenota_button')));
       await tester.pumpAndSettle();
       debugPrint('Navigazione alla schermata di prenotazione');

@@ -43,7 +43,7 @@ void main() {
   when(() => SharedPreferences.getInstance())
       .thenAnswer((_) async => MockSharedPreferences());
 
-  // Inizializzazione di Firebase (prima dell'uso di `MyApp()`)
+  // Inizializzazione di Firebase
   if (!kIsWeb && !Platform.isWindows) {
     WidgetsFlutterBinding.ensureInitialized();
     Firebase.initializeApp();
@@ -82,7 +82,7 @@ void main() {
       await tester.pumpAndSettle();
       debugPrint('Caricamento dei campi completato');
 
-      // Verifica la presenza di almeno un campo nella lista (modificato per gestire il caso in cui non ci sono campi)
+      // Verifica la presenza di almeno un campo nella lista
       expect(find.byType(ListTile), findsWidgets,
           reason: 'Nessun campo trovato');
       debugPrint('Trovati i campi');

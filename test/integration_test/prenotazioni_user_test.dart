@@ -31,7 +31,7 @@ class MockSharedPreferences extends Mock implements SharedPreferences {
   @override
   Future<bool> remove(String key) async => true;
 
-    @override
+  @override
   Future<bool> clear() async => true;
 }
 
@@ -43,14 +43,15 @@ void main() {
   when(() => SharedPreferences.getInstance())
       .thenAnswer((_) async => MockSharedPreferences());
 
-  // Inizializzazione di Firebase (prima dell'uso di `MyApp()`)
+  // Inizializzazione di Firebase
   if (!kIsWeb && !Platform.isWindows) {
     WidgetsFlutterBinding.ensureInitialized();
     Firebase.initializeApp();
   }
 
- group('Test di integrazione della lista delle prenotazioni utente', () {
-   testWidgets('Test visualizzazione lista prenotazioni', (WidgetTester tester) async {
+  group('Test di integrazione della lista delle prenotazioni utente', () {
+    testWidgets('Test visualizzazione lista prenotazioni',
+        (WidgetTester tester) async {
       debugPrint('Inizio test: Test visualizzazione lista prenotazioni');
 
       await tester.pumpWidget(MyApp());
@@ -62,7 +63,8 @@ void main() {
       final loginButton = find.byKey(Key('submit_button'));
 
       expect(emailField, findsOneWidget, reason: 'Email field non trovato');
-      expect(passwordField, findsOneWidget, reason: 'Password field non trovato');
+      expect(passwordField, findsOneWidget,
+          reason: 'Password field non trovato');
       expect(loginButton, findsOneWidget, reason: 'Login button non trovato');
       debugPrint('Widget di login trovati');
 
@@ -72,38 +74,36 @@ void main() {
       await tester.pumpAndSettle();
       debugPrint('Login effettuato');
 
-     // 2. Navigazione alla Lista Prenotazioni (Adatta alla tua UI)
-      await tester.tap(find.byKey(Key('lista_prenotazioni_button'))); // Sostituisci con la key giusta del tuo bottone
-       await tester.pumpAndSettle();
+      // 2. Navigazione alla Lista Prenotazioni
+      await tester.tap(find.byKey(Key('lista_prenotazioni_button')));
+      await tester.pumpAndSettle();
       debugPrint('Navigazione alla schermata delle prenotazioni');
 
-      expect(find.text('Le mie Prenotazioni'), findsOneWidget, reason: 'Pagina prenotazioni non trovata');
+      expect(find.text('Le mie Prenotazioni'), findsOneWidget,
+          reason: 'Pagina prenotazioni non trovata');
       debugPrint('Pagina prenotazioni trovata');
 
-
       // 3. Verifica della Lista Prenotazioni
-    await tester.pumpAndSettle();
-       expect(find.byType(ListTile), findsWidgets, reason: 'Nessuna prenotazione trovata');
-        debugPrint('Trovate le prenotazioni');
+      await tester.pumpAndSettle();
+      expect(find.byType(ListTile), findsWidgets,
+          reason: 'Nessuna prenotazione trovata');
+      debugPrint('Trovate le prenotazioni');
 
+      if (find.byType(ListTile).evaluate().isNotEmpty) {
+        final primaPrenotazione = find.byType(ListTile).first;
+        await tester.tap(primaPrenotazione);
+        await tester.pumpAndSettle();
 
-       if (find.byType(ListTile).evaluate().isNotEmpty) {
+        expect(find.text('Dettagli Prenotazione'), findsOneWidget,
+            reason: 'Pagina dettagli prenotazione non trovata');
+        debugPrint('Pagina dettagli prenotazione trovata');
 
-            // Verifica (opzionale) che i dettagli siano mostrati
-             final primaPrenotazione = find.byType(ListTile).first;
-             await tester.tap(primaPrenotazione);
-            await tester.pumpAndSettle();
+        await tester.tap(find.byKey(Key('back_button')));
+        await tester.pumpAndSettle();
+      }
 
-           expect(find.text('Dettagli Prenotazione'), findsOneWidget, reason: 'Pagina dettagli prenotazione non trovata');
-             debugPrint('Pagina dettagli prenotazione trovata');
-            
-          // Inserisci qui verifiche specifiche sui dettagli della prenotazione (se le hai)
-             await tester.tap(find.byKey(Key('back_button')));
-               await tester.pumpAndSettle();
-       }
-
-
-      debugPrint('Test visualizzazione lista prenotazioni completato con successo');
+      debugPrint(
+          'Test visualizzazione lista prenotazioni completato con successo');
     });
   });
 }
