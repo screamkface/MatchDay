@@ -51,6 +51,28 @@ class Prenotazione extends ChangeNotifier {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'dataPrenotazione': dataPrenotazione,
+      'stato': stato.name,
+      'idCampo': idCampo,
+      'idUtente': idUtente,
+      'slot': slot?.toFirestore(),
+    };
+  }
+
+  factory Prenotazione.fromJson(Map<String, dynamic> json, String id) {
+    return Prenotazione(
+      id: id,
+      dataPrenotazione: json['dataPrenotazione'] as String,
+      stato: Stato.values.byName(json['stato'] as String),
+      idCampo: json['idCampo'] as String,
+      idUtente: json['idUtente'] as String,
+      slot: json['slot'] != null ? Slot.fromFirestore(json['slot']) : null,
+    );
+  }
+
   // Aggiungi questa funzione per ottenere la data formattata
   String get formattedDataPrenotazione {
     final DateTime date = DateTime.parse(dataPrenotazione);
