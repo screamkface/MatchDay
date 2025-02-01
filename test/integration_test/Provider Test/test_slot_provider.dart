@@ -96,7 +96,7 @@ class TestFirebaseSlotProvider extends FirebaseSlotProvider {
         .snapshots()
         .map((snapshot) {
       if (snapshot.exists) {
-        final data = snapshot.data() as Map<String, dynamic>?;
+        final data = snapshot.data();
         if (data != null) {
           final slots = List<Map<String, dynamic>>.from(data['slots']);
           return slots.map((slotData) => Slot.fromFirestore(slotData)).toList();

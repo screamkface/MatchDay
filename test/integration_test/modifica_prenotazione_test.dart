@@ -5,12 +5,9 @@ import 'package:integration_test/integration_test.dart';
 import 'package:match_day/main.dart' as app;
 import 'package:match_day/Models/prenotazione.dart';
 import 'package:match_day/Models/slot.dart';
-import 'package:match_day/Providers/prenotazioniProvider.dart';
-import 'package:match_day/Providers/slotProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 
 import 'Provider Test/test_prenotazioni_provider.dart';

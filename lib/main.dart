@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages, prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:match_day/Providers/authDaoProvider.dart';
 import 'package:match_day/Providers/prenotazioniProvider.dart';
@@ -10,8 +11,9 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart'; // Assicurati di avere il file firebase_options.dart
 
 void main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); // Assicurati che Flutter sia pronto per l'esecuzione di codice asincrono
+  WidgetsFlutterBinding.ensureInitialized();
+  SemanticsBinding.instance.ensureSemantics();
+  // Assicurati che Flutter sia pronto per l'esecuzione di codice asincrono
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions
         .currentPlatform, // Inizializza Firebase con le opzioni specifiche per la piattaforma
