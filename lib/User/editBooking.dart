@@ -30,6 +30,20 @@ class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
         .removePastSlots(widget.primaPrenotazione.idCampo);
   }
 
+  String _generateWidgetId(String baseName, {DateTime? date}) {
+    if (date != null) {
+      final id = '${baseName}_${date.year}-${date.month}-${date.day}';
+      return id;
+    }
+    return '';
+  }
+
+  void _onDaySelected(DateTime selectedDay) {
+    setState(() {
+      _selectedDay = selectedDay;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final firebaseSlotProvider = Provider.of<FirebaseSlotProvider>(context);
@@ -186,12 +200,5 @@ class _ModificaPrenotazioneState extends State<ModificaPrenotazione> {
   void _fetchSlotFirebase() {
     final provider = Provider.of<FirebaseSlotProvider>(context, listen: false);
     provider.fetchSlots(widget.primaPrenotazione.idCampo, _selectedDay);
-  }
-
-  void _onDaySelected(DateTime selectedDay) {
-    setState(() {
-      _selectedDay = selectedDay;
-      _fetchSlotFirebase();
-    });
   }
 }

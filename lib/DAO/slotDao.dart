@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:match_day/Models/prenotazione.dart';
 import 'package:match_day/Models/slot.dart';
+import 'package:match_day/components/custom_snackbar.dart';
+import 'package:match_day/main.dart';
 
 class SlotDao {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -276,12 +279,40 @@ class SlotDao {
   // Metodo per aggiungere uno slot su Firebase
   Future<void> addSlot(String id, DateTime selectedDay, Slot slot) async {
     if (id.isEmpty) {
-      throw Exception("L'ID del campo non può essere vuoto");
+      showMySnackBar("L'ID del campo non può essere vuoto");
+
+      return;
     }
 
     final formattedDate = _formatDate(selectedDay);
 
     try {
+      DocumentSnapshot snapshot = await _firestore
+          .collection('fields')
+          .doc(id)
+          .collection('calendario')
+          .doc(formattedDate)
+          .get();
+
+      List<dynamic> existingSlots = [];
+
+      if (snapshot.exists && snapshot.data() != null) {
+        final data =
+            snapshot.data() as Map<String, dynamic>?; // Cast to Map or null
+        if (data != null && data.containsKey('slots')) {
+          existingSlots =
+              data['slots'] as List<dynamic>; // Safe cast as List<dynamic>
+        }
+      }
+
+      bool slotExists = existingSlots
+          .any((existingSlot) => existingSlot['orario'] == slot.orario);
+
+      if (slotExists) {
+        showMySnackBar("Uno slot con questo orario esiste già.");
+        return;
+      }
+
       await _firestore
           .collection('fields')
           .doc(id)
@@ -290,8 +321,9 @@ class SlotDao {
           .set({
         'slots': FieldValue.arrayUnion([slot.toMap()])
       }, SetOptions(merge: true));
+      showMySnackBar('Slot aggiunto con successo!');
     } catch (e) {
-      throw Exception('Errore nell\'aggiungere lo slot: $e');
+      showMySnackBar('Errore nell\'aggiungere lo slot: $e');
     }
   }
 

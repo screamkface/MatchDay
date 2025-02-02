@@ -23,6 +23,9 @@ void main() async {
   }); // Avvia l'app Flutter dopo l'inizializzazione di Firebase
 }
 
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -79,8 +82,15 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
+        scaffoldMessengerKey: scaffoldMessengerKey,
         home: const Login(),
       ),
     );
   }
+}
+
+void showMySnackBar(String message) {
+  scaffoldMessengerKey.currentState?.showSnackBar(
+    SnackBar(content: Text(message)),
+  );
 }
