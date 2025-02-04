@@ -134,7 +134,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               ),
             ],
           ),
-          child: Row(
+         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
@@ -144,6 +144,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   ));
                 },
                 icon: const Icon(Icons.bookmark, color: Colors.white),
+                tooltip: 'Lista Prenotazioni',
               ),
               IconButton(
                 onPressed: () {},

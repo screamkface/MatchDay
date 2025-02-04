@@ -128,20 +128,26 @@ class _CampoCalendarState extends State<CampoCalendar> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 20, top: 20),
-            child: Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                FloatingActionButton(
-                  onPressed: _aggiungiSlotDialog,
-                  child: const Icon(Icons.add),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                FloatingActionButton(
-                  onPressed: _aggiungiSlotRangeDialog,
-                  child: const Icon(Icons.date_range),
+  padding: const EdgeInsets.only(bottom: 20, top: 20),
+  child: Padding(
+    padding: EdgeInsets.only(right: 10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        FloatingActionButton(
+          key: Key('aggiungi_slot_unico'),
+          onPressed: _aggiungiSlotDialog,
+          child: const Icon(Icons.add), // Solo l'icona visibile
+          tooltip: 'Aggiungi Slot Unico', // Testo invisibile, ma accessibile tramite screen reader
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        FloatingActionButton(
+          key: Key('aggiungi_slot_multipli'),
+          onPressed: _aggiungiSlotRangeDialog,
+          child: const Icon(Icons.date_range), // Solo l'icona visibile
+          tooltip: 'Aggiungi Slot Multipli'
                 ),
               ]),
             ),

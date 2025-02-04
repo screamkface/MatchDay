@@ -164,8 +164,8 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                 },
                               ),
                               if (canCancel) // Mostra il pulsante Annulla se mancano più di 24 ore
-                                IconButton(
-                                  icon: Icon(Icons.delete, color: Colors.red),
+                                ElevatedButton(
+                                  key: Key('annullamento_button'), // Identificatore per il pulsante
                                   onPressed: () {
                                     showDialog(
                                       context: context,
@@ -187,8 +187,7 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                                 prenotazioneProvider
                                                     .modificaPrenotazioneinAnnullata(
                                                         prenotazione.id);
-                                                Provider.of<FirebaseSlotProvider>(
-                                                        context,
+                                                Provider.of<FirebaseSlotProvider>(context,
                                                         listen: false)
                                                     .updateSlotAsAvailable(
                                                         prenotazione.idCampo,
@@ -209,6 +208,12 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                       },
                                     );
                                   },
+                                  child: const Text('Annulla Prenotazione'), // Il nome del pulsante
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red, // Colore di sfondo
+                                    foregroundColor: Colors.white, // Colore del testo
+                                    // Colore del testo
+                                  ),
                                 ),
                             ],
                           ),
@@ -234,8 +239,8 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                                       ? Colors.orange
                                       : prenotazione.stato == Stato.annullata
                                           ? Colors.red
-                                          : prenotazione.stato ==
-                                                  Stato.richiestaModifica
+                                          : prenotazione.stato == Stato
+                                                  .richiestaModifica
                                               ? Colors.blue
                                               : Colors.green,
                                 ),
@@ -243,8 +248,7 @@ class _PrenotazioniUtenteScreenState extends State<PrenotazioniUtenteScreen> {
                           const SizedBox(height: 12),
                           if (canModify &&
                               prenotazione.stato ==
-                                  Stato
-                                      .confermata) // Mostra il pulsante Modifica se mancano più di 24 ore e lo stato è confermato
+                                  Stato.confermata) // Mostra il pulsante Modifica se mancano più di 24 ore e lo stato è confermato
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
