@@ -162,7 +162,7 @@ void main() {
         //  Verifica che lo slot originale sia di nuovo disponibile
 
         final slotOriginale = await fakeFirestore
-            .collection('campi')
+            .collection('fields')
             .doc('campo1')
             .collection('slots')
             .doc(DateFormat('yyyy-MM-dd').format(DateTime.now()))
@@ -172,7 +172,7 @@ void main() {
 
         // Verifica che il nuovo slot non sia disponibile
         final newSlot = await fakeFirestore
-            .collection('campi')
+            .collection('fields')
             .doc('campo1')
             .collection('slots')
             .doc(DateFormat('yyyy-MM-dd').format(tomorrow))
