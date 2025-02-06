@@ -1,0 +1,472 @@
+{
+  "id": "05317dbd-8cd8-461c-9a2c-d8588c31cfc0",
+  "version": "2.0",
+  "name": "MatchDay_Prenotazone",
+  "url": "https://matchdayapp.netlify.app/",
+  "tests": [{
+    "id": "11e60e13-baca-4798-bb1b-71590e31defc",
+    "name": "Prenotazione I1-D1-S1",
+    "commands": [{
+      "id": "cb4b34bc-bf10-4671-8bd7-4cc0e70b4bd0",
+      "comment": "",
+      "command": "open",
+      "target": "https://matchdayapp.netlify.app/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0f2124a1-981b-4c0c-9f02-565cf4b8b9ac",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "794x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c4b20a04-764d-4039-81ae-acd91eff63f9",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "15ab0f78-bd02-48b2-9d58-3eacb49ee073",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "nicolamoscufo7@gmail.com"
+    }, {
+      "id": "734b6d4a-01c8-432a-89aa-1dd55a6ef09a",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "32c0e4de-f8a2-4a3b-bb55-e295f6513378",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "prova123!"
+    }, {
+      "id": "2a0d9a46-efac-4700-b3b8-212631d44df4",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-11",
+      "targets": [
+        ["id=flt-semantic-node-11", "id"],
+        ["css=#flt-semantic-node-11", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-11']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9576b187-910c-42e3-b6ba-e6db52cd0f1d",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-24",
+      "targets": [
+        ["id=flt-semantic-node-24", "id"],
+        ["css=#flt-semantic-node-24", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-24']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-23']/flt-semantics-container/flt-semantics", "xpath:idRelative"],
+        ["xpath=//flt-semantics[2]/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d8cd8569-dd4e-4c51-8dd9-e4863b5d9993",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4978ad43-071d-44e2-bc91-3f2dc7122eaf",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[span[contains(text(), 'Saturday, February 15, 2025')]]",
+      "targets": [
+        ["id=flt-semantic-node-52", "id"],
+        ["css=#flt-semantic-node-52", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-52']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-38']/flt-semantics-container/flt-semantics[14]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[14]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7bb62c25-b641-4b20-8030-74de7c7ef49e",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[contains(@role, 'button') and contains(text(), 'Prenota')]",
+      "targets": [
+        ["id=flt-semantic-node-67", "id"],
+        ["css=#flt-semantic-node-67", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-67']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-66']/flt-semantics-container/flt-semantics", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e8fee1ff-1653-4a50-915a-66d5ca527da0",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "7b8c1c5b-4aec-4d80-b759-6f03459e4e19",
+    "name": "Prenotazione I2-D1-S1",
+    "commands": [{
+      "id": "14661a3a-b1f0-44a3-998f-3ec3b8c579a8",
+      "comment": "",
+      "command": "open",
+      "target": "https://matchdayapp.netlify.app/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "351e0fed-06b7-4b30-adf1-05d5cb663fc1",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "794x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ee706b5c-01b2-482d-b230-ed6417ae9e4f",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "41e00060-acef-40e8-b3c3-040fa6b05341",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "nicolamoscufo7@gmail.com"
+    }, {
+      "id": "dced4484-42e7-4e4c-ae17-011dec52e817",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "01d5805d-f504-46b3-928b-1ed64a664347",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "prova123!"
+    }, {
+      "id": "7cdf89df-8dc9-40e2-891f-992e04c4e459",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-11",
+      "targets": [
+        ["id=flt-semantic-node-11", "id"],
+        ["css=#flt-semantic-node-11", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-11']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8de2286a-b873-413c-9a16-34d616cd3378",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-24",
+      "targets": [
+        ["id=flt-semantic-node-24", "id"],
+        ["css=#flt-semantic-node-24", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-24']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-23']/flt-semantics-container/flt-semantics", "xpath:idRelative"],
+        ["xpath=//flt-semantics[2]/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d94377ff-4d03-49d4-ac37-fd9fe0dfcf92",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "aa11173b-224d-4fb3-8c59-f5c4a67f6429",
+    "name": "Prenotazione I1-D2-S1",
+    "commands": [{
+      "id": "1853a0e7-cbf5-4428-835d-2578dbd8470e",
+      "comment": "",
+      "command": "open",
+      "target": "https://matchdayapp.netlify.app/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3db5afca-eb85-42bb-8355-66bb70785fe5",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "798x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "58bc7964-18d9-4cd4-a461-43d5a809b090",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b4482bb5-e25a-465a-a3ad-83821b615b41",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "nicolamoscufo7@gmail.com"
+    }, {
+      "id": "f0e6abc4-5027-49ab-b766-e85a149883e8",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f26b1093-1326-4b2a-bdb8-19d792c6ed3c",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "prova123!"
+    }, {
+      "id": "68f06e46-fb4a-42f1-8636-e2f74518fde5",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-11",
+      "targets": [
+        ["id=flt-semantic-node-11", "id"],
+        ["css=#flt-semantic-node-11", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-11']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "49754d99-6882-429d-b1c1-a83d3b1c7766",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-24",
+      "targets": [
+        ["id=flt-semantic-node-24", "id"],
+        ["css=#flt-semantic-node-24", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-24']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-23']/flt-semantics-container/flt-semantics", "xpath:idRelative"],
+        ["xpath=//flt-semantics[2]/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ead64b2e-60a3-4f7c-8f92-5731a5331ef0",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "faa45b16-9e76-4eeb-be10-5b3d2aa3502e",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[span[contains(text(), 'Tuesday, February 4, 2025')]]",
+      "targets": [
+        ["id=flt-semantic-node-41", "id"],
+        ["css=#flt-semantic-node-41", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-41']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-38']/flt-semantics-container/flt-semantics[3]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics[3]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "23bb0050-9001-4625-828d-cc2305503b6e",
+    "name": "Prenotazione I1-D1-S2",
+    "commands": [{
+      "id": "0fae31c6-89f9-4737-9a7c-66b70dc9ace0",
+      "comment": "",
+      "command": "open",
+      "target": "https://matchdayapp.netlify.app/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e360d3a5-057b-4877-b237-89758eb7c7bf",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "797x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "966259f4-a322-41e6-9f65-3fd65060fb1d",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "74106047-2b35-4eed-928f-f9fea94c00f9",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "nicolamoscufo7@gmail.com"
+    }, {
+      "id": "984bb059-3517-4e7d-a242-3c4a538c5d17",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5585f22d-f448-4f70-9fa2-6a4ec55d069c",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "prova123!"
+    }, {
+      "id": "e4ea9094-69c4-4fa9-8971-cd4716e943b7",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-11",
+      "targets": [
+        ["id=flt-semantic-node-11", "id"],
+        ["css=#flt-semantic-node-11", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-11']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f2bdcfd8-bb7d-4631-b76a-127b67d9361b",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-24",
+      "targets": [
+        ["id=flt-semantic-node-24", "id"],
+        ["css=#flt-semantic-node-24", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-24']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-23']/flt-semantics-container/flt-semantics", "xpath:idRelative"],
+        ["xpath=//flt-semantics[2]/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7d5749c2-11f6-4cf6-beda-834e346310f4",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b3d5dadd-d29b-467c-a463-b22ffb0cdd8e",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[span[contains(text(), 'Saturday, February 15, 2025')]]",
+      "targets": [
+        ["id=flt-semantic-node-52", "id"],
+        ["css=#flt-semantic-node-52", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-52']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-38']/flt-semantics-container/flt-semantics[14]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[14]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "c4591b4a-914a-4d72-812a-a74ad189c551",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["11e60e13-baca-4798-bb1b-71590e31defc"]
+  }],
+  "urls": ["https://matchdayapp.netlify.app/"],
+  "plugins": []
+}

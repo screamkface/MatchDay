@@ -1,0 +1,1049 @@
+{
+  "id": "d83f6f18-56b5-42bf-af26-c4eded1f0b83",
+  "version": "2.0",
+  "name": "MatchDay_Registrazione",
+  "url": "https://matchdayapp.netlify.app",
+  "tests": [{
+    "id": "0cd6afb5-db25-483c-96db-6f3545531322",
+    "name": "Registrazione N1-C1-E1-P1-T1",
+    "commands": [{
+      "id": "58f59afd-d4a6-44ac-bcb9-f132e61fc3a4",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a222a4aa-a239-41f1-a1a2-111ca0bf2796",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "794x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6b9d84cd-b19b-4770-87bb-1f955ad8fa17",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-12",
+      "targets": [
+        ["id=flt-semantic-node-12", "id"],
+        ["css=#flt-semantic-node-12", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-12']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[8]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[8]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "55ea0fc7-5a73-401d-8c70-89749eee9b0f",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-17 > input",
+      "targets": [
+        ["css=#flt-semantic-node-17 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-17']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7ba2792f-57b7-4b40-bcf5-80229051628d",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-17 > input",
+      "targets": [
+        ["css=#flt-semantic-node-17 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-17']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Nicol"
+    }, {
+      "id": "e443c962-fa4a-452c-b0c8-e3234931db94",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-18 > input",
+      "targets": [
+        ["css=#flt-semantic-node-18 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[2]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-18']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7967cb05-0466-4f08-95f1-6fc8c8516842",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-18 > input",
+      "targets": [
+        ["css=#flt-semantic-node-18 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[2]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-18']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "Rossi"
+    }, {
+      "id": "51f6ad05-0ff0-41b3-9d80-e68043daee9b",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-19 > input",
+      "targets": [
+        ["css=#flt-semantic-node-19 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[3]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-19']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5b624d62-550c-4c37-9e96-2ba6c78dd770",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-19 > input",
+      "targets": [
+        ["css=#flt-semantic-node-19 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[3]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-19']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]/input", "xpath:position"]
+      ],
+      "value": "test@example.com"
+    }, {
+      "id": "f06c1af7-606e-4200-996d-927a5e7d9a23",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-20 > input",
+      "targets": [
+        ["css=#flt-semantic-node-20 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-20']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a90973df-816f-449e-9f34-deba73ab1c9b",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-20 > input",
+      "targets": [
+        ["css=#flt-semantic-node-20 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-20']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/input", "xpath:position"]
+      ],
+      "value": "Password123!"
+    }, {
+      "id": "d41659a8-cccf-4d4b-a2d3-926dbea1fc3e",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-22 > input",
+      "targets": [
+        ["css=#flt-semantic-node-22 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-22']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9d63d297-ea8b-4525-9a45-b5a3b12efe88",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-22 > input",
+      "targets": [
+        ["css=#flt-semantic-node-22 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-22']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]/input", "xpath:position"]
+      ],
+      "value": "1234567890"
+    }, {
+      "id": "44ad92e7-75be-49a2-98c0-59c3d2c90791",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-23",
+      "targets": [
+        ["id=flt-semantic-node-23", "id"],
+        ["css=#flt-semantic-node-23", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-23']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-15']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6a53522b-748d-47e4-91a2-fa69d8a2db71",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-31 > input",
+      "targets": [
+        ["css=#flt-semantic-node-31 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-31']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e8938dc8-ab72-4039-9a9f-ab33f19c2105",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-31 > input",
+      "targets": [
+        ["css=#flt-semantic-node-31 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-31']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "test@example.com"
+    }, {
+      "id": "61487480-9489-4162-b8e1-8f106a596062",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-32 > input",
+      "targets": [
+        ["css=#flt-semantic-node-32 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-32']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "54308502-51bc-44f2-91d6-c738d2d4abd4",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-32 > input",
+      "targets": [
+        ["css=#flt-semantic-node-32 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-32']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "Password123!"
+    }, {
+      "id": "43958031-66df-4db7-a841-72acd207093e",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-37",
+      "targets": [
+        ["id=flt-semantic-node-37", "id"],
+        ["css=#flt-semantic-node-37", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-37']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-29']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "aed05f2f-fbdb-4cc1-8a02-a45cd10261b6",
+    "name": "Registrazione N2-C1-E1-P1-T1",
+    "commands": [{
+      "id": "4556e6d2-700e-408d-b97f-1c15d4f8859d",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5f789f68-56e8-4e8b-adc5-5ce9f211bcbd",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "798x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fa08d034-4ad3-4ddc-8599-b3947bb5fc12",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-12",
+      "targets": [
+        ["id=flt-semantic-node-12", "id"],
+        ["css=#flt-semantic-node-12", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-12']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[8]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[8]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "40c572c3-e116-4b4c-8888-7f8810e2bedc",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-18 > input",
+      "targets": [
+        ["css=#flt-semantic-node-18 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[2]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-18']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ad28a5a0-5468-418f-a0bb-b604ec9a5584",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-18 > input",
+      "targets": [
+        ["css=#flt-semantic-node-18 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[2]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-18']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "Rossi"
+    }, {
+      "id": "f753c0c9-691e-4714-831c-1768f4b38527",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-19 > input",
+      "targets": [
+        ["css=#flt-semantic-node-19 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[3]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-19']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "97cde98d-ba25-45aa-b225-a1f7f0d8d700",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-19 > input",
+      "targets": [
+        ["css=#flt-semantic-node-19 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[3]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-19']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]/input", "xpath:position"]
+      ],
+      "value": "test@example.com"
+    }, {
+      "id": "0d453064-6c90-408e-aa79-681ae4389608",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-20 > input",
+      "targets": [
+        ["css=#flt-semantic-node-20 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-20']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5abb0ac1-671b-4e1e-90a0-9b3fb8efa177",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-20 > input",
+      "targets": [
+        ["css=#flt-semantic-node-20 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-20']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/input", "xpath:position"]
+      ],
+      "value": "Password123!"
+    }, {
+      "id": "3ba0ae55-491a-4bf0-84d6-8ee8e1f2689f",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-22 > input",
+      "targets": [
+        ["css=#flt-semantic-node-22 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-22']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a025b816-77ce-49ef-b67f-8ab3b0c38fcb",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-22 > input",
+      "targets": [
+        ["css=#flt-semantic-node-22 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-22']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]/input", "xpath:position"]
+      ],
+      "value": "1234567890"
+    }, {
+      "id": "1167074f-75ce-4499-83c2-9dda32ccbdd0",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-23",
+      "targets": [
+        ["id=flt-semantic-node-23", "id"],
+        ["css=#flt-semantic-node-23", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-23']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-15']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "94fa8608-0d38-4bd7-9891-5820dffae7c6",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "b767be54-c7c0-4ce1-923f-86373ed452ad",
+    "name": "Registrazione N1-C2-E1-P1-T1",
+    "commands": [{
+      "id": "8c61d792-61bc-4218-8149-d4b72fed44a7",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1774ac3f-7d5d-4b15-949a-9da66282b290",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "802x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1d119b36-add1-42ae-959f-bb6c187cf33b",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-12",
+      "targets": [
+        ["id=flt-semantic-node-12", "id"],
+        ["css=#flt-semantic-node-12", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-12']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[8]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[8]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "09fa6bbe-2f99-425b-b33a-678f1ff44d38",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-17 > input",
+      "targets": [
+        ["css=#flt-semantic-node-17 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-17']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "118bba66-7269-4f0e-bbc2-e54e05b6235c",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-17 > input",
+      "targets": [
+        ["css=#flt-semantic-node-17 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-17']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Nicol"
+    }, {
+      "id": "4b08ca16-cc40-4df2-85ac-2647fb664d75",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-19 > input",
+      "targets": [
+        ["css=#flt-semantic-node-19 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[3]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-19']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e2152d3d-7985-4fc8-883a-973b6bb4553c",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-19 > input",
+      "targets": [
+        ["css=#flt-semantic-node-19 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[3]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-19']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]/input", "xpath:position"]
+      ],
+      "value": "test@example.com"
+    }, {
+      "id": "47a27c68-e530-4b35-ad60-6fd84b9fe7ae",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-20 > input",
+      "targets": [
+        ["css=#flt-semantic-node-20 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-20']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b688904f-d1fd-43ff-92e9-454213acd11f",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-20 > input",
+      "targets": [
+        ["css=#flt-semantic-node-20 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-20']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/input", "xpath:position"]
+      ],
+      "value": "Passord123!"
+    }, {
+      "id": "f0422b08-7781-4388-a56c-6df23f613d80",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-22 > input",
+      "targets": [
+        ["css=#flt-semantic-node-22 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-22']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9e64c94f-63e8-40c6-8b7a-1f71cbb1d11f",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-22 > input",
+      "targets": [
+        ["css=#flt-semantic-node-22 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-22']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]/input", "xpath:position"]
+      ],
+      "value": "1234567890"
+    }, {
+      "id": "f5adb954-15a5-452b-8ea1-b0a366cbbcad",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-23",
+      "targets": [
+        ["id=flt-semantic-node-23", "id"],
+        ["css=#flt-semantic-node-23", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-23']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-15']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4b4b568c-d96b-46bf-b892-0e6b8c3b6399",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "ab08ab04-486e-4c1b-b640-83c900d59fb8",
+    "name": "Registrazione N1-C1-E2-P1-T1",
+    "commands": [{
+      "id": "8a74a138-5b81-481a-b88e-d8b58b9a3da1",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d401f552-cbd7-4241-9910-e2505db79011",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "806x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ba08119a-b12c-4de7-a8ce-fe49cb09941f",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-12",
+      "targets": [
+        ["id=flt-semantic-node-12", "id"],
+        ["css=#flt-semantic-node-12", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-12']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[8]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[8]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f86d48e6-cc3c-42cd-ba09-ba69c9054494",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-17 > input",
+      "targets": [
+        ["css=#flt-semantic-node-17 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-17']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "73e10cd6-06de-4762-a6b9-f6232e8d2df3",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-17 > input",
+      "targets": [
+        ["css=#flt-semantic-node-17 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-17']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Nicol"
+    }, {
+      "id": "4a367146-514b-40c0-8344-c6828ed8e4b9",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-18 > input",
+      "targets": [
+        ["css=#flt-semantic-node-18 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[2]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-18']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bb1d788d-1780-4ec6-a35a-7e61ccd55520",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-18 > input",
+      "targets": [
+        ["css=#flt-semantic-node-18 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[2]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-18']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "Rossi"
+    }, {
+      "id": "6cbd0952-191a-435a-99aa-bf75d8c9aece",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-19 > input",
+      "targets": [
+        ["css=#flt-semantic-node-19 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[3]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-19']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "13acb402-9331-450b-9a75-21de2cdfea53",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-19 > input",
+      "targets": [
+        ["css=#flt-semantic-node-19 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[3]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-19']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]/input", "xpath:position"]
+      ],
+      "value": "Test.com"
+    }, {
+      "id": "ee460a37-cdc3-4734-bad1-975d3d205edc",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-20 > input",
+      "targets": [
+        ["css=#flt-semantic-node-20 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-20']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "18bc1b13-415b-4667-af70-0a645c77a66d",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-20 > input",
+      "targets": [
+        ["css=#flt-semantic-node-20 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-20']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/input", "xpath:position"]
+      ],
+      "value": "Password123!"
+    }, {
+      "id": "1733620d-ef0c-41c5-945e-1a96e7c6dc8a",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-22 > input",
+      "targets": [
+        ["css=#flt-semantic-node-22 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-22']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c192850d-decf-419c-b6db-e97b6a37c506",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-22 > input",
+      "targets": [
+        ["css=#flt-semantic-node-22 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-22']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]/input", "xpath:position"]
+      ],
+      "value": "1234567890"
+    }, {
+      "id": "199ee1b1-0354-400f-a2fd-6f27805f5679",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-23",
+      "targets": [
+        ["id=flt-semantic-node-23", "id"],
+        ["css=#flt-semantic-node-23", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-23']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-15']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7869c46a-3094-4f82-85cd-c7794741ae2e",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "d587416a-3d31-4b61-a5fd-ed800c11681a",
+    "name": "Registrazione N1-C1-E1-P2-T1",
+    "commands": [{
+      "id": "3c7083b0-1f79-429b-92a7-afa51b5e2218",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "731bdf29-cf63-4c1b-9291-f8dda635cb82",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "810x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3f24b76d-de2b-4aa3-af28-4b0907cded85",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-12",
+      "targets": [
+        ["id=flt-semantic-node-12", "id"],
+        ["css=#flt-semantic-node-12", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-12']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[8]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[8]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8a5eb57c-f5df-4e01-a54b-c7622c1c389f",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-17 > input",
+      "targets": [
+        ["css=#flt-semantic-node-17 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-17']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "923b2248-1b4b-4f8c-8ac0-678d82da9076",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-17 > input",
+      "targets": [
+        ["css=#flt-semantic-node-17 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-17']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Nicol"
+    }, {
+      "id": "dd883741-dda2-43bc-bc3f-f9d29ef50615",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-18 > input",
+      "targets": [
+        ["css=#flt-semantic-node-18 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[2]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-18']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c7081167-26e5-41e0-9da1-a81adb56588b",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-18 > input",
+      "targets": [
+        ["css=#flt-semantic-node-18 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[2]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-18']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "Rossi"
+    }, {
+      "id": "d617dbbf-0336-4d0c-bde3-5d40b6931a2b",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-19 > input",
+      "targets": [
+        ["css=#flt-semantic-node-19 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[3]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-19']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1ce600c2-291f-4224-9327-5a4a08f39867",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-19 > input",
+      "targets": [
+        ["css=#flt-semantic-node-19 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[3]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-19']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]/input", "xpath:position"]
+      ],
+      "value": "test@example.com"
+    }, {
+      "id": "fee2338d-3c85-45f0-9b1b-706a1df2f686",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-20 > input",
+      "targets": [
+        ["css=#flt-semantic-node-20 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-20']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "61c581dc-539d-49a6-9754-2422284eeef2",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-20 > input",
+      "targets": [
+        ["css=#flt-semantic-node-20 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-20']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/input", "xpath:position"]
+      ],
+      "value": "123"
+    }, {
+      "id": "e25a81e5-3b6c-4761-9d35-cb12bb120f74",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-22 > input",
+      "targets": [
+        ["css=#flt-semantic-node-22 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-22']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e5c225cf-18ec-4671-a6a3-6401a1d4962d",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-22 > input",
+      "targets": [
+        ["css=#flt-semantic-node-22 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-22']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]/input", "xpath:position"]
+      ],
+      "value": "1234567890"
+    }, {
+      "id": "5ffcc6af-91f4-4ecc-a955-e17075439f9a",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-23",
+      "targets": [
+        ["id=flt-semantic-node-23", "id"],
+        ["css=#flt-semantic-node-23", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-23']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-15']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f4ab1df5-ae87-40df-b34b-e6f3f404bf94",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "18a70af2-bba1-4ee1-b7c5-1e2a61b734a9",
+    "name": "Registrazione N1-C1-E1-P1-T2",
+    "commands": [{
+      "id": "050d15e9-f825-41e7-b9a5-f4b4f8334b4b",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "584f9b3e-98de-47f6-b57e-0d2563f556a0",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "794x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6a0d7e2e-52bf-4c81-88bc-6888b04b1246",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-12",
+      "targets": [
+        ["id=flt-semantic-node-12", "id"],
+        ["css=#flt-semantic-node-12", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-12']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[8]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[8]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8b832b89-37d9-4f51-a8de-94030e42a5f4",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-17 > input",
+      "targets": [
+        ["css=#flt-semantic-node-17 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-17']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "04f29534-8f68-403f-95f7-265babc5b6dc",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-17 > input",
+      "targets": [
+        ["css=#flt-semantic-node-17 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-17']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Nicol"
+    }, {
+      "id": "57ffe44b-4c75-4172-a526-fdb3fc502389",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-18 > input",
+      "targets": [
+        ["css=#flt-semantic-node-18 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[2]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-18']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0485646d-324d-411d-874c-f8355856a13d",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-18 > input",
+      "targets": [
+        ["css=#flt-semantic-node-18 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[2]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-18']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "Rossi"
+    }, {
+      "id": "b1579a4a-1aff-4c98-938d-647063dcb6f9",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-19 > input",
+      "targets": [
+        ["css=#flt-semantic-node-19 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[3]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-19']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ee3bd811-dbe9-4052-b644-ac22daf9c230",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-19 > input",
+      "targets": [
+        ["css=#flt-semantic-node-19 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[3]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-19']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]/input", "xpath:position"]
+      ],
+      "value": "test@example.com"
+    }, {
+      "id": "127781c8-77bc-4ee7-a20d-1520373a789e",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-20 > input",
+      "targets": [
+        ["css=#flt-semantic-node-20 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-20']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b80d5976-31ab-4fa2-b4b1-5343ab8302b9",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-20 > input",
+      "targets": [
+        ["css=#flt-semantic-node-20 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-20']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/input", "xpath:position"]
+      ],
+      "value": "Password123!"
+    }, {
+      "id": "6022112d-d8bc-4690-bf63-a78708c1f80b",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-22 > input",
+      "targets": [
+        ["css=#flt-semantic-node-22 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-22']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f5ecb115-8fc7-4a6f-bfc8-b957febade3e",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-22 > input",
+      "targets": [
+        ["css=#flt-semantic-node-22 > input", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-22']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]/input", "xpath:position"]
+      ],
+      "value": "123abc"
+    }, {
+      "id": "4eb8b69a-9f71-42df-9700-f8bf7899a823",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-23",
+      "targets": [
+        ["id=flt-semantic-node-23", "id"],
+        ["css=#flt-semantic-node-23", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-23']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-15']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "980e7399-c6cb-486e-9df5-7e25f1d3e3c1",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "be8f057b-5b31-444a-b088-236b39652d52",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["0cd6afb5-db25-483c-96db-6f3545531322"]
+  }],
+  "urls": ["https://matchdayapp.netlify.app/"],
+  "plugins": []
+}

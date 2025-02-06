@@ -1,0 +1,725 @@
+{
+  "id": "b2e8fd99-b365-480c-8e9a-70e53cc9c4e9",
+  "version": "2.0",
+  "name": "MatchDay_Aggiungi Slot",
+  "url": "https://matchdayapp.netlify.app",
+  "tests": [{
+    "id": "753bda9a-a4a0-4c78-8db2-02878740c688",
+    "name": "Aggiungi Slot C1-G1-O1",
+    "commands": [{
+      "id": "0d8481f4-8517-4038-adff-7bfa55203cfc",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ddb298c0-f2a7-4e84-aadc-2f46aa6341be",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "782x823",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "22b2f8eb-3cdf-42bb-9592-0598fc3ac051",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "48b27ed0-df37-4771-a745-0548c6331cec",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin@admin.com"
+    }, {
+      "id": "74825e6b-86e2-44e8-9bb2-c33f264005a8",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "19858d98-5ec4-4a55-b31d-078bab313f73",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "prova123!"
+    }, {
+      "id": "d6f1564b-f5b1-4500-848f-f8b8ff862a52",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-11",
+      "targets": [
+        ["id=flt-semantic-node-11", "id"],
+        ["css=#flt-semantic-node-11", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-11']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2757b676-3c4a-4c69-9a29-4d645beddc83",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-32",
+      "targets": [
+        ["id=flt-semantic-node-32", "id"],
+        ["css=#flt-semantic-node-32", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-32']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-36']/flt-semantics-container/flt-semantics", "xpath:idRelative"],
+        ["xpath=//flt-semantics[2]/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0720235a-3171-4318-8a07-bf6f5297e381",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4cfd28bc-87a8-40a0-bf3c-6f8cbe02b93c",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[span[contains(text(), 'Saturday, February 15, 2025')]]",
+      "targets": [
+        ["id=flt-semantic-node-59", "id"],
+        ["css=#flt-semantic-node-59", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-59']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-45']/flt-semantics-container/flt-semantics[14]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[14]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fb337316-468a-4905-b7ad-bbb6e94e5bd3",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[@role='button' and contains(text(),'Aggiungi Slot Multipli')]",
+      "targets": [
+        ["id=flt-semantic-node-63", "id"],
+        ["css=#flt-semantic-node-63", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-63']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-39']/flt-semantics-container/flt-semantics[8]", "xpath:idRelative"],
+        ["xpath=//flt-semantics-host/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics[8]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e56b1129-f594-484b-90bb-6a8125abb236",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[@role='button' and contains(text(),'Switch to text input mode')]",
+      "targets": [
+        ["id=flt-semantic-node-83", "id"],
+        ["css=#flt-semantic-node-83", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-83']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-79']/flt-semantics-container/flt-semantics[4]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "27565e99-4f4c-4f4e-80c8-cf2b4ee24fde",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//textarea[@aria-label='Hour']",
+      "targets": [
+        ["css=#flt-semantic-node-88 > textarea", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-88']/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3ef03e99-1e8e-4e77-9fc4-b18fbc813a66",
+      "comment": "",
+      "command": "type",
+      "target": "xpath=//textarea[@aria-label='Hour']",
+      "targets": [
+        ["css=#flt-semantic-node-88 > textarea", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-88']/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "20"
+    }, {
+      "id": "183270a8-881c-4e88-bb12-dccf5237a898",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//textarea[@aria-label='Minute']",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d23f0345-0e84-48bf-bf03-395b8984e6e6",
+      "comment": "",
+      "command": "type",
+      "target": "xpath=//textarea[@aria-label='Minute']",
+      "targets": [
+        ["css=#flt-semantic-node-89 > textarea", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-89']/textarea", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/textarea", "xpath:position"]
+      ],
+      "value": "20"
+    }, {
+      "id": "5b970fd4-3e06-4c13-bf42-ca5274c3a540",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[@role='button' and contains(text(),'OK')]",
+      "targets": [
+        ["id=flt-semantic-node-85", "id"],
+        ["css=#flt-semantic-node-85", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-85']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-79']/flt-semantics-container/flt-semantics[6]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "63b8a06b-c644-49c7-a8f1-5476ce95d947",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[@role='button' and contains(text(),'Switch to text input mode')]",
+      "targets": [
+        ["id=flt-semantic-node-99", "id"],
+        ["css=#flt-semantic-node-99", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-99']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-95']/flt-semantics-container/flt-semantics[4]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "eee846f9-c24b-433e-addb-807bee2d8693",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//textarea[@aria-label='Hour']",
+      "targets": [
+        ["css=#flt-semantic-node-104 > textarea", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-104']/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "214457d1-c527-4ebb-831d-eb7a733a6639",
+      "comment": "",
+      "command": "type",
+      "target": "xpath=//textarea[@aria-label='Hour']",
+      "targets": [
+        ["css=#flt-semantic-node-104 > textarea", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-104']/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "23"
+    }, {
+      "id": "4345b631-3539-42df-8c35-2ec19e79ac53",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[@role='button' and contains(text(),'OK')]",
+      "targets": [
+        ["id=flt-semantic-node-101", "id"],
+        ["css=#flt-semantic-node-101", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-101']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-95']/flt-semantics-container/flt-semantics[6]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6b8aa2dd-5ef7-4365-91d6-b234aa30ae06",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "606c932e-5118-46f8-8d53-ac829fa07240",
+    "name": "Aggiungi Slot C2-G1-O1",
+    "commands": [{
+      "id": "79423a62-33fc-4a09-a831-33f4b9ff2f9e",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a62b0129-d930-448a-a6a8-575aecad0f6a",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "786x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "428aa8bd-b476-4936-a2cb-a4f83edc7967",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8d724227-4fb5-4455-a1dd-5c425083e984",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin@admin.com"
+    }, {
+      "id": "151be621-77e4-4de6-a094-eeec5f3b6930",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fe9037d3-8e24-4325-bc1c-6cea6b69a7c2",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "prova123!"
+    }, {
+      "id": "5450daa6-d941-49bd-8630-b28017e0ac99",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-11",
+      "targets": [
+        ["id=flt-semantic-node-11", "id"],
+        ["css=#flt-semantic-node-11", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-11']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8bd2ab04-a433-4ded-9130-c760c8d92e12",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-32",
+      "targets": [
+        ["id=flt-semantic-node-32", "id"],
+        ["css=#flt-semantic-node-32", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-32']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-36']/flt-semantics-container/flt-semantics", "xpath:idRelative"],
+        ["xpath=//flt-semantics[2]/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5e2d1ed4-a75e-4792-aff2-f527d8812ff1",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "51a480d7-5bf8-4d7a-8b33-c5c23c6efcdc",
+    "name": "Aggiungi Slot C1-G2-O1",
+    "commands": [{
+      "id": "1dac3361-bbdf-4039-8f2a-68993b116202",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b02c9354-f994-41d5-9fa4-247e9d9591a1",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "794x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "14e79e78-9be4-470f-b8ac-db1ef5b68f6c",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "795c6ecb-c9b5-41de-989c-b912cc4fc4fc",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin@admin.com"
+    }, {
+      "id": "3f97cd6a-4214-4a21-b06c-bf592de0e4e5",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8d337102-85e5-4e7f-a914-5b8fd62b435a",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "prova123!"
+    }, {
+      "id": "57397ab7-8674-46cb-8fd9-0affde35b09c",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-11",
+      "targets": [
+        ["id=flt-semantic-node-11", "id"],
+        ["css=#flt-semantic-node-11", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-11']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6e006e17-dc13-4910-8fdb-99ad388ca178",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-32",
+      "targets": [
+        ["id=flt-semantic-node-32", "id"],
+        ["css=#flt-semantic-node-32", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-32']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-36']/flt-semantics-container/flt-semantics", "xpath:idRelative"],
+        ["xpath=//flt-semantics[2]/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f65d7338-a6b9-40e7-aca2-fc5669e37d0d",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e9c7a363-73c2-4f27-8a35-e45854704751",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[span[contains(text(), 'Tuesday, February 4, 2025')]]",
+      "targets": [
+        ["id=flt-semantic-node-48", "id"],
+        ["css=#flt-semantic-node-48", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-48']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-45']/flt-semantics-container/flt-semantics[3]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[5]/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics[3]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "461fc35d-0875-48b6-96b7-deb8373124c2",
+    "name": "Aggiungi Slot C1-G1-O2",
+    "commands": [{
+      "id": "27112632-09e7-47c2-b7ac-4fc3e594a243",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f71c79ca-c0d0-41ef-8fa2-da7fa3489258",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "796x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "736ea065-3ed1-49e2-a3c8-b7d9baa17292",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "724ac177-6607-4ebb-a1ed-e7efaa39944b",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin@admin.com"
+    }, {
+      "id": "4f751f35-f6df-4649-a387-e68056f2f65b",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0a425f1a-af39-4877-8aea-c83bbbf6dacc",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "prova123!"
+    }, {
+      "id": "751907d7-4e7b-487e-b776-5ccda09372d6",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-11",
+      "targets": [
+        ["id=flt-semantic-node-11", "id"],
+        ["css=#flt-semantic-node-11", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-11']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "dfe58606-a15e-43d0-b15a-f8a39fafcceb",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-32",
+      "targets": [
+        ["id=flt-semantic-node-32", "id"],
+        ["css=#flt-semantic-node-32", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-32']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-36']/flt-semantics-container/flt-semantics", "xpath:idRelative"],
+        ["xpath=//flt-semantics[2]/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "803b3148-2051-4bbd-a4ad-b04410bf7318",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a85f8be7-02d5-46fc-b887-5c6007581c1f",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[span[contains(text(), 'Saturday, February 15, 2025')]]",
+      "targets": [
+        ["id=flt-semantic-node-59", "id"],
+        ["css=#flt-semantic-node-59", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-59']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-45']/flt-semantics-container/flt-semantics[14]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[14]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "84cae57a-a019-4245-8586-d6765229b1bd",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[@role='button' and contains(text(),'Aggiungi Slot Unico')]",
+      "targets": [
+        ["id=flt-semantic-node-61", "id"],
+        ["css=#flt-semantic-node-61", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-61']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-39']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics-host/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics/flt-semantics-container/flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cb6d14ad-b07e-492c-8b70-98a3b2a35303",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[@role='button' and contains(text(),'Switch to text input mode')]",
+      "targets": [
+        ["id=flt-semantic-node-93", "id"],
+        ["css=#flt-semantic-node-93", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-93']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-89']/flt-semantics-container/flt-semantics[4]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ed2f005d-3606-4685-b676-b577bda71588",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//textarea[@aria-label='Hour']",
+      "targets": [
+        ["css=#flt-semantic-node-98 > textarea", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-98']/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3ee8a337-48de-4421-9b5f-ddb7aca69c96",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//textarea[@aria-label='Minute']",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "00269358-41c3-4147-a88e-44feeba34659",
+      "comment": "",
+      "command": "type",
+      "target": "xpath=//textarea[@aria-label='Minute']",
+      "targets": [
+        ["css=#flt-semantic-node-99 > textarea", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-99']/textarea", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/textarea", "xpath:position"]
+      ],
+      "value": "07"
+    }, {
+      "id": "f0018788-fff8-4d68-a746-026ede0d0926",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[@role='button' and contains(text(),'OK')]",
+      "targets": [
+        ["id=flt-semantic-node-95", "id"],
+        ["css=#flt-semantic-node-95", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-95']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-89']/flt-semantics-container/flt-semantics[6]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2f0b0eb2-c484-4a8b-89ef-05e121a7ac8b",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[@role='button' and contains(text(),'Switch to text input mode')]",
+      "targets": [
+        ["id=flt-semantic-node-110", "id"],
+        ["css=#flt-semantic-node-110", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-110']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-106']/flt-semantics-container/flt-semantics[4]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d0c72cc1-647c-4e15-b4da-bf9dbec6d3ec",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//textarea[@aria-label='Hour']",
+      "targets": [
+        ["css=#flt-semantic-node-115 > textarea", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-115']/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "192abac8-eef7-4e49-8daa-79cf46d224c8",
+      "comment": "",
+      "command": "type",
+      "target": "xpath=//textarea[@aria-label='Hour']",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "950871d0-55ef-493a-98e3-8b7759f11486",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//textarea[@aria-label='Minute']",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b4b4681d-c7dc-4e5e-934f-5a9fd9694695",
+      "comment": "",
+      "command": "type",
+      "target": "xpath=//textarea[@aria-label='Minute']",
+      "targets": [],
+      "value": "07"
+    }, {
+      "id": "13a2ffb2-70b3-4637-bf15-68a9da685339",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[@role='button' and contains(text(),'OK')]",
+      "targets": [
+        ["id=flt-semantic-node-112", "id"],
+        ["css=#flt-semantic-node-112", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-112']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-106']/flt-semantics-container/flt-semantics[6]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[6]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7ac456ac-a450-4bb5-aa2b-9213b8008b67",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//flt-semantics[@role='button' and contains(text(),'Aggiungi')]",
+      "targets": [
+        ["id=flt-semantic-node-125", "id"],
+        ["css=#flt-semantic-node-125", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-125']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-120']/flt-semantics-container/flt-semantics[4]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[4]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "ffbb934e-e985-4d6c-9054-53a331b8abea",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["753bda9a-a4a0-4c78-8db2-02878740c688"]
+  }],
+  "urls": ["https://matchdayapp.netlify.app/"],
+  "plugins": []
+}

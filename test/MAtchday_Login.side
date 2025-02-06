@@ -1,0 +1,275 @@
+{
+  "id": "9379081e-4d56-4751-b314-76fce7ea638f",
+  "version": "2.0",
+  "name": "MAtchday_Login",
+  "url": "https://matchdayapp.netlify.app",
+  "tests": [{
+    "id": "d2b98df6-2df4-4c7c-991a-f6b0c88dfd7b",
+    "name": "Login E1-P1",
+    "commands": [{
+      "id": "628804fc-bb26-45f2-87f4-206a2578f544",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d55942c0-cd51-43c7-b86d-93eb86c5c0e9",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "794x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5304f33c-9616-4bfd-b5e1-d693972c81b1",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0ff6da5e-0b05-4605-82e0-9ab00cecd996",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "nicolamoscufo7@gmail.com"
+    }, {
+      "id": "aabe64c0-9ba6-436b-bb03-aad9812ef128",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e054b0a1-0d1b-4924-9a26-a4a94a0e15f4",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "prova123!"
+    }, {
+      "id": "92bebb34-c6eb-4982-abbf-67d07f6abe96",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-11",
+      "targets": [
+        ["id=flt-semantic-node-11", "id"],
+        ["css=#flt-semantic-node-11", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-11']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "3fc79075-10a6-4b0a-97b8-43e455575a78",
+    "name": "Login E2-P1",
+    "commands": [{
+      "id": "4e457f20-1fe2-4f70-8e8f-2fe9575fc2ea",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8c71f82e-9f7d-41bb-80b8-4d9598e69e60",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "794x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b0326347-594e-4877-b60e-6f0fc708aae0",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a23df208-140d-455c-a03b-10b0b6e1211f",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "nicmosc3@gmail.com"
+    }, {
+      "id": "a556dfef-da3b-4b60-981f-5ab8e0f514df",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "715b0cc6-967b-4196-8a23-9d712ea4620b",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "prova123!"
+    }, {
+      "id": "7c353b93-6cc4-411a-a5b2-ae100f29c12b",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-11",
+      "targets": [
+        ["id=flt-semantic-node-11", "id"],
+        ["css=#flt-semantic-node-11", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-11']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9b5a57a3-755a-4d87-907a-095f7b331773",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "5db80e1b-f864-4233-9b46-4d6cddd5821f",
+    "name": "Login E1-P2",
+    "commands": [{
+      "id": "4092995c-ed40-4d68-8a63-65f769486c4b",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6182c44a-3c54-4681-8bf6-66662dbd243a",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "797x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e628d8f5-9a3d-4d54-a46d-ae976f48e7da",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "914674aa-9c2f-4fff-8304-e8f12ddc7c00",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-5 > input",
+      "targets": [
+        ["css=#flt-semantic-node-5 > input", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-5']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "nicolamoscufo7@gmail.com"
+    }, {
+      "id": "abbc5e69-0ead-4cf4-b5c8-f4b3ee3c49a2",
+      "comment": "",
+      "command": "click",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1f0970e5-4bd2-4d31-a350-c3c165db69e5",
+      "comment": "",
+      "command": "type",
+      "target": "css=#flt-semantic-node-6 > input",
+      "targets": [
+        ["css=#flt-semantic-node-6 > input", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-6']/input", "xpath:idRelative"],
+        ["xpath=//flt-semantics[3]/input", "xpath:position"]
+      ],
+      "value": "prova12345!"
+    }, {
+      "id": "a200f026-89d4-4571-96b6-d736e811bff6",
+      "comment": "",
+      "command": "click",
+      "target": "id=flt-semantic-node-11",
+      "targets": [
+        ["id=flt-semantic-node-11", "id"],
+        ["css=#flt-semantic-node-11", "css:finder"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-11']", "xpath:attributes"],
+        ["xpath=//flt-semantics[@id='flt-semantic-node-3']/flt-semantics-container/flt-semantics[7]", "xpath:idRelative"],
+        ["xpath=//flt-semantics[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5fd1a6cc-711b-46dc-88b1-5a1c38802e12",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "aa1a2c88-93a0-44ce-969c-a73d82466a2e",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "f01ede9d-bb0a-4c30-b3f5-f30d7c017e6c",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["d2b98df6-2df4-4c7c-991a-f6b0c88dfd7b"]
+  }],
+  "urls": ["https://matchdayapp.netlify.app/"],
+  "plugins": []
+}
